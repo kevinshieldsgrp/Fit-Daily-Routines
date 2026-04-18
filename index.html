@@ -538,7 +538,7 @@
   .stat-card {
     flex: 1; border-radius: var(--radius-sm);
     padding: 12px 14px;
-    display: flex; flex-direction: column; gap: 3px;
+    display: flex; flex-direction: column; gap: 4px;
   }
   .stat-card.hip-stat {
     background: rgba(232,115,74,0.08);
@@ -549,22 +549,38 @@
     border: 1px solid rgba(74,158,122,0.2);
   }
 
-  .stat-count {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 32px; line-height: 1;
-    color: var(--white);
-  }
-
   .stat-label {
-    font-size: 10px; font-weight: 600;
+    font-size: 10px; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 6px;
   }
   .hip-stat .stat-label { color: var(--hip-primary); }
   .golf-stat .stat-label { color: var(--golf-primary); }
 
+  .stat-row {
+    display: flex; align-items: baseline; gap: 6px;
+  }
+
+  .stat-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; line-height: 1;
+    color: var(--white);
+  }
+
+  .stat-count-small {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; line-height: 1;
+    color: var(--text-muted);
+  }
+
   .stat-sub {
     font-size: 10px; color: var(--text-muted);
     font-weight: 300;
+  }
+
+  .stat-divider-v {
+    width: 1px; background: var(--border);
+    margin: 0 2px; align-self: stretch;
   }
 
 </style>
@@ -584,14 +600,32 @@
 
     <div class="stats-banner">
       <div class="stat-card hip-stat">
-        <div class="stat-count" id="hipCount">0</div>
         <div class="stat-label">Hip & Quad</div>
-        <div class="stat-sub">completions</div>
+        <div style="display:flex; gap:12px; align-items:flex-end;">
+          <div>
+            <div class="stat-count" id="hipCountWeek">0</div>
+            <div class="stat-sub">this week</div>
+          </div>
+          <div class="stat-divider-v"></div>
+          <div>
+            <div class="stat-count-small" id="hipCountTotal">0</div>
+            <div class="stat-sub">all time</div>
+          </div>
+        </div>
       </div>
       <div class="stat-card golf-stat">
-        <div class="stat-count" id="golfCount">0</div>
         <div class="stat-label">Golf Mobility</div>
-        <div class="stat-sub">completions</div>
+        <div style="display:flex; gap:12px; align-items:flex-end;">
+          <div>
+            <div class="stat-count" id="golfCountWeek">0</div>
+            <div class="stat-sub">this week</div>
+          </div>
+          <div class="stat-divider-v"></div>
+          <div>
+            <div class="stat-count-small" id="golfCountTotal">0</div>
+            <div class="stat-sub">all time</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1054,20 +1088,32 @@ function goToList() {
   showScreen('list');
 }
 
+function getWeekKey() {
+  const now = new Date();
+  const jan1 = new Date(now.getFullYear(), 0, 1);
+  const week = Math.ceil(((now - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+  return `${now.getFullYear()}-W${week}`;
+}
+
 function loadStats() {
   try {
-    const hip = parseInt(localStorage.getItem('completions_hip') || '0');
-    const golf = parseInt(localStorage.getItem('completions_golf') || '0');
-    document.getElementById('hipCount').textContent = hip;
-    document.getElementById('golfCount').textContent = golf;
+    const weekKey = getWeekKey();
+    ['hip', 'golf'].forEach(type => {
+      const total = parseInt(localStorage.getItem(`completions_${type}`) || '0');
+      const week = parseInt(localStorage.getItem(`completions_${type}_${weekKey}`) || '0');
+      document.getElementById(`${type}CountWeek`).textContent = week;
+      document.getElementById(`${type}CountTotal`).textContent = total;
+    });
   } catch(e) {}
 }
 
 function incrementCompletion(type) {
   try {
-    const key = `completions_${type}`;
-    const current = parseInt(localStorage.getItem(key) || '0');
-    localStorage.setItem(key, current + 1);
+    const weekKey = getWeekKey();
+    const totalKey = `completions_${type}`;
+    const weeklyKey = `completions_${type}_${weekKey}`;
+    localStorage.setItem(totalKey, parseInt(localStorage.getItem(totalKey) || '0') + 1);
+    localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
     loadStats();
   } catch(e) {}
 }
