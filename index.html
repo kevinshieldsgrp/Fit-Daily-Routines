@@ -526,13 +526,13 @@
 
   /* Stats banner */
   .stats-banner {
-    display: flex; gap: 10px;
+    display: flex; gap: 8px;
     margin-bottom: 0;
   }
 
   .stat-card {
     flex: 1; border-radius: var(--radius-sm);
-    padding: 10px 12px;
+    padding: 9px 11px;
     display: flex; flex-direction: column; gap: 3px;
   }
   .stat-card.hip-stat {
@@ -545,9 +545,9 @@
   }
 
   .stat-label {
-    font-size: 10px; font-weight: 700;
+    font-size: 9px; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
   .hip-stat .stat-label { color: var(--hip-primary); }
   .golf-stat .stat-label { color: var(--golf-primary); }
@@ -564,18 +564,18 @@
 
   .stat-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; line-height: 1;
+    font-size: 27px; line-height: 1;
     color: var(--white);
   }
 
   .stat-count-small {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; line-height: 1;
+    font-size: 19px; line-height: 1;
     color: var(--text-muted);
   }
 
   .stat-sub {
-    font-size: 10px; color: var(--text-muted);
+    font-size: 9px; color: var(--text-muted);
     font-weight: 300;
   }
 
@@ -638,7 +638,7 @@
   <div class="home-inner">
     <div class="home-header">
       <div class="home-title">Live <span>Better</span></div>
-      <div class="home-subtitle">AM/PM &middot; 10 min &middot; 2x per day</div>
+      <div class="home-subtitle">2x Per Day &rarr; 165 end of May</div>
     </div>
     <div class="divider"></div>
 
@@ -1236,13 +1236,14 @@ function goToList() {
 }
 
 function getWeekKey(offset = 0) {
-  // Week = Sun 00:00 → Sat 23:59. offset=-1 returns previous week.
+  // Week = Mon 00:00 → Sun 23:59, matching Strava. offset=-1 returns previous week.
   const now = new Date();
-  const sunday = new Date(now);
-  sunday.setDate(now.getDate() - now.getDay() + offset * 7);
-  const y = sunday.getFullYear();
-  const m = String(sunday.getMonth() + 1).padStart(2, '0');
-  const d = String(sunday.getDate()).padStart(2, '0');
+  const day = now.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
+  const y = monday.getFullYear();
+  const m = String(monday.getMonth() + 1).padStart(2, '0');
+  const d = String(monday.getDate()).padStart(2, '0');
   return `week-${y}${m}${d}`;
 }
 
@@ -1421,18 +1422,20 @@ function updateStravaStats(activities) {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
 
-    // Count this week from fetched list
-    const sundayStart = new Date();
-    sundayStart.setDate(sundayStart.getDate() - sundayStart.getDay());
-    sundayStart.setHours(0, 0, 0, 0);
+    // Monday-based week boundaries, matching Strava
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun
+    const mondayStart = new Date(now);
+    mondayStart.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+    mondayStart.setHours(0, 0, 0, 0);
 
-    const prevStart = new Date(sundayStart);
+    const prevStart = new Date(mondayStart);
     prevStart.setDate(prevStart.getDate() - 7);
 
-    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
+    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= mondayStart).length;
     const lastWeek = activities.filter(a => {
       const d = new Date(a.start_date_local);
-      return d >= prevStart && d < sundayStart;
+      return d >= prevStart && d < mondayStart;
     }).length;
 
     const storedTotal = parseInt(localStorage.getItem('completions_strava') || '0');
