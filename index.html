@@ -378,6 +378,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 14px;
+    white-space: pre-line;
   }
 
   /* Timer */
@@ -526,13 +527,13 @@
 
   /* Stats banner */
   .stats-banner {
-    display: flex; gap: 8px;
+    display: flex; gap: 10px;
     margin-bottom: 0;
   }
 
   .stat-card {
     flex: 1; border-radius: var(--radius-sm);
-    padding: 9px 11px;
+    padding: 10px 12px;
     display: flex; flex-direction: column; gap: 3px;
   }
   .stat-card.hip-stat {
@@ -545,9 +546,9 @@
   }
 
   .stat-label {
-    font-size: 9px; font-weight: 700;
+    font-size: 10px; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
   .hip-stat .stat-label { color: var(--hip-primary); }
   .golf-stat .stat-label { color: var(--golf-primary); }
@@ -564,18 +565,18 @@
 
   .stat-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 27px; line-height: 1;
+    font-size: 28px; line-height: 1;
     color: var(--white);
   }
 
   .stat-count-small {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 19px; line-height: 1;
+    font-size: 20px; line-height: 1;
     color: var(--text-muted);
   }
 
   .stat-sub {
-    font-size: 9px; color: var(--text-muted);
+    font-size: 10px; color: var(--text-muted);
     font-weight: 300;
   }
 
@@ -638,7 +639,7 @@
   <div class="home-inner">
     <div class="home-header">
       <div class="home-title">Live <span>Better</span></div>
-      <div class="home-subtitle">2x Per Day &rarr; 165 end of May</div>
+      <div class="home-subtitle">AM/PM &middot; 10 min &middot; 2x per day</div>
     </div>
     <div class="divider"></div>
 
@@ -850,6 +851,12 @@ const ROUTINES = {
         instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 30 seconds, then switch sides.\n2x Each Side"
       },
       {
+        name: "Single-Leg Squat",
+        detail: "8 reps each leg • 2 sets",
+        timer: 120,
+        instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward. Slowly lower into a single-leg squat — 60–70° of knee bend. Drive through the left heel to stand. Keep left knee tracking over your second toe.\n\n8 reps, 2x each side"
+      },
+      {
         name: "Single-Leg Glute Bridge",
         detail: "15 reps each leg • 2 sets",
         timer: 120,
@@ -862,22 +869,22 @@ const ROUTINES = {
         instructions: "Lie on your left side, elbow under shoulder, hips stacked. Lift into a side plank. With your top knee bent and feet together, rotate your right knee open toward the ceiling.\n\n15 controlled reps\n2x Each Side"
       },
       {
-        name: "Single-Leg Squat",
-        detail: "8 reps each leg • 2 sets",
-        timer: 120,
-        instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward. Slowly lower into a single-leg squat — 60–70° of knee bend. Drive through the left heel to stand. Keep left knee tracking over your second toe.\n\n8 reps, 2x each side"
-      },
-      {
         name: "Hip Hinge to Squat",
-        detail: "10 reps",
+        detail: "10 reps • 2 sets",
         timer: 60,
         instructions: "Stand feet shoulder-width apart. Push your hips back into a hip hinge — slight knee bend, flat back, hamstrings loaded. Transition smoothly into a full squat, dropping hips down between your heels. Drive through both heels to stand.\n\nPause 1 second at the bottom\n10 reps controlled, 2x"
       },
       {
-        name: "Nordic Hamstring Curl",
-        detail: "5 reps each leg • 2 sets",
+        name: "Staggered Stance RDL",
+        detail: "10 reps each side • 2 sets",
         timer: 120,
-        instructions: "Kneel on a mat with feet anchored under something fixed — couch, door, or a band. Body upright, arms crossed or at sides.\n\nLower your body toward the floor as slowly as possible using only your hamstrings. Use your hands to push back up.\n\n5 slow reps each leg, 2 sets. The eccentric lowering is the work — go as slow as you can."
+        instructions: "Stand with feet hip-width apart, then stagger your left foot back so your toe is even with your right heel. Shift most of your weight to your right (front) leg.\n\nHinge at the hips, sending them back while keeping your back flat. Lower until you feel a strong hamstring stretch in the front leg. Drive through the front heel to return to standing.\n\n10 reps on the right leg, then switch stance and do 10 on the left.\n2 sets each side."
+      },
+      {
+        name: "Hip 3-Way",
+        detail: "15 reps each side • 2 sets",
+        timer: 120,
+        instructions: "Stand on a folded towel with your left foot (adds instability and engages the hip). Right foot is the working leg.\n\nTap right foot forward, return to middle.\nTap right foot out to the side, return to middle.\nStep right foot back into a curtsy lunge (crossing behind and to the left), return to middle.\n\nThat's 1 rep. Complete 15 reps on the right, then switch — stand on right foot, work the left.\n2 sets each side."
       },
       {
         name: "Core",
@@ -1110,9 +1117,25 @@ function updateTimerDisplay() {
   document.getElementById('timerFill').style.width = pct + '%';
 }
 
+// Shared AudioContext — must be created/resumed inside a user gesture on iOS
+let audioCtx = null;
+
+function getAudioContext() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  } catch(e) { return null; }
+}
+
 function playBeep() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioContext();
+    if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
@@ -1128,7 +1151,8 @@ function playBeep() {
 
 function playDing() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = getAudioContext();
+    if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain);
@@ -1156,6 +1180,9 @@ function announceExercise(name) {
 function toggleTimer() {
   const ex = ROUTINES[currentRoutine].exercises[currentExIndex];
   if (!ex.timer) { markDoneAndAdvance(); return; }
+
+  // Prime AudioContext on this user gesture so iOS allows audio later
+  getAudioContext();
 
   if (timerRunning) {
     clearInterval(timerInterval);
@@ -1236,14 +1263,13 @@ function goToList() {
 }
 
 function getWeekKey(offset = 0) {
-  // Week = Mon 00:00 → Sun 23:59, matching Strava. offset=-1 returns previous week.
+  // Week = Sun 00:00 → Sat 23:59. offset=-1 returns previous week.
   const now = new Date();
-  const day = now.getDay(); // 0=Sun,1=Mon,...,6=Sat
-  const monday = new Date(now);
-  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1) + offset * 7);
-  const y = monday.getFullYear();
-  const m = String(monday.getMonth() + 1).padStart(2, '0');
-  const d = String(monday.getDate()).padStart(2, '0');
+  const sunday = new Date(now);
+  sunday.setDate(now.getDate() - now.getDay() + offset * 7);
+  const y = sunday.getFullYear();
+  const m = String(sunday.getMonth() + 1).padStart(2, '0');
+  const d = String(sunday.getDate()).padStart(2, '0');
   return `week-${y}${m}${d}`;
 }
 
@@ -1262,7 +1288,7 @@ function loadStats() {
       document.getElementById(`${type}CountTotal`).textContent = total;
     });
     // Strava prev week
-    const sPrev = parseInt(localStorage.getItem(`completions_strava_${prevKey}`) || '0');
+    const sPrev = parseInt(localStorage.getItem(`completions_strava_${getPrevWeekKey()}`) || '0');
     document.getElementById('stravaCountPrev').textContent = sPrev;
   } catch(e) {}
 }
@@ -1393,7 +1419,6 @@ function formatDate(dateStr) {
 async function loadStravaActivities() {
   const token = await getValidToken();
   if (!token) {
-    // No token at all — auto-redirect to Strava auth
     stravaAuth();
     return;
   }
@@ -1403,7 +1428,6 @@ async function loadStravaActivities() {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 401) {
-      // Token invalid — clear and re-auth
       localStorage.removeItem('strava_access_token');
       localStorage.removeItem('strava_refresh_token');
       localStorage.removeItem('strava_expires_at');
@@ -1422,20 +1446,17 @@ function updateStravaStats(activities) {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
 
-    // Monday-based week boundaries, matching Strava
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun
-    const mondayStart = new Date(now);
-    mondayStart.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
-    mondayStart.setHours(0, 0, 0, 0);
+    const sundayStart = new Date();
+    sundayStart.setDate(sundayStart.getDate() - sundayStart.getDay());
+    sundayStart.setHours(0, 0, 0, 0);
 
-    const prevStart = new Date(mondayStart);
+    const prevStart = new Date(sundayStart);
     prevStart.setDate(prevStart.getDate() - 7);
 
-    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= mondayStart).length;
+    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
     const lastWeek = activities.filter(a => {
       const d = new Date(a.start_date_local);
-      return d >= prevStart && d < mondayStart;
+      return d >= prevStart && d < sundayStart;
     }).length;
 
     const storedTotal = parseInt(localStorage.getItem('completions_strava') || '0');
@@ -1457,7 +1478,6 @@ function renderActivities(activities) {
     return;
   }
 
-  // Update strava stat tile
   updateStravaStats(activities);
 
   const html = activities.map(a => {
@@ -1482,16 +1502,13 @@ function renderStravaError() {
     `<div class="strava-empty">Could not load activities</div>`;
 }
 
-// Auto-init on load — handles both OAuth callback and normal open
 (async function initStrava() {
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
   if (code) {
-    // Returning from Strava auth — exchange code for tokens
     await stravaExchangeCode(code);
     return;
   }
-  // Normal open — load activities (will auto-redirect if no token)
   await loadStravaActivities();
 })();
 
