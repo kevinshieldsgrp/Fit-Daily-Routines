@@ -1056,8 +1056,15 @@ function updateListProgress() {
 }
 
 function startRoutine() {
+  // Prime AudioContext and speech synthesis here — this is a direct user gesture,
+  // which is required by iOS to unlock audio for all subsequent auto-triggered calls.
+  getAudioContext();
+  try {
+    const primer = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(primer);
+  } catch(e) {}
   currentExIndex = 0;
-  showExercise();
+  showExercise(true);
 }
 
 function showExercise(autoStart = false) {
@@ -1191,8 +1198,9 @@ function toggleTimer() {
   const ex = ROUTINES[currentRoutine].exercises[currentExIndex];
   if (!ex.timer) { markDoneAndAdvance(); return; }
 
-  // Prime AudioContext on this user gesture so iOS allows audio later
+  // Prime AudioContext and speech synthesis on this user gesture so iOS allows audio later
   getAudioContext();
+  try { window.speechSynthesis.cancel(); } catch(e) {}
 
   if (timerRunning) {
     clearInterval(timerInterval);
