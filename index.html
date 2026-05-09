@@ -96,6 +96,55 @@
     margin: 10px 0;
   }
 
+  /* ── STREAK BAR ── */
+  .streak-bar {
+    display: flex; align-items: center;
+    gap: 10px;
+    background: rgba(255,180,50,0.07);
+    border: 1px solid rgba(255,180,50,0.18);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    margin-bottom: 0;
+  }
+
+  .streak-flame {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .streak-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    color: #ffb432;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
+  .streak-count.streak-zero {
+    color: var(--text-muted);
+  }
+
+  .streak-text {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+
+  .streak-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: #ffb432;
+  }
+
+  .streak-label.streak-zero {
+    color: var(--text-muted);
+  }
+
+  .streak-sub {
+    font-size: 11px; color: var(--text-muted);
+    font-weight: 300;
+  }
+
   .routine-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
   .routine-card {
@@ -639,8 +688,20 @@
   <div class="home-inner">
     <div class="home-header">
       <div class="home-title">Live <span>Better</span></div>
-      <div class="home-subtitle">AM/PM &middot; 10 min &middot; 2x per day</div>
+
     </div>
+    <div class="divider"></div>
+
+    <!-- ── STREAK BAR ── -->
+    <div class="streak-bar" id="streakBar">
+      <div class="streak-flame" id="streakFlame">🔥</div>
+      <div class="streak-count" id="streakCount">0</div>
+      <div class="streak-text">
+        <div class="streak-label" id="streakLabel">DAY STREAK</div>
+        <div class="streak-sub" id="streakSub">Complete a routine to start</div>
+      </div>
+    </div>
+
     <div class="divider"></div>
 
     <div class="stats-banner">
@@ -745,7 +806,7 @@
       </div>
 
     </div>
-    <div class="home-footer">TAP A ROUTINE TO BEGIN</div>
+
 
     <!-- ── STRAVA PANEL ── -->
     <div style="margin-top: 10px;">
@@ -989,6 +1050,7 @@ let timerTotal = 0;
 function goHome() {
   clearInterval(timerInterval);
   timerRunning = false;
+  stopWakeLock();
   showScreen('home');
 }
 
@@ -1056,9 +1118,8 @@ function updateListProgress() {
 }
 
 function startRoutine() {
-  // Prime AudioContext and speech synthesis here — this is a direct user gesture,
-  // which is required by iOS to unlock audio for all subsequent auto-triggered calls.
   getAudioContext();
+  startWakeLock();
   try {
     const primer = new SpeechSynthesisUtterance('');
     window.speechSynthesis.speak(primer);
@@ -1136,6 +1197,7 @@ function updateTimerDisplay() {
 
 // Shared AudioContext — must be created/resumed inside a user gesture on iOS
 let audioCtx = null;
+let wakeLockNode = null; // Silent oscillator to keep screen awake
 
 function getAudioContext() {
   try {
@@ -1147,6 +1209,33 @@ function getAudioContext() {
     }
     return audioCtx;
   } catch(e) { return null; }
+}
+
+function startWakeLock() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    stopWakeLock(); // Clear any existing node
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    gain.gain.setValueAtTime(0.001, ctx.currentTime); // Nearly silent
+    osc.frequency.setValueAtTime(1, ctx.currentTime); // 1Hz — inaudible
+    osc.start();
+    wakeLockNode = { osc, gain };
+  } catch(e) {}
+}
+
+function stopWakeLock() {
+  try {
+    if (wakeLockNode) {
+      wakeLockNode.osc.stop();
+      wakeLockNode.osc.disconnect();
+      wakeLockNode.gain.disconnect();
+      wakeLockNode = null;
+    }
+  } catch(e) {}
 }
 
 function playBeep() {
@@ -1198,9 +1287,8 @@ function toggleTimer() {
   const ex = ROUTINES[currentRoutine].exercises[currentExIndex];
   if (!ex.timer) { markDoneAndAdvance(); return; }
 
-  // Prime AudioContext and speech synthesis on this user gesture so iOS allows audio later
+  // Prime AudioContext on this user gesture so iOS allows audio later
   getAudioContext();
-  try { window.speechSynthesis.cancel(); } catch(e) {}
 
   if (timerRunning) {
     clearInterval(timerInterval);
@@ -1327,6 +1415,8 @@ function showDone() {
   const color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
 
   incrementCompletion(currentRoutine);
+  updateStreak();
+  stopWakeLock();
 
   document.getElementById('doneIcon').style.background = c === 'hip' ? 'rgba(232,115,74,0.15)' : 'rgba(74,158,122,0.15)';
   document.getElementById('doneIcon').textContent = c === 'hip' ? '💪' : '⛳';
@@ -1341,6 +1431,99 @@ function showDone() {
 
 // Initialize stats on load
 loadStats();
+
+/* ── STREAK ── */
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getYesterdayKey() {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function updateStreak() {
+  try {
+    const today = getTodayKey();
+    const yesterday = getYesterdayKey();
+    const lastDate = localStorage.getItem('streak_last_date') || '';
+    let count = parseInt(localStorage.getItem('streak_count') || '0');
+
+    if (lastDate === today) {
+      // Already counted today — no change
+    } else if (lastDate === yesterday) {
+      // Continued streak
+      count++;
+      localStorage.setItem('streak_count', count);
+      localStorage.setItem('streak_last_date', today);
+    } else {
+      // Missed a day (or first ever) — reset
+      count = 1;
+      localStorage.setItem('streak_count', count);
+      localStorage.setItem('streak_last_date', today);
+    }
+    renderStreak(count);
+  } catch(e) {}
+}
+
+function renderStreak(count) {
+  try {
+    if (count === undefined) {
+      count = parseInt(localStorage.getItem('streak_count') || '0');
+      // Check if streak is stale (last activity wasn't today or yesterday)
+      const lastDate = localStorage.getItem('streak_last_date') || '';
+      const today = getTodayKey();
+      const yesterday = getYesterdayKey();
+      if (lastDate !== today && lastDate !== yesterday) {
+        count = 0; // Streak is broken but not yet reset (no activity today)
+      }
+    }
+
+    const countEl  = document.getElementById('streakCount');
+    const labelEl  = document.getElementById('streakLabel');
+    const subEl    = document.getElementById('streakSub');
+    const flameEl  = document.getElementById('streakFlame');
+
+    countEl.textContent = count;
+
+    if (count === 0) {
+      countEl.className = 'streak-count streak-zero';
+      labelEl.className = 'streak-label streak-zero';
+      labelEl.textContent = 'DAY STREAK';
+      flameEl.textContent = '🔥';
+      subEl.textContent = 'Complete a routine to start';
+    } else {
+      countEl.className = 'streak-count';
+      labelEl.className = 'streak-label';
+      labelEl.textContent = count === 1 ? 'DAY STREAK' : 'DAY STREAK';
+
+      if (count >= 30) {
+        flameEl.textContent = '🏆';
+        subEl.textContent = 'Legendary. Unstoppable.';
+      } else if (count >= 14) {
+        flameEl.textContent = '🔥';
+        subEl.textContent = 'Two weeks strong — keep going!';
+      } else if (count >= 7) {
+        flameEl.textContent = '🔥';
+        subEl.textContent = 'One week in — you\'re on fire!';
+      } else if (count >= 3) {
+        flameEl.textContent = '🔥';
+        subEl.textContent = 'Building momentum — don\'t stop!';
+      } else if (count === 2) {
+        flameEl.textContent = '🔥';
+        subEl.textContent = 'Back-to-back — keep it going!';
+      } else {
+        flameEl.textContent = '🔥';
+        subEl.textContent = 'Day 1 done — see you tomorrow!';
+      }
+    }
+  } catch(e) {}
+}
+
+// Render streak on load (read-only, no update)
+renderStreak();
 
 /* ── STRAVA ── */
 const STRAVA_CLIENT_ID = '227459';
