@@ -574,65 +574,46 @@
   .fill-hip { background: var(--hip-primary) !important; }
   .fill-golf { background: var(--golf-primary) !important; }
 
-  /* Stats banner */
-  .stats-banner {
-    display: flex; gap: 10px;
-    margin-bottom: 0;
+  /* ── INLINE CARD STATS ── */
+  .card-stats {
+    display: flex; gap: 12px;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
   }
 
-  .stat-card {
-    flex: 1; border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    display: flex; flex-direction: column; gap: 3px;
-  }
-  .stat-card.hip-stat {
-    background: rgba(232,115,74,0.08);
-    border: 1px solid rgba(232,115,74,0.2);
-  }
-  .stat-card.golf-stat {
-    background: rgba(74,158,122,0.08);
-    border: 1px solid rgba(74,158,122,0.2);
+  .card-stat-item {
+    display: flex; flex-direction: column; gap: 2px;
   }
 
-  .stat-label {
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .hip-stat .stat-label { color: var(--hip-primary); }
-  .golf-stat .stat-label { color: var(--golf-primary); }
-  .strava-stat .stat-label { color: var(--strava-primary); }
-
-  .stat-card.strava-stat {
-    background: rgba(26,86,219,0.08);
-    border: 1px solid rgba(26,86,219,0.2);
-  }
-
-  .stat-row {
-    display: flex; align-items: baseline; gap: 6px;
-  }
-
-  .stat-count {
+  .card-stat-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; line-height: 1;
+    font-size: 22px; line-height: 1;
     color: var(--white);
   }
 
-  .stat-count-small {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; line-height: 1;
+  .card-stat-label {
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
     color: var(--text-muted);
   }
 
-  .stat-sub {
-    font-size: 10px; color: var(--text-muted);
-    font-weight: 300;
+  .card-stat-divider {
+    width: 1px; background: rgba(255,255,255,0.08);
+    margin: 2px 0; align-self: stretch;
   }
 
-  .stat-divider-v {
-    width: 1px; background: var(--border);
-    margin: 0 2px; align-self: stretch;
+  /* Strava card */
+  .routine-card.strava {
+    background: linear-gradient(135deg, #0e1420 0%, #111a2e 100%);
+    border: 1px solid rgba(26,86,219,0.25);
+    box-shadow: 0 4px 30px rgba(26,86,219,0.08);
+    cursor: default;
   }
+  .strava .card-accent { background: var(--strava-primary); }
+  .strava .card-tag { color: var(--strava-primary); background: rgba(26,86,219,0.12); }
+  .strava .card-meta-item { color: var(--strava-light); }
+  .strava .card-stat-num { color: var(--white); }
+  .strava .card-stats { border-top-color: rgba(26,86,219,0.15); }
 
   /* ── STRAVA PANEL ── */
   .strava-panel {
@@ -660,7 +641,11 @@
   .strava-activity {
     display: flex; align-items: center;
     padding: 8px 14px; gap: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    -webkit-user-select: none;
   }
+  .strava-activity:active { background: rgba(255,255,255,0.04); }
   .strava-activity + .strava-activity { border-top: 1px solid rgba(42,42,58,0.6); }
   .activity-icon {
     width: 28px; height: 28px; border-radius: 8px;
@@ -703,82 +688,32 @@
     </div>
 
     <div class="divider"></div>
-
-    <div class="stats-banner">
-      <div class="stat-card hip-stat">
-        <div class="stat-label">Hip & Quad</div>
-        <div style="display:flex; gap:8px; align-items:flex-end;">
-          <div>
-            <div class="stat-count" id="hipCountWeek">0</div>
-            <div class="stat-sub">this wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="hipCountPrev">0</div>
-            <div class="stat-sub">last wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="hipCountTotal">0</div>
-            <div class="stat-sub">all time</div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-card golf-stat">
-        <div class="stat-label">Golf Mobility</div>
-        <div style="display:flex; gap:8px; align-items:flex-end;">
-          <div>
-            <div class="stat-count" id="golfCountWeek">0</div>
-            <div class="stat-sub">this wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="golfCountPrev">0</div>
-            <div class="stat-sub">last wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="golfCountTotal">0</div>
-            <div class="stat-sub">all time</div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-card strava-stat">
-        <div class="stat-label">Other</div>
-        <div style="display:flex; gap:8px; align-items:flex-end;">
-          <div>
-            <div class="stat-count" id="stravaCountWeek">0</div>
-            <div class="stat-sub">this wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="stravaCountPrev">0</div>
-            <div class="stat-sub">last wk</div>
-          </div>
-          <div class="stat-divider-v"></div>
-          <div>
-            <div class="stat-count-small" id="stravaCountTotal">0</div>
-            <div class="stat-sub">all time</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
     <div class="routine-cards">
 
       <div class="routine-card hip" onclick="openRoutine('hip')">
         <div class="card-accent"></div>
         <div class="card-tag">Strength</div>
-        <div class="card-title">Hip & Quad</div>
+        <div class="card-title">Hip &amp; Quad</div>
         <div class="card-meta">
-          <div class="card-meta-item c-hip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            10 min
-          </div>
           <div class="card-meta-item c-hip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
             9 exercises
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="hipCountWeek">0</div>
+            <div class="card-stat-label">This Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="hipCountPrev">0</div>
+            <div class="card-stat-label">Last Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="hipCountTotal">0</div>
+            <div class="card-stat-label">All Time</div>
           </div>
         </div>
         <div class="card-arrow">
@@ -792,12 +727,24 @@
         <div class="card-title">Golf Mobility</div>
         <div class="card-meta">
           <div class="card-meta-item c-golf">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            10 min
-          </div>
-          <div class="card-meta-item c-golf">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
             10 exercises
+          </div>
+        </div>
+        <div class="card-stats">
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="golfCountWeek">0</div>
+            <div class="card-stat-label">This Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="golfCountPrev">0</div>
+            <div class="card-stat-label">Last Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="golfCountTotal">0</div>
+            <div class="card-stat-label">All Time</div>
           </div>
         </div>
         <div class="card-arrow">
@@ -805,10 +752,35 @@
         </div>
       </div>
 
+      <!-- Strava Activities Card -->
+      <div class="routine-card strava">
+        <div class="card-accent"></div>
+        <div class="card-tag">Activities</div>
+        <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+          <span>Strava</span>
+          <svg viewBox="0 0 24 24" fill="var(--strava-primary)" width="18" height="18"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+        </div>
+        <div class="card-stats">
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="stravaCountWeek">0</div>
+            <div class="card-stat-label">This Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="stravaCountPrev">0</div>
+            <div class="card-stat-label">Last Wk</div>
+          </div>
+          <div class="card-stat-divider"></div>
+          <div class="card-stat-item">
+            <div class="card-stat-num" id="stravaCountTotal">0</div>
+            <div class="card-stat-label">All Time</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-
-    <!-- ── STRAVA PANEL ── -->
+    <!-- ── STRAVA ACTIVITY LIST ── -->
     <div style="margin-top: 10px;">
       <div class="strava-panel" id="stravaPanel">
         <div class="strava-header">
@@ -816,7 +788,7 @@
             <div class="strava-logo">
               <svg viewBox="0 0 24 24" fill="white"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
             </div>
-            <div class="strava-title">Other Activities</div>
+            <div class="strava-title">Recent Activities</div>
           </div>
         </div>
         <div id="stravaBody">
@@ -824,6 +796,9 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
   </div>
 </div>
 
@@ -1685,7 +1660,7 @@ function renderActivities(activities) {
     const dist = a.distance > 0 ? formatDistance(a.distance) + ' · ' : '';
     const dur = formatDuration(a.moving_time);
     return `
-      <div class="strava-activity">
+      <div class="strava-activity" onclick="openStravaActivity(${a.id})">
         <div class="activity-icon" style="background:${bg}">${icon}</div>
         <div class="activity-info">
           <div class="activity-name">${a.name}</div>
@@ -1695,6 +1670,14 @@ function renderActivities(activities) {
       </div>`;
   }).join('');
   document.getElementById('stravaBody').innerHTML = html;
+}
+
+function openStravaActivity(id) {
+  // Try Strava app deep link first; fall back to web URL
+  window.location.href = `strava://activities/${id}`;
+  setTimeout(() => {
+    window.open(`https://www.strava.com/activities/${id}`, '_blank');
+  }, 500);
 }
 
 function renderStravaError() {
