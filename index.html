@@ -859,6 +859,97 @@
   }
   .habits-summary-score.all-done { color: #4ade80; }
 
+  /* ── TAB BAR ── */
+  .tab-bar {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    flex-shrink: 0;
+  }
+  .tab-btn {
+    flex: 1; background: none; border: none;
+    padding: 14px 0 10px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 1.5px;
+    color: var(--text-muted);
+    cursor: pointer; position: relative;
+    transition: color 0.2s; -webkit-user-select: none;
+  }
+  .tab-btn.active { color: var(--white); }
+  .tab-btn::after {
+    content: ''; position: absolute;
+    bottom: -1px; left: 20%; right: 20%;
+    height: 2px; border-radius: 2px;
+    background: transparent; transition: background 0.2s;
+  }
+  .tab-btn.active::after { background: var(--white); }
+
+  .tab-panel { display: none; flex-direction: column; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .tab-panel.active { display: flex; }
+
+  /* ── STREAK TILES ── */
+  .streak-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px; padding: 16px 20px 24px;
+  }
+  .streak-tile {
+    border-radius: 12px; padding: 11px 13px;
+    position: relative; overflow: hidden;
+  }
+  .streak-tile-label {
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px;
+  }
+  .streak-tile-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px; line-height: 1; color: var(--white);
+  }
+  .streak-tile-unit {
+    font-size: 10px; color: var(--text-muted);
+    font-weight: 300; padding-bottom: 4px; margin-left: 3px;
+  }
+  .streak-tile-row { display: flex; align-items: flex-end; }
+  .streak-tile-bar { display: flex; gap: 2px; margin-top: 7px; }
+  .streak-tile-bar-seg { flex: 1; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); }
+  .streak-tile-sub { font-size: 10px; color: var(--text-muted); font-weight: 300; margin-top: 4px; }
+
+  .stile-hip      { background: linear-gradient(135deg,#1e1410,#2a1a10); border: 1px solid rgba(232,115,74,0.3); }
+  .stile-golf     { background: linear-gradient(135deg,#101e16,#102a1c); border: 1px solid rgba(74,158,122,0.3); }
+  .stile-walk     { background: linear-gradient(135deg,#0e1420,#111a2e); border: 1px solid rgba(100,160,240,0.3); }
+  .stile-other    { background: linear-gradient(135deg,#111118,#18181f); border: 1px solid rgba(255,180,50,0.25); }
+  .stile-wellness { background: linear-gradient(135deg,#130e1e,#1a1228); border: 1px solid rgba(167,139,250,0.3); }
+  .stile-water    { background: linear-gradient(135deg,#0c1520,#0e1d2e); border: 1px solid rgba(56,189,248,0.3); }
+
+  .stile-hip      .streak-tile-label { color: #e8734a; }
+  .stile-golf     .streak-tile-label { color: #4a9e7a; }
+  .stile-walk     .streak-tile-label { color: #64a0f0; }
+  .stile-other    .streak-tile-label { color: #ffb432; }
+  .stile-wellness .streak-tile-label { color: #a78bfa; }
+  .stile-water    .streak-tile-label { color: #38bdf8; }
+
+  .water-tile-counter {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 8px; overflow: hidden; margin-top: 6px;
+  }
+  .water-tile-btn {
+    background: none; border: none; color: #38bdf8;
+    font-size: 20px; font-weight: 300;
+    width: 36px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-user-select: none; flex-shrink: 0;
+    transition: background 0.1s;
+  }
+  .water-tile-btn:active { background: rgba(56,189,248,0.15); }
+  .water-tile-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; line-height: 1;
+    color: var(--white); text-align: center; flex: 1;
+  }
+
 </style>
 </head>
 <body>
@@ -866,53 +957,31 @@
 <!-- ══ HOME ══ -->
 <div id="home" class="screen active">
   <div class="home-bg"></div>
-  <div class="home-inner">
-    <div class="home-header">
-      <div class="home-title">Live <span>Better</span></div>
 
-    </div>
-    <div class="divider"></div>
+  <!-- Header -->
+  <div style="position:relative; z-index:1; padding: 52px 20px 0;">
+    <div class="home-title">Live <span>Better</span></div>
+  </div>
 
-    <!-- ── STREAK BAR ── -->
-    <div class="streak-bar" id="streakBar">
-      <div class="streak-flame" id="streakFlame">🔥</div>
-      <div class="streak-count" id="streakCount">0</div>
-      <div class="streak-text">
-        <div class="streak-label" id="streakLabel">DAY STREAK</div>
-        <div class="streak-sub" id="streakSub">Complete a routine to start</div>
-      </div>
-    </div>
+  <!-- Tab Bar -->
+  <div class="tab-bar" style="position:relative; z-index:1; margin-top:12px;">
+    <button class="tab-btn active" id="tabLetsGo" onclick="switchTab('letsgo')">LET'S GO</button>
+    <button class="tab-btn" id="tabStreaks" onclick="switchTab('streaks')">STREAKS</button>
+  </div>
 
-    <div class="divider"></div>
-    <div class="routine-cards">
+  <!-- ── TAB: LET'S GO ── -->
+  <div class="tab-panel active" id="panelLetsgo">
+    <div style="padding: 14px 20px 28px; display:flex; flex-direction:column; gap:10px;">
 
-      <!-- ── FOOD TRACKING CARD ── -->
-      <div class="routine-card food">
+      <!-- Wellness card -->
+      <div class="routine-card food" style="cursor:default;">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">Wellness</div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider" style="background:rgba(167,139,250,0.2)"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider" style="background:rgba(167,139,250,0.2)"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountTotal">0</div>
-              <div class="card-stat-label">Perfect Days</div>
-            </div>
-          </div>
         </div>
-
-        <div class="food-inputs">
-          <!-- Water row -->
+        <div class="food-inputs" style="margin-top:8px;">
           <div class="food-row">
             <div class="food-row-label">💧 Water</div>
             <div class="food-counter">
@@ -926,7 +995,6 @@
             <div class="food-goal-text" id="waterGoalText">0 / 8</div>
           </div>
         </div>
-
         <button class="habits-open-btn" onclick="openHabits()">
           <span>TODAY'S HABITS</span>
           <div class="habits-dots" id="habitsDots">
@@ -937,6 +1005,7 @@
         </button>
       </div>
 
+      <!-- Hip & Quad card -->
       <div class="routine-card hip" onclick="openRoutine('hip')">
         <div class="card-accent"></div>
         <div class="card-header-row">
@@ -965,11 +1034,12 @@
         </div>
       </div>
 
+      <!-- Golf card -->
       <div class="routine-card golf" onclick="openRoutine('golf')">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
-            <div class="card-title">Golf Mobility</div>
+            <div class="card-title">Golf</div>
             <div class="card-arrow">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
@@ -993,39 +1063,7 @@
         </div>
       </div>
 
-      <!-- Strava Activities Card -->
-      <div class="routine-card strava">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="display:flex; align-items:center; gap:7px;">
-              <span>Strava</span>
-              <svg viewBox="0 0 24 24" fill="var(--strava-primary)" width="16" height="16"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="stravaCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="stravaCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="stravaCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ── STRAVA ACTIVITY LIST ── -->
-    <div style="margin-top: 10px;">
+      <!-- Strava panel -->
       <div class="strava-panel" id="stravaPanel">
         <div class="strava-header">
           <div class="strava-header-left">
@@ -1039,11 +1077,87 @@
           <div class="strava-loading">Loading...</div>
         </div>
       </div>
+
     </div>
   </div>
-</div>
 
+  <!-- ── TAB: STREAKS ── -->
+  <div class="tab-panel" id="panelStreaks">
+    <div class="streak-grid">
+
+      <!-- Hip & Quad -->
+      <div class="streak-tile stile-hip">
+        <div class="streak-tile-label">Hip &amp; Quad</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-hip-num">0</div>
+          <div class="streak-tile-unit">day streak</div>
+        </div>
+        <div class="streak-tile-bar" id="st-hip-bar"></div>
+        <div class="streak-tile-sub" id="st-hip-sub">—</div>
+      </div>
+
+      <!-- Golf -->
+      <div class="streak-tile stile-golf">
+        <div class="streak-tile-label">Golf</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-golf-num">0</div>
+          <div class="streak-tile-unit">day streak</div>
+        </div>
+        <div class="streak-tile-bar" id="st-golf-bar"></div>
+        <div class="streak-tile-sub" id="st-golf-sub">—</div>
+      </div>
+
+      <!-- Daily Walk -->
+      <div class="streak-tile stile-walk">
+        <div class="streak-tile-label">Daily Walk</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-walk-num">0</div>
+          <div class="streak-tile-unit">day streak</div>
+        </div>
+        <div class="streak-tile-bar" id="st-walk-bar"></div>
+        <div class="streak-tile-sub" id="st-walk-sub">—</div>
+      </div>
+
+      <!-- Other Activity -->
+      <div class="streak-tile stile-other">
+        <div class="streak-tile-label">Other Activity</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-other-num">0</div>
+          <div class="streak-tile-unit">day streak</div>
+        </div>
+        <div class="streak-tile-bar" id="st-other-bar"></div>
+        <div class="streak-tile-sub" id="st-other-sub">—</div>
+      </div>
+
+      <!-- Wellness -->
+      <div class="streak-tile stile-wellness">
+        <div class="streak-tile-label">Wellness</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-wellness-num">0</div>
+          <div class="streak-tile-unit">day streak</div>
+        </div>
+        <div class="streak-tile-bar" id="st-wellness-bar"></div>
+        <div class="streak-tile-sub" id="st-wellness-sub">—</div>
+      </div>
+
+      <!-- Water -->
+      <div class="streak-tile stile-water">
+        <div class="streak-tile-label">Water</div>
+        <div class="streak-tile-row">
+          <div class="streak-tile-num" id="st-water-num">0</div>
+          <div class="streak-tile-unit">/ 8 today</div>
+        </div>
+        <div class="water-tile-counter">
+          <button class="water-tile-btn" onclick="adjustFood('water',-1)">−</button>
+          <div class="water-tile-val" id="waterVal2">0</div>
+          <button class="water-tile-btn" onclick="adjustFood('water',1)">+</button>
+        </div>
+        <div class="streak-tile-sub" id="st-water-sub">—</div>
+      </div>
+
+    </div>
   </div>
+
 </div>
 
 <!-- ══ LIST ══ -->
@@ -1723,6 +1837,8 @@ function renderFoodInputs(data) {
     const waterPct = Math.min(100, (data.water / WATER_GOAL) * 100);
     const waterMet = data.water >= WATER_GOAL;
     document.getElementById('waterVal').textContent = data.water;
+    const wv2 = document.getElementById('waterVal2');
+    if (wv2) wv2.textContent = data.water;
     const wFill = document.getElementById('waterFill');
     wFill.style.width = waterPct + '%';
     wFill.className = 'food-goal-fill' + (waterMet ? ' goal-met' : '');
@@ -1949,10 +2065,13 @@ function loadStats() {
 function incrementCompletion(type) {
   try {
     const weekKey = getWeekKey();
+    const dateKey = getTodayDateKey();
     const totalKey  = `completions_${type}`;
     const weeklyKey = `completions_${type}_${weekKey}`;
+    const dayKey    = `completions_${type}_date_${dateKey}`;
     localStorage.setItem(totalKey,  parseInt(localStorage.getItem(totalKey)  || '0') + 1);
     localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
+    localStorage.setItem(dayKey,    parseInt(localStorage.getItem(dayKey)    || '0') + 1);
     loadStats();
   } catch(e) {}
 }
@@ -1981,98 +2100,152 @@ function showDone() {
 // Initialize stats on load
 loadStats();
 
-/* ── STREAK ── */
+/* ── TABS ── */
+function switchTab(tab) {
+  document.getElementById('panelLetsgo').classList.toggle('active', tab === 'letsgo');
+  document.getElementById('panelStreaks').classList.toggle('active', tab === 'streaks');
+  document.getElementById('tabLetsGo').classList.toggle('active', tab === 'letsgo');
+  document.getElementById('tabStreaks').classList.toggle('active', tab === 'streaks');
+  if (tab === 'streaks') renderStreakTiles();
+}
+
+/* ── STREAK TILES ── */
+const STREAK_COLORS = {
+  hip: '#e8734a', golf: '#4a9e7a', walk: '#64a0f0',
+  other: '#ffb432', wellness: '#a78bfa', water: '#38bdf8'
+};
+
+function getRoutineStreak(type) {
+  let streak = 0;
+  for (let i = 0; i <= 365; i++) {
+    if (localStorage.getItem('completions_' + type + '_date_' + getDayKey(i))) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function getRoutineWeekHits(type) {
+  const hits = [];
+  for (let i = 6; i >= 0; i--) {
+    hits.push(!!localStorage.getItem('completions_' + type + '_date_' + getDayKey(i)));
+  }
+  return hits;
+}
+
+function processStravaStreaks(activities) {
+  if (!activities || !activities.length) return;
+  activities.forEach(a => {
+    const d = new Date(a.start_date_local);
+    const key = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+    if (a.type === 'Walk' || a.type === 'VirtualRun') localStorage.setItem('walk_' + key, '1');
+    else localStorage.setItem('other_' + key, '1');
+  });
+}
+
+function calcStreak(prefix) {
+  let streak = 0;
+  for (let i = 0; i <= 365; i++) {
+    if (localStorage.getItem(prefix + getDayKey(i))) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function getWellnessStreak() {
+  let streak = 0;
+  for (let i = 0; i <= 365; i++) {
+    const key = getDayKey(i);
+    try {
+      const raw = localStorage.getItem('habits_' + key);
+      const data = raw ? JSON.parse(raw) : {};
+      if (HABITS.every(id => !!data[id])) streak++;
+      else break;
+    } catch(e) { break; }
+  }
+  return streak;
+}
+
+function getWaterStreak() {
+  let streak = 0;
+  for (let i = 0; i <= 365; i++) {
+    const key = getDayKey(i);
+    try {
+      const raw = localStorage.getItem('food_' + key);
+      const data = raw ? JSON.parse(raw) : {};
+      if ((data.water || 0) >= WATER_GOAL) streak++;
+      else break;
+    } catch(e) { break; }
+  }
+  return streak;
+}
+
+function renderTileBar(elId, hits, color) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.innerHTML = hits.map(h =>
+    '<div class="streak-tile-bar-seg" style="' + (h ? 'background:' + color + ';opacity:0.85;' : '') + '"></div>'
+  ).join('');
+}
+
+function renderStreakTiles() {
+  try {
+    const hipStreak = getRoutineStreak('hip');
+    const hipHits   = getRoutineWeekHits('hip');
+    document.getElementById('st-hip-num').textContent = hipStreak;
+    renderTileBar('st-hip-bar', hipHits, STREAK_COLORS.hip);
+    document.getElementById('st-hip-sub').textContent = hipHits.filter(Boolean).length + ' this week';
+
+    const golfStreak = getRoutineStreak('golf');
+    const golfHits   = getRoutineWeekHits('golf');
+    document.getElementById('st-golf-num').textContent = golfStreak;
+    renderTileBar('st-golf-bar', golfHits, STREAK_COLORS.golf);
+    document.getElementById('st-golf-sub').textContent = golfHits.filter(Boolean).length + ' this week';
+
+    const wellStreak = getWellnessStreak();
+    document.getElementById('st-wellness-num').textContent = wellStreak;
+    const wellHits = [];
+    for (let i = 6; i >= 0; i--) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem('habits_' + key);
+        const data = raw ? JSON.parse(raw) : {};
+        wellHits.push(HABITS.every(id => !!data[id]));
+      } catch(e) { wellHits.push(false); }
+    }
+    renderTileBar('st-wellness-bar', wellHits, STREAK_COLORS.wellness);
+    document.getElementById('st-wellness-sub').textContent = wellHits.filter(Boolean).length + ' perfect days';
+
+    const waterToday = getFoodToday().water || 0;
+    const waterStreak = getWaterStreak();
+    document.getElementById('st-water-num').textContent = waterToday;
+    document.getElementById('waterVal2').textContent = waterToday;
+    document.getElementById('st-water-sub').textContent = waterStreak + ' day streak';
+
+    const walkStreak = calcStreak('walk_');
+    document.getElementById('st-walk-num').textContent = walkStreak;
+    const walkHits = [];
+    for (let i = 6; i >= 0; i--) walkHits.push(!!localStorage.getItem('walk_' + getDayKey(i)));
+    renderTileBar('st-walk-bar', walkHits, STREAK_COLORS.walk);
+    document.getElementById('st-walk-sub').textContent = walkHits.filter(Boolean).length + ' this week';
+
+    const otherStreak = calcStreak('other_');
+    document.getElementById('st-other-num').textContent = otherStreak;
+    const otherHits = [];
+    for (let i = 6; i >= 0; i--) otherHits.push(!!localStorage.getItem('other_' + getDayKey(i)));
+    renderTileBar('st-other-bar', otherHits, STREAK_COLORS.other);
+    document.getElementById('st-other-sub').textContent = otherHits.filter(Boolean).length + ' this week';
+  } catch(e) { console.error('renderStreakTiles', e); }
+}
+
 function getTodayKey() {
   const d = new Date();
-  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  return d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
 }
-
 function getYesterdayKey() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  const d = new Date(); d.setDate(d.getDate()-1);
+  return d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
 }
-
-function updateStreak() {
-  try {
-    const today = getTodayKey();
-    const yesterday = getYesterdayKey();
-    const lastDate = localStorage.getItem('streak_last_date') || '';
-    let count = parseInt(localStorage.getItem('streak_count') || '0');
-
-    if (lastDate === today) {
-      // Already counted today — no change
-    } else if (lastDate === yesterday) {
-      // Continued streak
-      count++;
-      localStorage.setItem('streak_count', count);
-      localStorage.setItem('streak_last_date', today);
-    } else {
-      // Missed a day (or first ever) — reset
-      count = 1;
-      localStorage.setItem('streak_count', count);
-      localStorage.setItem('streak_last_date', today);
-    }
-    renderStreak(count);
-  } catch(e) {}
-}
-
-function renderStreak(count) {
-  try {
-    if (count === undefined) {
-      count = parseInt(localStorage.getItem('streak_count') || '0');
-      // Check if streak is stale (last activity wasn't today or yesterday)
-      const lastDate = localStorage.getItem('streak_last_date') || '';
-      const today = getTodayKey();
-      const yesterday = getYesterdayKey();
-      if (lastDate !== today && lastDate !== yesterday) {
-        count = 0; // Streak is broken but not yet reset (no activity today)
-      }
-    }
-
-    const countEl  = document.getElementById('streakCount');
-    const labelEl  = document.getElementById('streakLabel');
-    const subEl    = document.getElementById('streakSub');
-    const flameEl  = document.getElementById('streakFlame');
-
-    countEl.textContent = count;
-
-    if (count === 0) {
-      countEl.className = 'streak-count streak-zero';
-      labelEl.className = 'streak-label streak-zero';
-      labelEl.textContent = 'DAY STREAK';
-      flameEl.textContent = '🔥';
-      subEl.textContent = 'Complete a routine to start';
-    } else {
-      countEl.className = 'streak-count';
-      labelEl.className = 'streak-label';
-      labelEl.textContent = count === 1 ? 'DAY STREAK' : 'DAY STREAK';
-
-      if (count >= 30) {
-        flameEl.textContent = '🏆';
-        subEl.textContent = 'Legendary. Unstoppable.';
-      } else if (count >= 14) {
-        flameEl.textContent = '🔥';
-        subEl.textContent = 'Two weeks strong — keep going!';
-      } else if (count >= 7) {
-        flameEl.textContent = '🔥';
-        subEl.textContent = 'One week in — you\'re on fire!';
-      } else if (count >= 3) {
-        flameEl.textContent = '🔥';
-        subEl.textContent = 'Building momentum — don\'t stop!';
-      } else if (count === 2) {
-        flameEl.textContent = '🔥';
-        subEl.textContent = 'Back-to-back — keep it going!';
-      } else {
-        flameEl.textContent = '🔥';
-        subEl.textContent = 'Day 1 done — see you tomorrow!';
-      }
-    }
-  } catch(e) {}
-}
-
-// Render streak on load (read-only, no update)
-renderStreak();
+function updateStreak() {} // no-op — streaks live in tiles
 
 /* ── STRAVA ── */
 const STRAVA_CLIENT_ID = '227459';
@@ -2228,6 +2401,7 @@ function renderActivities(activities) {
   }
 
   updateStravaStats(activities);
+  processStravaStreaks(activities);
 
   const html = activities.map(a => {
     const { icon, bg } = ACTIVITY_ICONS[a.type] || ACTIVITY_ICONS.default;
