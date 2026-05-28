@@ -672,7 +672,7 @@
     padding: 14px; text-align: center; font-size: 12px; color: var(--text-muted);
   }
 
-  /* ── FOOD TRACKING CARD ── */
+  /* ── FOOD / HABITS CARD ── */
   :root { --food-primary: #a78bfa; --food-light: #c4b5fd; }
 
   .routine-card.food {
@@ -747,24 +747,117 @@
   }
   .food-goal-text.goal-met { color: #4ade80; }
 
-  .food-save-btn {
+  /* Habits open button inside food card */
+  .habits-open-btn {
     margin-top: 10px; width: 100%;
-    padding: 7px;
-    background: rgba(167,139,250,0.12);
+    padding: 8px 12px;
+    background: rgba(167,139,250,0.1);
     border: 1px solid rgba(167,139,250,0.25);
     border-radius: 8px;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px; letter-spacing: 1px;
+    font-size: 15px; letter-spacing: 1.5px;
     color: var(--food-light);
     cursor: pointer; -webkit-user-select: none;
     transition: background 0.15s;
+    display: flex; align-items: center; justify-content: space-between;
   }
-  .food-save-btn:active { background: rgba(167,139,250,0.25); }
-  .food-saved-msg {
-    font-size: 10px; color: #4ade80; text-align: center;
-    margin-top: 4px; height: 14px;
-    font-weight: 600; letter-spacing: 0.5px;
+  .habits-open-btn:active { background: rgba(167,139,250,0.22); }
+  .habits-dots { display: flex; gap: 4px; align-items: center; }
+  .habits-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(167,139,250,0.3);
+    transition: background 0.2s;
   }
+  .habits-dot.done { background: #4ade80; }
+
+  /* ── HABITS SCREEN ── */
+  #habits { background: var(--bg); flex-direction: column; }
+
+  .habits-header { padding: 52px 24px 16px; }
+
+  .habits-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 1px;
+    color: var(--white); margin-bottom: 2px;
+  }
+
+  .habits-subtitle { font-size: 12px; color: var(--text-muted); font-weight: 300; }
+
+  .habits-body {
+    padding: 0 24px 32px;
+    display: flex; flex-direction: column; gap: 10px;
+    flex: 1;
+  }
+
+  .habit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.2s, background 0.2s;
+    -webkit-user-select: none;
+  }
+  .habit-card:active { transform: scale(0.98); }
+  .habit-card.checked {
+    background: rgba(74,222,128,0.07);
+    border-color: rgba(74,222,128,0.35);
+  }
+
+  .habit-check {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+    background: rgba(255,255,255,0.03);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .habit-card.checked .habit-check {
+    border-color: #4ade80;
+    background: rgba(74,222,128,0.15);
+  }
+
+  .habit-info { flex: 1; }
+  .habit-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .habit-card.checked .habit-name { color: #4ade80; }
+  .habit-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.4; }
+
+  .habit-streak-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .habit-streak {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; color: var(--text-muted);
+    line-height: 1; text-align: center; min-width: 26px;
+  }
+  .habit-streak-label {
+    font-size: 8px; color: var(--text-muted); text-align: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  .habit-week-dots {
+    display: flex; gap: 3px; margin-top: 6px;
+  }
+  .habit-week-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    transition: background 0.2s;
+  }
+  .habit-week-dot.hit { background: #4ade80; }
+  .habit-week-dot.today { outline: 1px solid rgba(255,255,255,0.25); outline-offset: 1px; }
+
+  .habits-summary {
+    padding: 11px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .habits-summary-label { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+  .habits-summary-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; color: var(--white); letter-spacing: 0.5px;
+  }
+  .habits-summary-score.all-done { color: #4ade80; }
 
 </style>
 </head>
@@ -798,7 +891,7 @@
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">Food Tracking</div>
+            <div class="card-title" style="color:var(--white);">Wellness</div>
           </div>
           <div class="card-stats">
             <div class="card-stat-item">
@@ -813,7 +906,7 @@
             <div class="card-stat-divider" style="background:rgba(167,139,250,0.2)"></div>
             <div class="card-stat-item">
               <div class="card-stat-num" id="foodCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
+              <div class="card-stat-label">Perfect Days</div>
             </div>
           </div>
         </div>
@@ -832,23 +925,16 @@
             </div>
             <div class="food-goal-text" id="waterGoalText">0 / 8</div>
           </div>
-          <!-- Calories row -->
-          <div class="food-row">
-            <div class="food-row-label">🔥 Cals</div>
-            <div class="food-counter">
-              <button class="food-btn" onclick="adjustFood('calories',-100)">−</button>
-              <div class="food-val" id="calVal" style="width:52px;font-size:16px;">0</div>
-              <button class="food-btn" onclick="adjustFood('calories',100)">+</button>
-            </div>
-            <div class="food-goal-bar">
-              <div class="food-goal-fill" id="calFill" style="width:0%"></div>
-            </div>
-            <div class="food-goal-text" id="calGoalText">0 / 1900</div>
-          </div>
         </div>
 
-        <button class="food-save-btn" onclick="saveFood()">SAVE TODAY</button>
-        <div class="food-saved-msg" id="foodSavedMsg"></div>
+        <button class="habits-open-btn" onclick="openHabits()">
+          <span>TODAY'S HABITS</span>
+          <div class="habits-dots" id="habitsDots">
+            <div class="habits-dot" id="hdot0"></div>
+            <div class="habits-dot" id="hdot1"></div>
+            <div class="habits-dot" id="hdot2"></div>
+          </div>
+        </button>
       </div>
 
       <div class="routine-card hip" onclick="openRoutine('hip')">
@@ -1030,6 +1116,65 @@
   <button class="done-btn-secondary" onclick="restartRoutine()">REPEAT ROUTINE</button>
 </div>
 
+<!-- ══ HABITS ══ -->
+<div id="habits" class="screen">
+  <div class="habits-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Home</span>
+    </button>
+    <div class="habits-title">TODAY'S HABITS</div>
+    <div class="habits-subtitle" id="habitsDate">—</div>
+  </div>
+  <div class="habits-body">
+
+    <div class="habit-card" id="hcard-exercise" onclick="toggleHabit('exercise')">
+      <div class="habit-check" id="hcheck-exercise">🏃</div>
+      <div class="habit-info">
+        <div class="habit-name">AM Exercise</div>
+        <div class="habit-desc">Complete a morning routine or workout</div>
+        <div class="habit-week-dots" id="hweek-exercise"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-exercise">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habit-card" id="hcard-nosnack" onclick="toggleHabit('nosnack')">
+      <div class="habit-check" id="hcheck-nosnack">🌙</div>
+      <div class="habit-info">
+        <div class="habit-name">No Snacking After 8pm</div>
+        <div class="habit-desc">Kitchen closed after 8:00 pm</div>
+        <div class="habit-week-dots" id="hweek-nosnack"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-nosnack">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habit-card" id="hcard-mindful" onclick="toggleHabit('mindful')">
+      <div class="habit-check" id="hcheck-mindful">🧘</div>
+      <div class="habit-info">
+        <div class="habit-name">No Mindless Eating</div>
+        <div class="habit-desc">Ate intentionally — no screens, no grazing</div>
+        <div class="habit-week-dots" id="hweek-mindful"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-mindful">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habits-summary">
+      <div class="habits-summary-label">Today's score</div>
+      <div class="habits-summary-score" id="habitsSummaryScore">0 / 3</div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 const ROUTINES = {
   hip: {
@@ -1045,6 +1190,7 @@ const ROUTINES = {
         instructions: "Sit with your right forearm resting on your thigh or a table, palm facing down, wrist just past the edge.\n\nUse your left hand to lift your right hand up (wrist extension), then slowly lower it under control over 3–4 seconds. That's the eccentric phase — the slow lowering is the work.\n\n15 reps per set, 3 sets.\nRest briefly between sets."
       },
       {
+        name: "Standing Hip Flexor Stretch",
         detail: "30 sec each side • 2 sets",
         timer: 90,
         instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 30 seconds, then switch sides.\n2x Each Side"
@@ -1546,10 +1692,8 @@ function getWeekKey(offset = 0) {
 
 function getPrevWeekKey() { return getWeekKey(-1); }
 
-/* ── FOOD TRACKING ── */
-const WATER_GOAL = 8;      // glasses
-const CAL_GOAL   = 1900;   // calories
-const CAL_STEP   = 100;    // increment per tap
+/* ── FOOD TRACKING (water only) ── */
+const WATER_GOAL = 8;
 
 function getTodayDateKey() {
   const d = new Date();
@@ -1559,108 +1703,230 @@ function getTodayDateKey() {
 function getFoodToday() {
   try {
     const raw = localStorage.getItem(`food_${getTodayDateKey()}`);
-    return raw ? JSON.parse(raw) : { water: 0, calories: 0, saved: false };
-  } catch(e) { return { water: 0, calories: 0, saved: false }; }
+    return raw ? JSON.parse(raw) : { water: 0 };
+  } catch(e) { return { water: 0 }; }
 }
 
 function saveFoodToday(data) {
-  try {
-    localStorage.setItem(`food_${getTodayDateKey()}`, JSON.stringify(data));
-  } catch(e) {}
+  try { localStorage.setItem(`food_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
 }
 
 function adjustFood(type, delta) {
   const today = getFoodToday();
-  if (type === 'water') {
-    today.water = Math.max(0, Math.min(20, today.water + delta));
-  } else {
-    today.calories = Math.max(0, today.calories + delta);
-  }
+  if (type === 'water') today.water = Math.max(0, Math.min(20, today.water + delta));
   saveFoodToday(today);
   renderFoodInputs(today);
-}
-
-function saveFood() {
-  const today = getFoodToday();
-  today.saved = true;
-  saveFoodToday(today);
-
-  // Check if both goals met — increment goal-met counters
-  const goalMet = today.water >= WATER_GOAL && today.calories >= CAL_GOAL && today.calories <= CAL_GOAL * 1.15;
-  if (goalMet) {
-    const dateKey = getTodayDateKey();
-    const metKey = `food_met_${dateKey}`;
-    // Only count once per day
-    if (!localStorage.getItem(metKey)) {
-      localStorage.setItem(metKey, '1');
-      const weekKey = getWeekKey();
-      const wk = `food_met_wk_${weekKey}`;
-      const total = `food_met_total`;
-      localStorage.setItem(wk,    parseInt(localStorage.getItem(wk)    || '0') + 1);
-      localStorage.setItem(total, parseInt(localStorage.getItem(total) || '0') + 1);
-    }
-  }
-
-  loadFoodStats();
-  renderFoodInputs(today);
-
-  // Flash confirmation
-  const msg = document.getElementById('foodSavedMsg');
-  msg.textContent = goalMet ? '✓ BOTH GOALS MET TODAY!' : '✓ SAVED';
-  setTimeout(() => { msg.textContent = ''; }, 2500);
 }
 
 function renderFoodInputs(data) {
   try {
     const waterPct = Math.min(100, (data.water / WATER_GOAL) * 100);
-    const calPct   = Math.min(100, (data.calories / CAL_GOAL) * 100);
     const waterMet = data.water >= WATER_GOAL;
-    const calMet   = data.calories >= CAL_GOAL && data.calories <= CAL_GOAL * 1.15;
-
     document.getElementById('waterVal').textContent = data.water;
-    document.getElementById('calVal').textContent   = data.calories >= 1000
-      ? (data.calories / 1000).toFixed(1) + 'k'
-      : data.calories;
-
     const wFill = document.getElementById('waterFill');
     wFill.style.width = waterPct + '%';
     wFill.className = 'food-goal-fill' + (waterMet ? ' goal-met' : '');
-
-    const cFill = document.getElementById('calFill');
-    cFill.style.width = calPct + '%';
-    cFill.className = 'food-goal-fill' + (calMet ? ' goal-met' : '');
-
     const wText = document.getElementById('waterGoalText');
     wText.textContent = `${data.water} / ${WATER_GOAL}`;
     wText.className = 'food-goal-text' + (waterMet ? ' goal-met' : '');
-
-    const cText = document.getElementById('calGoalText');
-    cText.textContent = `${data.calories} / ${CAL_GOAL}`;
-    cText.className = 'food-goal-text' + (calMet ? ' goal-met' : '');
   } catch(e) {}
 }
 
-function loadFoodStats() {
+// Initialize water on load
+(function initFood() { renderFoodInputs(getFoodToday()); })();
+
+/* ── HABITS TRACKING ── */
+const HABITS = ['exercise', 'nosnack', 'mindful'];
+
+const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘' };
+
+function getHabitsToday() {
+  try {
+    const raw = localStorage.getItem(`habits_${getTodayDateKey()}`);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+
+function saveHabitsToday(data) {
+  try { localStorage.setItem(`habits_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
+}
+
+function getDayKey(daysAgo) {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getHabitStreak(habitId) {
+  let streak = 0;
+  // Walk back from yesterday (today might not be done yet)
+  for (let i = 1; i <= 365; i++) {
+    const key = getDayKey(i);
+    try {
+      const raw = localStorage.getItem(`habits_${key}`);
+      const data = raw ? JSON.parse(raw) : {};
+      if (data[habitId]) streak++;
+      else break;
+    } catch(e) { break; }
+  }
+  return streak;
+}
+
+function getHabitWeekHistory(habitId) {
+  // Returns array of 7 bools — Mon to Sun of current week, with today included
+  const result = [];
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  // Build Mon-Sun array (7 days), where index 0=Mon
+  for (let i = 0; i < 7; i++) {
+    // i=0 is Monday: offset from Sunday = 1
+    const offset = ((dayOfWeek === 0 ? 7 : dayOfWeek) - 1) - i;
+    const d = new Date(today);
+    d.setDate(today.getDate() - offset);
+    const key = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    try {
+      const raw = localStorage.getItem(`habits_${key}`);
+      const data = raw ? JSON.parse(raw) : {};
+      result.push({ done: !!data[habitId], isToday: offset === 0 });
+    } catch(e) { result.push({ done: false, isToday: false }); }
+  }
+  return result;
+}
+
+function toggleHabit(habitId) {
+  const today = getHabitsToday();
+  today[habitId] = !today[habitId];
+  saveHabitsToday(today);
+  renderHabitsScreen();
+  renderHabitsDots();
+  loadHabitsStats();
+}
+
+// Called when a routine completes — auto-checks AM Exercise
+function autoCheckExercise() {
+  const today = getHabitsToday();
+  if (!today.exercise) {
+    today.exercise = true;
+    saveHabitsToday(today);
+    renderHabitsDots();
+  }
+}
+
+function renderHabitsDots() {
+  try {
+    const today = getHabitsToday();
+    HABITS.forEach((id, i) => {
+      const dot = document.getElementById(`hdot${i}`);
+      if (dot) dot.className = 'habits-dot' + (today[id] ? ' done' : '');
+    });
+  } catch(e) {}
+}
+
+function renderHabitsScreen() {
+  try {
+    const today = getHabitsToday();
+    let doneCount = 0;
+
+    HABITS.forEach(id => {
+      const checked = !!today[id];
+      if (checked) doneCount++;
+
+      const card = document.getElementById(`hcard-${id}`);
+      const check = document.getElementById(`hcheck-${id}`);
+      const streakEl = document.getElementById(`hstreak-${id}`);
+      const weekEl = document.getElementById(`hweek-${id}`);
+
+      if (card) card.className = 'habit-card' + (checked ? ' checked' : '');
+      if (check) check.textContent = checked ? '✓' : HABIT_ICONS[id];
+
+      // Streak: if today is done, show streak+1 (today counts)
+      const streak = getHabitStreak(id) + (checked ? 1 : 0);
+      if (streakEl) streakEl.textContent = streak;
+
+      // Week history dots
+      if (weekEl) {
+        const history = getHabitWeekHistory(id);
+        weekEl.innerHTML = history.map(day =>
+          `<div class="habit-week-dot${day.done ? ' hit' : ''}${day.isToday ? ' today' : ''}"></div>`
+        ).join('');
+      }
+    });
+
+    // Summary score
+    const score = document.getElementById('habitsSummaryScore');
+    if (score) {
+      score.textContent = `${doneCount} / 3`;
+      score.className = 'habits-summary-score' + (doneCount === 3 ? ' all-done' : '');
+    }
+
+    // Date label
+    const dateEl = document.getElementById('habitsDate');
+    if (dateEl) {
+      const d = new Date();
+      dateEl.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    }
+
+    renderHabitsDots();
+  } catch(e) {}
+}
+
+function openHabits() {
+  renderHabitsScreen();
+  showScreen('habits');
+}
+
+function loadHabitsStats() {
   try {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
-    const week  = parseInt(localStorage.getItem(`food_met_wk_${weekKey}`) || '0');
-    const prev  = parseInt(localStorage.getItem(`food_met_wk_${prevKey}`) || '0');
-    const total = parseInt(localStorage.getItem('food_met_total') || '0');
-    document.getElementById('foodCountWeek').textContent  = week;
-    document.getElementById('foodCountPrev').textContent  = prev;
-    document.getElementById('foodCountTotal').textContent = total;
+
+    // Count days this week / last week where all 3 habits were done
+    let thisWeekPerfect = 0, lastWeekPerfect = 0, allTimePerfect = 0;
+
+    // This week: walk back up to 7 days
+    const today = new Date();
+    const dow = today.getDay(); // 0=Sun
+    const daysIntoWeek = dow === 0 ? 0 : dow; // Mon-based: days since Sunday
+
+    for (let i = 0; i <= 6; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        const data = raw ? JSON.parse(raw) : {};
+        if (HABITS.every(id => !!data[id])) thisWeekPerfect++;
+      } catch(e) {}
+    }
+
+    for (let i = 7; i <= 13; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        const data = raw ? JSON.parse(raw) : {};
+        if (HABITS.every(id => !!data[id])) lastWeekPerfect++;
+      } catch(e) {}
+    }
+
+    // All time: scan stored habits_ keys
+    for (let i = 0; i <= 365; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        if (!raw) continue;
+        const data = JSON.parse(raw);
+        if (HABITS.every(id => !!data[id])) allTimePerfect++;
+      } catch(e) {}
+    }
+
+    document.getElementById('foodCountWeek').textContent  = thisWeekPerfect;
+    document.getElementById('foodCountPrev').textContent  = lastWeekPerfect;
+    document.getElementById('foodCountTotal').textContent = allTimePerfect;
   } catch(e) {}
 }
 
-// Initialize food tracking on load
-(function initFood() {
-  const today = getFoodToday();
-  renderFoodInputs(today);
-  loadFoodStats();
-})();
+// Initialize on load
+loadHabitsStats();
 
-/* ── END FOOD TRACKING ── */
+/* ── END HABITS TRACKING ── */
 
 function loadStats() {
   try {
@@ -1698,6 +1964,7 @@ function showDone() {
 
   incrementCompletion(currentRoutine);
   updateStreak();
+  autoCheckExercise();
   stopWakeLock();
 
   document.getElementById('doneIcon').style.background = c === 'hip' ? 'rgba(232,115,74,0.15)' : 'rgba(74,158,122,0.15)';
