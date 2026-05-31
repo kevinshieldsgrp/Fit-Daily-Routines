@@ -99,23 +99,23 @@
   /* ── STREAK GRID ── */
   .streak-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
     margin-bottom: 0;
   }
 
   .streak-pill {
     border-radius: 10px;
-    padding: 9px 12px;
+    padding: 8px 8px;
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 6px;
     position: relative;
     overflow: hidden;
   }
 
   .streak-pill-icon {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1;
     flex-shrink: 0;
   }
@@ -125,12 +125,13 @@
     flex-direction: column;
     gap: 1px;
     min-width: 0;
+    flex: 1;
   }
 
   .streak-pill-label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     opacity: 0.7;
     white-space: nowrap;
@@ -140,15 +141,8 @@
 
   .streak-pill-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 1;
-    letter-spacing: 0.5px;
-  }
-
-  .streak-pill-best {
-    font-size: 9px;
-    font-weight: 400;
-    opacity: 0.55;
     letter-spacing: 0.5px;
   }
 
@@ -180,6 +174,20 @@
     color: var(--food-light);
   }
   .streak-pill.s-habits .streak-pill-count { color: var(--food-primary); }
+
+  .streak-pill.s-walk {
+    background: rgba(251,191,36,0.08);
+    border: 1px solid rgba(251,191,36,0.2);
+    color: #fde68a;
+  }
+  .streak-pill.s-walk .streak-pill-count { color: #fbbf24; }
+
+  .streak-pill.s-duo {
+    background: rgba(198,11,30,0.08);
+    border: 1px solid rgba(198,11,30,0.25);
+    color: #ffc400;
+  }
+  .streak-pill.s-duo .streak-pill-count { color: #ffc400; }
 
   /* Dim pill when streak is zero */
   .streak-pill.zero .streak-pill-count { opacity: 0.35; }
@@ -235,7 +243,7 @@
 
   .card-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     line-height: 1;
     color: var(--white);
     margin-bottom: 5px;
@@ -666,27 +674,9 @@
 
   /* ── STRAVA PANEL ── */
   .strava-panel {
-    border-radius: var(--radius);
-    background: #13131a;
-    border: 1px solid #2a2a3a;
     overflow: hidden;
   }
-  .strava-header {
-    display: flex; align-items: center;
-    justify-content: space-between;
-    padding: 10px 14px;
-    border-bottom: 1px solid #2a2a3a;
-  }
-  .strava-header-left { display: flex; align-items: center; gap: 8px; }
-  .strava-logo {
-    width: 18px; height: 18px; background: var(--strava-primary);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .strava-title {
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 2px; text-transform: uppercase; color: var(--strava-primary);
-  }
-  .strava-connect-btn, .strava-disconnect-btn { display: none; }
+  .strava-header { display: none; }
   .strava-activity {
     display: flex; align-items: center;
     padding: 8px 14px; gap: 10px;
@@ -694,8 +684,8 @@
     transition: background 0.15s ease;
     -webkit-user-select: none;
   }
-  .strava-activity:active { background: rgba(255,255,255,0.04); }
-  .strava-activity + .strava-activity { border-top: 1px solid rgba(42,42,58,0.6); }
+  .strava-activity:active { background: rgba(26,86,219,0.08); }
+  .strava-activity + .strava-activity { border-top: 1px solid rgba(26,86,219,0.1); }
   .activity-icon {
     width: 28px; height: 28px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
@@ -752,6 +742,30 @@
   .food .card-stats { border-top-color: rgba(167,139,250,0.15); }
   .food .card-stat-divider { background: rgba(167,139,250,0.15); }
   .food .card-arrow { background: rgba(167,139,250,0.2); color: var(--food-primary); }
+
+  /* Walk card — yellow/amber */
+  .routine-card.walk {
+    background: linear-gradient(135deg, #1a1600 0%, #241e00 100%);
+    border: 1px solid rgba(251,191,36,0.25);
+    box-shadow: 0 4px 30px rgba(251,191,36,0.08);
+    cursor: pointer;
+  }
+  .walk .card-accent { background: #fbbf24; }
+  .walk .card-stat-num { color: var(--white); }
+  .walk .card-stat-divider { background: rgba(251,191,36,0.15); }
+  .walk .card-arrow { background: rgba(251,191,36,0.2); color: #fbbf24; }
+
+  /* Duo card — Spanish flag pink/red */
+  .routine-card.duo {
+    background: linear-gradient(135deg, #1e0a10 0%, #2a0e16 100%);
+    border: 1px solid rgba(236,72,153,0.25);
+    box-shadow: 0 4px 30px rgba(236,72,153,0.08);
+    cursor: pointer;
+  }
+  .duo .card-accent { background: #ec4899; }
+  .duo .card-stat-num { color: var(--white); }
+  .duo .card-stat-divider { background: rgba(236,72,153,0.15); }
+  .duo .card-arrow { background: rgba(236,72,153,0.2); color: #ec4899; }
 
   /* food-btn used in water card */
   .food-inputs {
@@ -917,33 +931,48 @@
       <div class="streak-pill s-hip" id="spill-hip">
         <div class="streak-pill-icon">💪</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Hip &amp; Quad</div>
-          <div class="streak-pill-count" id="spill-hip-count">0</div>
-          <div class="streak-pill-best" id="spill-hip-best">Best: 0</div>
+          <div class="streak-pill-label">Hip &amp; Leg</div>
+          <div class="streak-pill-count" id="spill-hip-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-golf" id="spill-golf">
         <div class="streak-pill-icon">⛳</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Golf</div>
-          <div class="streak-pill-count" id="spill-golf-count">0</div>
-          <div class="streak-pill-best" id="spill-golf-best">Best: 0</div>
+          <div class="streak-pill-label">Golf Flex</div>
+          <div class="streak-pill-count" id="spill-golf-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
+      <div class="streak-pill s-walk" id="spill-walk">
+        <div class="streak-pill-icon">🚶</div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Walk</div>
+          <div class="streak-pill-count" id="spill-walk-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-water" id="spill-water">
         <div class="streak-pill-icon">💧</div>
         <div class="streak-pill-body">
           <div class="streak-pill-label">Water</div>
-          <div class="streak-pill-count" id="spill-water-count">0</div>
-          <div class="streak-pill-best" id="spill-water-best">Best: 0</div>
+          <div class="streak-pill-count" id="spill-water-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-habits" id="spill-habits">
         <div class="streak-pill-icon">🌟</div>
         <div class="streak-pill-body">
           <div class="streak-pill-label">Habits</div>
-          <div class="streak-pill-count" id="spill-habits-count">0</div>
-          <div class="streak-pill-best" id="spill-habits-best">Best: 0</div>
+          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
+      <div class="streak-pill s-duo" id="spill-duo">
+        <div class="streak-pill-icon">
+          <svg width="18" height="13" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg" style="border-radius:2px; display:block;">
+            <rect width="20" height="14" fill="#c60b1e"/>
+            <rect y="3.5" width="20" height="7" fill="#ffc400"/>
+          </svg>
+        </div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Español</div>
+          <div class="streak-pill-count" id="spill-duo-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
     </div>
@@ -951,82 +980,12 @@
     <div class="divider"></div>
     <div class="routine-cards">
 
-      <!-- ── WATER CARD ── -->
-      <div class="routine-card water">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">💧 Water</div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="waterStatToday">0</div>
-              <div class="card-stat-label">Today</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="waterStatGoal">8</div>
-              <div class="card-stat-label">Goal</div>
-            </div>
-          </div>
-        </div>
-        <div class="food-inputs" style="margin-top:10px;">
-          <div class="food-row">
-            <div class="food-counter" style="border-color:rgba(56,189,248,0.2);">
-              <button class="food-btn" onclick="adjustFood('water',-1)">−</button>
-              <div class="food-val" id="waterVal">0</div>
-              <button class="food-btn" onclick="adjustFood('water',1)">+</button>
-            </div>
-            <div class="food-goal-bar">
-              <div class="food-goal-fill" id="waterFill" style="width:0%; background:var(--water-primary);"></div>
-            </div>
-            <div class="food-goal-text" id="waterGoalText">0 / 8</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── HABITS CARD ── -->
-      <div class="routine-card food" onclick="openHabits()">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">Today's Habits</div>
-            <div class="card-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="foodCountTotal">0</div>
-              <div class="card-stat-label">Perfect Days</div>
-            </div>
-          </div>
-        </div>
-        <div style="margin-top:10px; display:flex; align-items:center; justify-content:space-between;">
-          <div style="font-size:11px; color:var(--text-muted); font-weight:300;">Tap to log today's habits</div>
-          <div class="habits-dots" id="habitsDots">
-            <div class="habits-dot" id="hdot0"></div>
-            <div class="habits-dot" id="hdot1"></div>
-            <div class="habits-dot" id="hdot2"></div>
-          </div>
-        </div>
-      </div>
-
+      <!-- ── HIP & LEG CARD ── -->
       <div class="routine-card hip" onclick="openRoutine('hip')">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
-            <div class="card-title">Hip &amp; Quad</div>
+            <div class="card-title">Hip &amp; Leg</div>
             <div class="card-arrow">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
@@ -1050,11 +1009,12 @@
         </div>
       </div>
 
+      <!-- ── GOLF CARD ── -->
       <div class="routine-card golf" onclick="openRoutine('golf')">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
-            <div class="card-title">Golf Mobility</div>
+            <div class="card-title">Golf Flex</div>
             <div class="card-arrow">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
@@ -1078,8 +1038,131 @@
         </div>
       </div>
 
+      <!-- ── WALK CARD ── -->
+      <div class="routine-card walk">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <div class="card-title" style="color:var(--white);">🚶 Walk</div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <div class="card-stats">
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="walkCountWeek">0</div>
+              <div class="card-stat-label">This Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="walkCountPrev">0</div>
+              <div class="card-stat-label">Last Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="walkCountTotal">0</div>
+              <div class="card-stat-label">All Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── WATER CARD ── -->
+      <div class="routine-card water">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group" style="flex-shrink:0;">
+            <div class="card-title" style="color:var(--white);">💧 Water</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; flex:1; justify-content:flex-end;">
+            <div class="food-counter" style="border-color:rgba(56,189,248,0.2);">
+              <button class="food-btn" onclick="adjustFood('water',-1)">−</button>
+              <div class="food-val" id="waterVal">0</div>
+              <button class="food-btn" onclick="adjustFood('water',1)">+</button>
+            </div>
+            <div class="food-goal-bar" style="width:80px; flex:none;">
+              <div class="food-goal-fill" id="waterFill" style="width:0%; background:var(--water-primary);"></div>
+            </div>
+            <div class="food-goal-text" id="waterGoalText" style="width:36px;">0 / 8</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HABITS CARD ── -->
+      <div class="routine-card food" onclick="openHabits()">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <div class="card-title" style="color:var(--white);">Habits</div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+            <div class="habits-dots" id="habitsDots" style="margin:0;">
+              <div class="habits-dot" id="hdot0"></div>
+              <div class="habits-dot" id="hdot1"></div>
+              <div class="habits-dot" id="hdot2"></div>
+              <div class="habits-dot" id="hdot3"></div>
+            </div>
+            <div class="card-stats">
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountWeek">0</div>
+                <div class="card-stat-label">This Wk</div>
+              </div>
+              <div class="card-stat-divider"></div>
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountPrev">0</div>
+                <div class="card-stat-label">Last Wk</div>
+              </div>
+              <div class="card-stat-divider"></div>
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountTotal">0</div>
+                <div class="card-stat-label">Perfect Days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DUO (SPANISH) CARD ── -->
+      <div class="routine-card duo">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <div class="card-title" style="color:var(--white); display:flex; align-items:center; gap:7px;">
+              <!-- Spanish flag SVG -->
+              <svg width="20" height="14" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg" style="border-radius:2px; flex-shrink:0;">
+                <rect width="20" height="14" fill="#c60b1e"/>
+                <rect y="3.5" width="20" height="7" fill="#ffc400"/>
+              </svg>
+              <span>Español</span>
+            </div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <div class="card-stats">
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="duoCountWeek">0</div>
+              <div class="card-stat-label">This Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="duoCountPrev">0</div>
+              <div class="card-stat-label">Last Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="duoCountTotal">0</div>
+              <div class="card-stat-label">All Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Strava Activities Card -->
-      <div class="routine-card strava">
+      <div class="routine-card strava" style="cursor:default;">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
@@ -1105,25 +1188,12 @@
             </div>
           </div>
         </div>
-      </div>
-
-    </div>
-
-    <!-- ── STRAVA ACTIVITY LIST ── -->
-    <div style="margin-top: 10px;">
-      <div class="strava-panel" id="stravaPanel">
-        <div class="strava-header">
-          <div class="strava-header-left">
-            <div class="strava-logo">
-              <svg viewBox="0 0 24 24" fill="white"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
-            </div>
-            <div class="strava-title">Recent Activities</div>
-          </div>
-        </div>
-        <div id="stravaBody">
+        <!-- Activity list inline -->
+        <div id="stravaBody" style="margin-top:8px; margin-left:-14px; margin-right:-14px; margin-bottom:-10px; border-top:1px solid rgba(26,86,219,0.15);">
           <div class="strava-loading">Loading...</div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -1252,9 +1322,22 @@
       </div>
     </div>
 
+    <div class="habit-card" id="hcard-golf" onclick="toggleHabit('golf')">
+      <div class="habit-check" id="hcheck-golf">⛳</div>
+      <div class="habit-info">
+        <div class="habit-name">Golf Practice</div>
+        <div class="habit-desc">Practiced today — range, short game, or drills</div>
+        <div class="habit-week-dots" id="hweek-golf"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-golf">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
     <div class="habits-summary">
       <div class="habits-summary-label">Today's score</div>
-      <div class="habits-summary-score" id="habitsSummaryScore">0 / 3</div>
+      <div class="habits-summary-score" id="habitsSummaryScore">0 / 4</div>
     </div>
 
   </div>
@@ -1271,50 +1354,56 @@ const ROUTINES = {
       {
         name: "Eccentric Wrist Extensions",
         detail: "15 reps • 3 sets • Rt wrist",
-        timer: 120,
+        timer: 70,
         instructions: "Sit with your right forearm resting on your thigh or a table, palm facing down, wrist just past the edge.\n\nUse your left hand to lift your right hand up (wrist extension), then slowly lower it under control over 3–4 seconds. That's the eccentric phase — the slow lowering is the work.\n\n15 reps per set, 3 sets.\nRest briefly between sets."
       },
       {
         name: "Standing Hip Flexor Stretch",
         detail: "30 sec each side • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 30 seconds, then switch sides.\n2x Each Side"
       },
       {
         name: "Single-Leg Squat",
         detail: "8 reps each leg • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward. Slowly lower into a single-leg squat — 60–70° of knee bend. Drive through the left heel to stand. Keep left knee tracking over your second toe.\n\n8 reps, 2x each side"
       },
       {
         name: "Single-Leg Glute Bridge",
         detail: "15 reps each leg • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "On your back, knees bent, feet flat. Extend your right leg straight. Drive through your left heel, squeeze your left glute, and bridge up until your body forms a straight line.\n\nHold 2 seconds at the top, lower slowly.\nComplete 15 reps 2x each side"
       },
       {
         name: "Side Plank with Clamshells",
         detail: "15 reps per side • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Lie on your left side, elbow under shoulder, hips stacked. Lift into a side plank. With your top knee bent and feet together, rotate your right knee open toward the ceiling.\n\n15 controlled reps\n2x Each Side"
       },
       {
         name: "Hip Hinge to Squat",
         detail: "10 reps • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Stand feet shoulder-width apart. Push your hips back into a hip hinge — slight knee bend, flat back, hamstrings loaded. Transition smoothly into a full squat, dropping hips down between your heels. Drive through both heels to stand.\n\nPause 1 second at the bottom\n10 reps controlled, 2x"
       },
       {
-        name: "Staggered Stance RDL",
+        name: "Single Leg RDL",
         detail: "10 reps each side • 2 sets",
-        timer: 90,
-        instructions: "Stand with feet hip-width apart, then stagger your left foot back so your toe is even with your right heel. Shift most of your weight to your right (front) leg.\n\nHinge at the hips, sending them back while keeping your back flat. Lower until you feel a strong hamstring stretch in the front leg. Drive through the front heel to return to standing.\n\n10 reps on the right leg, then switch stance and do 10 on the left.\n2 sets each side."
+        timer: 70,
+        instructions: "Stand tall, feet hip-width apart. Shift your weight onto your right foot, soft bend in the knee. Hinge at the hips, sending them back as your left leg extends straight behind you — keep your back flat and hips square to the floor. Lower until you feel a strong hamstring stretch in the standing leg, then drive through the right heel to return to standing.\n\nControl the movement — don't let your hips rotate open.\n10 reps on the right, then switch to the left.\n2 sets each side."
       },
       {
         name: "Hip 3-Way",
         detail: "15 reps each side • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Stand on a folded towel with your left foot (adds instability and engages the hip). Right foot is the working leg.\n\nTap right foot forward, return to middle.\nTap right foot out to the side, return to middle.\nStep right foot back into a curtsy lunge (crossing behind and to the left), return to middle.\n\nThat's 1 rep. Complete 15 reps on the right, then switch — stand on right foot, work the left.\n2 sets each side."
+      },
+      {
+        name: "Lateral Band Hip Slide",
+        detail: "15 reps each side • 2 sets",
+        timer: 70,
+        instructions: "Place a resistance band just above your knees. Stand with feet hip-width apart, slight bend in both knees, hips back in an athletic stance.\n\nSlide your left foot out to the side — pushing against the band — then bring it back under control. Keep your hips level and your standing knee tracking over your second toe throughout. Don't let the band snap your knee inward on the return.\n\nComplete 15 reps to the left, then 15 to the right.\n2 sets each side."
       },
       {
         name: "Core",
@@ -1339,62 +1428,62 @@ const ROUTINES = {
       {
         name: "Eccentric Wrist Extensions",
         detail: "15 reps • 3 sets • Rt wrist",
-        timer: 120,
+        timer: 70,
         instructions: "Sit with your right forearm resting on your thigh or a table, palm facing down, wrist just past the edge.\n\nUse your left hand to lift your right hand up (wrist extension), then slowly lower it under control over 3–4 seconds. That's the eccentric phase — the slow lowering is the work.\n\n15 reps per set, 3 sets.\nRest briefly between sets."
       },
       {
         name: "Thread the Needle",
         detail: "30 sec each side • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "On all fours, place your right hand behind your head. Rotate your elbow down toward your left hand, then open it toward the ceiling, following with your eyes. Lower body stays still. Hold 30 sec on the right, switch to left. Rest briefly, repeat set 2.",
         swingFocus: "Unlocks thoracic rotation for both backswing and follow-through. A restricted upper back is one of the most common limiters of turn depth."
       },
       {
         name: "Supine Spinal Twist",
         detail: "45 sec each side",
-        timer: 90,
+        timer: 70,
         instructions: "Lie on your back. Pull right knee to chest, guide it across your body left while extending your right arm out. Upper back stays flat. Hold 45 sec right side, breathing into the stretch. Switch to left.",
         swingFocus: "Decompresses the spine and locks in rotational range built during the session. Consistent finish here accelerates long-term mobility gains."
       },
       {
         name: "Hip 90/90 Rotations",
         detail: "10 reps each direction • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Sit with both knees bent at 90° — one shin forward, one to the side. Torso tall, rotate hips to swap shin positions. Each full rotation = 1 rep. Do 10 reps each direction. Rest 20 sec, repeat set 2.",
         swingFocus: "Builds hip internal and external rotation needed to clear the hips through impact without early extension or sliding."
       },
       {
         name: "Squat to Thoracic Rotation",
         detail: "10 reps each side",
-        timer: 90,
+        timer: 70,
         instructions: "Squat down, heels on ground, arms forward. Plant left hand, rotate right arm up to the ceiling, eyes follow. Return, tap ground, rotate left arm up. That's 1 rep each side. Do 10 per side. Stay in squat throughout.",
         swingFocus: "Combines hip mobility and upper body rotation under load — trains the dissociation between lower and upper body that creates lag and clubhead speed."
       },
       {
         name: "World's Greatest Stretch",
         detail: "5 reps each side",
-        timer: 90,
+        timer: 70,
         instructions: "Step right foot into a deep lunge. Plant right hand inside right foot. Reach left arm to the ceiling, rotating chest open — hold 2 sec at the top, return. That's 1 rep. Do 5 reps right, then repeat on the left. Move deliberately.",
         swingFocus: "Addresses hip flexor, thoracic rotation, hamstring, and groin simultaneously — the full sequence of tissues loaded during the downswing transition."
       },
       {
         name: "Shoulder Cross-Body & Lat Reach",
         detail: "10 reps each side • 2 sets",
-        timer: 90,
+        timer: 70,
         instructions: "Shoulder: pull right arm across chest with left hand, hold 3 sec. Lat: reach right arm overhead and lean left. Alternate 10 reps on the right, repeat on left. Rest, do set 2.",
         swingFocus: "Lat tightness is a hidden cause of a bent lead arm and disconnected backswing. This directly improves the ability to keep the left arm extended and connected."
       },
       {
         name: "Weighted Club Shoulder Rotation",
         detail: "10 reps • Weighted club",
-        timer: 90,
+        timer: 70,
         instructions: "Weighted club across shoulders, arms draped. Golf stance. Rotate fully to the right (backswing) — pause 2 sec. Rotate fully left (follow-through) — pause 2 sec. That's 1 rep. Do 10 slow, full-range reps.",
         swingFocus: "The added weight deepens the stretch at both ends of the arc and builds rotational strength in the exact pattern of your swing. Grooves full-range turn under load."
       },
       {
         name: "Slow-Motion Full Swing",
         detail: "8 reps • Weighted club",
-        timer: 90,
+        timer: 70,
         instructions: "Address position with weighted club. Full backswing over 4 counts — pause 2 sec at the top. Swing through to full follow-through over 4 counts — pause 2 sec, chest facing target. That's 1 rep. Do 8 reps.",
         swingFocus: "The most swing-specific drill in the routine. Trains position awareness, maximum range, and the feel of a complete turn and follow-through with resistance."
       },
@@ -1427,6 +1516,8 @@ function goHome() {
   timerRunning = false;
   stopWakeLock();
   showScreen('home');
+  renderHabitsDots();
+  renderFoodInputs(getFoodToday());
 }
 
 function showScreen(id) {
@@ -1819,9 +1910,6 @@ function renderFoodInputs(data) {
     const wText = document.getElementById('waterGoalText');
     wText.textContent = `${data.water} / ${WATER_GOAL}`;
     wText.className = 'food-goal-text' + (waterMet ? ' goal-met' : '');
-    // Sync the water tile stat
-    const statEl = document.getElementById('waterStatToday');
-    if (statEl) statEl.textContent = data.water;
     // Update water streak when goal first reached today
     if (waterMet) updateCategoryStreak('streak_water');
   } catch(e) {}
@@ -1831,9 +1919,9 @@ function renderFoodInputs(data) {
 (function initFood() { renderFoodInputs(getFoodToday()); })();
 
 /* ── HABITS TRACKING ── */
-const HABITS = ['exercise', 'nosnack', 'mindful'];
+const HABITS = ['exercise', 'nosnack', 'mindful', 'golf'];
 
-const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘' };
+const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘', golf: '⛳' };
 
 function getHabitsToday() {
   try {
@@ -1954,8 +2042,8 @@ function renderHabitsScreen() {
     // Summary score
     const score = document.getElementById('habitsSummaryScore');
     if (score) {
-      score.textContent = `${doneCount} / 3`;
-      score.className = 'habits-summary-score' + (doneCount === 3 ? ' all-done' : '');
+      score.textContent = `${doneCount} / 4`;
+      score.className = 'habits-summary-score' + (doneCount === 4 ? ' all-done' : '');
     }
 
     // Date label
@@ -1971,6 +2059,7 @@ function renderHabitsScreen() {
 
 function openHabits() {
   renderHabitsScreen();
+  renderHabitsDots();
   showScreen('habits');
 }
 
@@ -2138,19 +2227,17 @@ function renderStreakGrid() {
     const categories = [
       { id: 'hip',    key: 'streak_hip' },
       { id: 'golf',   key: 'streak_golf' },
+      { id: 'walk',   key: 'streak_walk' },
       { id: 'water',  key: 'streak_water' },
       { id: 'habits', key: 'streak_habits' },
+      { id: 'duo',    key: 'streak_duo' },
     ];
     categories.forEach(({ id, key }) => {
       const { current, best } = readCategoryStreak(key);
-      const pill  = document.getElementById(`spill-${id}`);
-      const cEl   = document.getElementById(`spill-${id}-count`);
-      const bEl   = document.getElementById(`spill-${id}-best`);
-      if (cEl)   cEl.textContent  = current;
-      if (bEl)   bEl.textContent  = `Best: ${best}`;
-      if (pill) {
-        pill.classList.toggle('zero', current === 0);
-      }
+      const pill = document.getElementById(`spill-${id}`);
+      const cEl  = document.getElementById(`spill-${id}-count`);
+      if (cEl) cEl.innerHTML = `${current}<span style="font-size:11px;opacity:0.45;"> /${best}</span>`;
+      if (pill) pill.classList.toggle('zero', current === 0);
     });
   } catch(e) {}
 }
@@ -2262,7 +2349,7 @@ async function loadStravaActivities() {
   }
   document.getElementById('stravaBody').innerHTML = `<div class="strava-loading">Loading...</div>`;
   try {
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=5', {
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=20', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 401) {
@@ -2291,6 +2378,7 @@ function updateStravaStats(activities) {
     const prevStart = new Date(sundayStart);
     prevStart.setDate(prevStart.getDate() - 7);
 
+    // Strava totals (all activity types)
     const thisWeek = activities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
     const lastWeek = activities.filter(a => {
       const d = new Date(a.start_date_local);
@@ -2306,6 +2394,38 @@ function updateStravaStats(activities) {
     document.getElementById('stravaCountWeek').textContent  = thisWeek;
     document.getElementById('stravaCountPrev').textContent  = lastWeek;
     document.getElementById('stravaCountTotal').textContent = displayTotal;
+
+    // Walk stats — Walk and Hike activity types count
+    const WALK_TYPES = ['Walk', 'Hike', 'VirtualWalk'];
+    const walkActivities = activities.filter(a => WALK_TYPES.includes(a.type) || WALK_TYPES.includes(a.sport_type));
+
+    const walkThisWeek = walkActivities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
+    const walkLastWeek = walkActivities.filter(a => {
+      const d = new Date(a.start_date_local);
+      return d >= prevStart && d < sundayStart;
+    }).length;
+    const storedWalkTotal = parseInt(localStorage.getItem('completions_walk') || '0');
+    const walkTotal = Math.max(storedWalkTotal, walkActivities.length);
+    localStorage.setItem('completions_walk', walkTotal);
+    localStorage.setItem(`completions_walk_${weekKey}`, walkThisWeek);
+    localStorage.setItem(`completions_walk_${prevKey}`, walkLastWeek);
+
+    const wkEl = document.getElementById('walkCountWeek');
+    const wpEl = document.getElementById('walkCountPrev');
+    const wtEl = document.getElementById('walkCountTotal');
+    if (wkEl) wkEl.textContent = walkThisWeek;
+    if (wpEl) wpEl.textContent = walkLastWeek;
+    if (wtEl) wtEl.textContent = walkTotal;
+
+    // Update Walk streak for any walk done today
+    const todayKey = getTodayKey();
+    const walkedToday = walkActivities.some(a => {
+      const d = new Date(a.start_date_local);
+      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      return dk === todayKey;
+    });
+    if (walkedToday) updateCategoryStreak('streak_walk');
+
   } catch(e) {}
 }
 
@@ -2358,7 +2478,88 @@ function renderStravaError() {
   await loadStravaActivities();
 })();
 
-function restartRoutine() {
+/* ── DUOLINGO ── */
+const DUOLINGO_USERNAME = 'Kevin229798';
+
+async function loadDuolingo() {
+  try {
+    const res = await fetch(`${STRAVA_LAMBDA}?username=${DUOLINGO_USERNAME}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.error) return;
+
+    // Update streak pill and card stats
+    const weekKey = getWeekKey();
+    const prevKey = getPrevWeekKey();
+
+    // Persist all-time streak high (Duolingo streak is the source of truth)
+    const storedBest = parseInt(localStorage.getItem('duo_streak_best') || '0');
+    const best = Math.max(storedBest, data.streak);
+    localStorage.setItem('duo_streak_best', best);
+
+    // If Duolingo lesson completed today, update category streak
+    if (data.updatedToday) {
+      updateCategoryStreak('streak_duo');
+      // Mark today as completed for weekly stats
+      const today = getTodayKey();
+      localStorage.setItem(`duo_done_${today}`, '1');
+    }
+
+    // Recalculate this week / last week counts from daily markers
+    const sundayStart = new Date();
+    sundayStart.setDate(sundayStart.getDate() - sundayStart.getDay());
+    sundayStart.setHours(0, 0, 0, 0);
+    const prevStart = new Date(sundayStart);
+    prevStart.setDate(prevStart.getDate() - 7);
+
+    let thisWeek = 0, lastWeek = 0;
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(sundayStart);
+      d.setDate(d.getDate() - i);
+      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      if (localStorage.getItem(`duo_done_${dk}`)) {
+        if (i < 7 || d >= sundayStart) thisWeek++;
+        else lastWeek++;
+      }
+    }
+    // Simpler: count days with duo_done_ key in each window
+    thisWeek = 0; lastWeek = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(sundayStart); d.setDate(d.getDate() + i);
+      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      if (localStorage.getItem(`duo_done_${dk}`)) thisWeek++;
+    }
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(prevStart); d.setDate(d.getDate() + i);
+      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      if (localStorage.getItem(`duo_done_${dk}`)) lastWeek++;
+    }
+
+    const allTime = parseInt(localStorage.getItem('duo_done_total') || '0');
+    if (data.updatedToday) {
+      const today = getTodayKey();
+      if (!localStorage.getItem(`duo_counted_${today}`)) {
+        localStorage.setItem('duo_done_total', allTime + 1);
+        localStorage.setItem(`duo_counted_${today}`, '1');
+      }
+    }
+    const allTimeFinal = parseInt(localStorage.getItem('duo_done_total') || '0');
+
+    const wkEl = document.getElementById('duoCountWeek');
+    const pvEl = document.getElementById('duoCountPrev');
+    const ttEl = document.getElementById('duoCountTotal');
+    if (wkEl) wkEl.textContent = thisWeek;
+    if (pvEl) pvEl.textContent = lastWeek;
+    if (ttEl) ttEl.textContent = allTimeFinal;
+
+    renderStreakGrid();
+  } catch(e) {
+    console.error('Duolingo fetch error:', e);
+  }
+}
+
+// Load Duolingo on app open
+loadDuolingo();
   completedExercises = new Set();
   currentExIndex = 0;
   showExercise();
