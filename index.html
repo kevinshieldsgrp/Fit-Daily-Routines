@@ -96,6 +96,158 @@
     margin: 10px 0;
   }
 
+  /* ── WEEKLY GOALS ── */
+  .goals-section {
+    margin-bottom: 14px;
+  }
+  .goals-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .goals-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: var(--text);
+  }
+  .goals-streak {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .goals-streak b { color: #fbbf24; font-size: 14px; }
+  .goals-edit-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 4px 10px;
+    border-radius: 8px;
+  }
+  .goal-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .goal-card.complete { border-color: rgba(74,222,128,0.4); }
+  .goal-info { flex: 1; min-width: 0; }
+  .goal-name {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .goal-progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .goal-progress-fill {
+    height: 100%;
+    background: var(--hip-primary);
+    border-radius: 3px;
+    transition: width 0.2s ease;
+  }
+  .goal-card.complete .goal-progress-fill { background: #4ade80; }
+  .goal-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--text-dim);
+    min-width: 38px;
+    text-align: center;
+  }
+  .goal-card.complete .goal-count { color: #4ade80; }
+  .goal-btns { display: flex; gap: 6px; }
+  .goal-btn {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .goal-empty {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 14px 0;
+  }
+  /* Goal editor */
+  .goal-edit-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .goal-edit-row input[type="text"] {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+  }
+  .goal-edit-row input[type="number"] {
+    width: 56px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 6px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    text-align: center;
+  }
+  .goal-edit-remove {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255,80,80,0.08);
+    color: #f87171;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .goal-edit-add {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  .goal-edit-save {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: var(--hip-primary);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
   /* ── STREAK GRID ── */
   .streak-grid {
     display: grid;
@@ -914,6 +1066,16 @@
     </div>
     <div class="divider"></div>
 
+    <!-- ── WEEKLY GOALS ── -->
+    <div class="goals-section">
+      <div class="goals-header">
+        <div class="goals-title">This Week's Goals</div>
+        <div class="goals-streak">🔥 <b id="goals-streak-count">0</b> wk streak</div>
+      </div>
+      <div id="goals-list"></div>
+      <button class="goals-edit-btn" onclick="openGoalsEditor()" style="width:100%; margin-top:4px;">Edit Goals</button>
+    </div>
+
     <!-- ── STREAK GRID ── -->
     <div class="streak-grid">
       <div class="streak-pill s-hip" id="spill-hip">
@@ -1302,6 +1464,23 @@
   </div>
 </div>
 
+<!-- ── GOALS EDITOR ── -->
+<div id="goalsEditor" class="screen">
+  <div class="habits-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Home</span>
+    </button>
+    <div class="habits-title">EDIT GOALS</div>
+    <div class="habits-subtitle">Set this week's targets</div>
+  </div>
+  <div class="habits-body">
+    <div id="goalsEditList"></div>
+    <button class="goal-edit-add" onclick="addGoalRow()">+ Add Goal</button>
+    <button class="goal-edit-save" onclick="saveGoals()">Save Goals</button>
+  </div>
+</div>
+
 <script>
 const ROUTINES = {
   hip: {
@@ -1477,6 +1656,8 @@ function goHome() {
   showScreen('home');
   renderHabitsDots();
   renderFoodInputs(getFoodToday());
+  renderGoals();
+  renderGoalsStreak();
 }
 
 function showScreen(id) {
@@ -1827,7 +2008,181 @@ function getWeekKey(offset = 0) {
 
 function getPrevWeekKey() { return getWeekKey(-1); }
 
-/* ── FOOD TRACKING (water only) ── */
+/* ── WEEKLY GOALS ── */
+const GOALS_TEMPLATE_KEY = 'goals_template'; // [{name, target}]
+const GOALS_STREAK_KEY   = 'goals_streak';   // {current, best, lastWeek}
+
+function getGoalsTemplate() {
+  try {
+    const raw = localStorage.getItem(GOALS_TEMPLATE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return [
+    { name: 'Outdoor Bike Ride', target: 3 },
+    { name: 'Strength Training', target: 2 }
+  ];
+}
+
+function setGoalsTemplate(list) {
+  localStorage.setItem(GOALS_TEMPLATE_KEY, JSON.stringify(list));
+}
+
+function getGoalsProgress(weekKey) {
+  try {
+    const raw = localStorage.getItem(`goals_progress_${weekKey}`);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return {};
+}
+
+function setGoalsProgress(weekKey, progress) {
+  localStorage.setItem(`goals_progress_${weekKey}`, JSON.stringify(progress));
+}
+
+function adjustGoal(idx, delta) {
+  const weekKey = getWeekKey();
+  const template = getGoalsTemplate();
+  const goal = template[idx];
+  if (!goal) return;
+  const progress = getGoalsProgress(weekKey);
+  let val = (progress[idx] || 0) + delta;
+  if (val < 0) val = 0;
+  if (val > goal.target) val = goal.target;
+  progress[idx] = val;
+  setGoalsProgress(weekKey, progress);
+  renderGoals();
+  checkGoalsStreak();
+}
+
+function checkGoalsStreak() {
+  try {
+    const weekKey = getWeekKey();
+    const template = getGoalsTemplate();
+    if (!template.length) return;
+    const progress = getGoalsProgress(weekKey);
+    const allDone = template.every((g, i) => (progress[i] || 0) >= g.target);
+
+    let data = { current: 0, best: 0, lastWeek: '' };
+    try {
+      const raw = localStorage.getItem(GOALS_STREAK_KEY);
+      if (raw) data = JSON.parse(raw);
+    } catch(e) {}
+
+    if (allDone) {
+      if (data.lastWeek !== weekKey) {
+        const prevWeek = getPrevWeekKey();
+        if (data.lastWeek === prevWeek) {
+          data.current += 1;
+        } else {
+          data.current = 1;
+        }
+        data.lastWeek = weekKey;
+        if (data.current > data.best) data.best = data.current;
+      }
+    } else {
+      // If this week was previously marked complete but no longer is, undo it
+      if (data.lastWeek === weekKey) {
+        data.current = Math.max(0, data.current - 1);
+        data.lastWeek = '';
+      }
+    }
+    localStorage.setItem(GOALS_STREAK_KEY, JSON.stringify(data));
+    renderGoalsStreak();
+  } catch(e) {}
+}
+
+function renderGoalsStreak() {
+  try {
+    let data = { current: 0, best: 0, lastWeek: '' };
+    try {
+      const raw = localStorage.getItem(GOALS_STREAK_KEY);
+      if (raw) data = JSON.parse(raw);
+    } catch(e) {}
+    // If neither last week nor this week is marked complete, streak is stale -> 0
+    const weekKey = getWeekKey();
+    const prevWeek = getPrevWeekKey();
+    let current = data.current;
+    if (data.lastWeek !== weekKey && data.lastWeek !== prevWeek) current = 0;
+    const el = document.getElementById('goals-streak-count');
+    if (el) el.textContent = current;
+  } catch(e) {}
+}
+
+function renderGoals() {
+  const container = document.getElementById('goals-list');
+  if (!container) return;
+  const weekKey = getWeekKey();
+  const template = getGoalsTemplate();
+  const progress = getGoalsProgress(weekKey);
+
+  if (!template.length) {
+    container.innerHTML = `<div class="goal-empty">No goals set for this week. Tap Edit Goals to add some.</div>`;
+    return;
+  }
+
+  container.innerHTML = template.map((g, i) => {
+    const val = progress[i] || 0;
+    const complete = val >= g.target;
+    const pct = Math.min(100, Math.round((val / g.target) * 100));
+    return `
+      <div class="goal-card${complete ? ' complete' : ''}">
+        <div class="goal-info">
+          <div class="goal-name">${complete ? '✅ ' : ''}${g.name}</div>
+          <div class="goal-progress-bar"><div class="goal-progress-fill" style="width:${pct}%"></div></div>
+        </div>
+        <div class="goal-count">${val}/${g.target}</div>
+        <div class="goal-btns">
+          <button class="goal-btn" onclick="adjustGoal(${i}, -1)">−</button>
+          <button class="goal-btn" onclick="adjustGoal(${i}, 1)">+</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ── GOALS EDITOR SCREEN ── */
+let goalsEditorDraft = [];
+
+function openGoalsEditor() {
+  goalsEditorDraft = getGoalsTemplate().map(g => ({ ...g }));
+  renderGoalsEditor();
+  showScreen('goalsEditor');
+}
+
+function renderGoalsEditor() {
+  const container = document.getElementById('goalsEditList');
+  if (!container) return;
+  if (!goalsEditorDraft.length) {
+    container.innerHTML = `<div class="goal-empty">No goals yet. Tap "+ Add Goal" below.</div>`;
+    return;
+  }
+  container.innerHTML = goalsEditorDraft.map((g, i) => `
+    <div class="goal-edit-row">
+      <input type="text" value="${g.name.replace(/"/g, '&quot;')}" placeholder="Goal name" oninput="goalsEditorDraft[${i}].name = this.value" />
+      <input type="number" min="1" max="99" value="${g.target}" oninput="goalsEditorDraft[${i}].target = Math.max(1, parseInt(this.value)||1)" />
+      <button class="goal-edit-remove" onclick="removeGoalRow(${i})">×</button>
+    </div>`).join('');
+}
+
+function addGoalRow() {
+  goalsEditorDraft.push({ name: '', target: 1 });
+  renderGoalsEditor();
+}
+
+function removeGoalRow(i) {
+  goalsEditorDraft.splice(i, 1);
+  renderGoalsEditor();
+}
+
+function saveGoals() {
+  const cleaned = goalsEditorDraft
+    .map(g => ({ name: (g.name || '').trim() || 'Untitled Goal', target: Math.max(1, parseInt(g.target) || 1) }));
+  setGoalsTemplate(cleaned);
+  renderGoals();
+  checkGoalsStreak();
+  goHome();
+}
+
+
 const WATER_GOAL = 8;
 
 function getTodayDateKey() {
@@ -2208,6 +2563,8 @@ function updateStreak() {
 
 // Render streak grid on load
 renderStreakGrid();
+renderGoals();
+renderGoalsStreak();
 
 /* ── STRAVA ── */
 const STRAVA_CLIENT_ID = '227459';
