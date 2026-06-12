@@ -175,19 +175,19 @@
   }
   .streak-pill.s-habits .streak-pill-count { color: var(--food-primary); }
 
+  .streak-pill.s-strava {
+    background: rgba(26,86,219,0.08);
+    border: 1px solid rgba(26,86,219,0.22);
+    color: var(--strava-light);
+  }
+  .streak-pill.s-strava .streak-pill-count { color: var(--strava-primary); }
+
   .streak-pill.s-walk {
     background: rgba(251,191,36,0.08);
     border: 1px solid rgba(251,191,36,0.2);
     color: #fde68a;
   }
   .streak-pill.s-walk .streak-pill-count { color: #fbbf24; }
-
-  .streak-pill.s-duo {
-    background: rgba(198,11,30,0.08);
-    border: 1px solid rgba(198,11,30,0.25);
-    color: #ffc400;
-  }
-  .streak-pill.s-duo .streak-pill-count { color: #ffc400; }
 
   /* Dim pill when streak is zero */
   .streak-pill.zero .streak-pill-count { opacity: 0.35; }
@@ -755,18 +755,6 @@
   .walk .card-stat-divider { background: rgba(251,191,36,0.15); }
   .walk .card-arrow { background: rgba(251,191,36,0.2); color: #fbbf24; }
 
-  /* Duo card — Spanish flag pink/red */
-  .routine-card.duo {
-    background: linear-gradient(135deg, #1e0a10 0%, #2a0e16 100%);
-    border: 1px solid rgba(236,72,153,0.25);
-    box-shadow: 0 4px 30px rgba(236,72,153,0.08);
-    cursor: pointer;
-  }
-  .duo .card-accent { background: #ec4899; }
-  .duo .card-stat-num { color: var(--white); }
-  .duo .card-stat-divider { background: rgba(236,72,153,0.15); }
-  .duo .card-arrow { background: rgba(236,72,153,0.2); color: #ec4899; }
-
   /* food-btn used in water card */
   .food-inputs {
     display: flex; flex-direction: column; gap: 8px;
@@ -963,16 +951,13 @@
           <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
-      <div class="streak-pill s-duo" id="spill-duo">
+      <div class="streak-pill s-strava" id="spill-strava">
         <div class="streak-pill-icon">
-          <svg width="18" height="13" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg" style="border-radius:2px; display:block;">
-            <rect width="20" height="14" fill="#c60b1e"/>
-            <rect y="3.5" width="20" height="7" fill="#ffc400"/>
-          </svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
         </div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Español</div>
-          <div class="streak-pill-count" id="spill-duo-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+          <div class="streak-pill-label">Strava</div>
+          <div class="streak-pill-count" id="spill-strava-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
     </div>
@@ -1117,42 +1102,6 @@
                 <div class="card-stat-num" id="foodCountTotal">0</div>
                 <div class="card-stat-label">Perfect Days</div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── DUO (SPANISH) CARD ── -->
-      <div class="routine-card duo">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="color:var(--white); display:flex; align-items:center; gap:7px;">
-              <!-- Spanish flag SVG -->
-              <svg width="20" height="14" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg" style="border-radius:2px; flex-shrink:0;">
-                <rect width="20" height="14" fill="#c60b1e"/>
-                <rect y="3.5" width="20" height="7" fill="#ffc400"/>
-              </svg>
-              <span>Español</span>
-            </div>
-            <div class="card-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="duoCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="duoCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="duoCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
             </div>
           </div>
         </div>
@@ -1332,9 +1281,22 @@
       </div>
     </div>
 
+    <div class="habit-card" id="hcard-espanol" onclick="toggleHabit('espanol')">
+      <div class="habit-check" id="hcheck-espanol">🇪🇸</div>
+      <div class="habit-info">
+        <div class="habit-name">Español</div>
+        <div class="habit-desc">Completed Duolingo lesson</div>
+        <div class="habit-week-dots" id="hweek-espanol"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-espanol">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
     <div class="habits-summary">
       <div class="habits-summary-label">Today's score</div>
-      <div class="habits-summary-score" id="habitsSummaryScore">0 / 4</div>
+      <div class="habits-summary-score" id="habitsSummaryScore">0 / 5</div>
     </div>
 
   </div>
@@ -1916,9 +1878,9 @@ function renderFoodInputs(data) {
 (function initFood() { renderFoodInputs(getFoodToday()); })();
 
 /* ── HABITS TRACKING ── */
-const HABITS = ['exercise', 'nosnack', 'mindful', 'golf'];
+const HABITS = ['exercise', 'nosnack', 'mindful', 'golf', 'espanol'];
 
-const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘', golf: '⛳' };
+const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘', golf: '⛳', espanol: '🇪🇸' };
 
 function getHabitsToday() {
   try {
@@ -2039,8 +2001,8 @@ function renderHabitsScreen() {
     // Summary score
     const score = document.getElementById('habitsSummaryScore');
     if (score) {
-      score.textContent = `${doneCount} / 4`;
-      score.className = 'habits-summary-score' + (doneCount === 4 ? ' all-done' : '');
+      score.textContent = `${doneCount} / 5`;
+      score.className = 'habits-summary-score' + (doneCount === 5 ? ' all-done' : '');
     }
 
     // Date label
@@ -2227,7 +2189,7 @@ function renderStreakGrid() {
       { id: 'walk',   key: 'streak_walk' },
       { id: 'water',  key: 'streak_water' },
       { id: 'habits', key: 'streak_habits' },
-      { id: 'duo',    key: 'streak_duo' },
+      { id: 'strava', key: 'streak_strava' },
     ];
     categories.forEach(({ id, key }) => {
       const { current, best } = readCategoryStreak(key);
@@ -2423,6 +2385,15 @@ function updateStravaStats(activities) {
     });
     if (walkedToday) updateCategoryStreak('streak_walk');
 
+    // Update Strava streak for any non-walk activity logged today
+    const anyToday = activities.some(a => {
+      if (WALK_TYPES.includes(a.type) || WALK_TYPES.includes(a.sport_type)) return false;
+      const d = new Date(a.start_date_local);
+      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      return dk === todayKey;
+    });
+    if (anyToday) updateCategoryStreak('streak_strava');
+
   } catch(e) {}
 }
 
@@ -2474,89 +2445,6 @@ function renderStravaError() {
   }
   await loadStravaActivities();
 })();
-
-/* ── DUOLINGO ── */
-const DUOLINGO_USERNAME = 'Kevin229798';
-
-async function loadDuolingo() {
-  try {
-    const res = await fetch(`${STRAVA_LAMBDA}?username=${DUOLINGO_USERNAME}`);
-    if (!res.ok) return;
-    const data = await res.json();
-    if (data.error) return;
-
-    // Update streak pill and card stats
-    const weekKey = getWeekKey();
-    const prevKey = getPrevWeekKey();
-
-    // Persist all-time streak high (Duolingo streak is the source of truth)
-    const storedBest = parseInt(localStorage.getItem('duo_streak_best') || '0');
-    const best = Math.max(storedBest, data.streak);
-    localStorage.setItem('duo_streak_best', best);
-
-    // If Duolingo lesson completed today, update category streak
-    if (data.updatedToday) {
-      updateCategoryStreak('streak_duo');
-      // Mark today as completed for weekly stats
-      const today = getTodayKey();
-      localStorage.setItem(`duo_done_${today}`, '1');
-    }
-
-    // Recalculate this week / last week counts from daily markers
-    const sundayStart = new Date();
-    sundayStart.setDate(sundayStart.getDate() - sundayStart.getDay());
-    sundayStart.setHours(0, 0, 0, 0);
-    const prevStart = new Date(sundayStart);
-    prevStart.setDate(prevStart.getDate() - 7);
-
-    let thisWeek = 0, lastWeek = 0;
-    for (let i = 0; i < 14; i++) {
-      const d = new Date(sundayStart);
-      d.setDate(d.getDate() - i);
-      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-      if (localStorage.getItem(`duo_done_${dk}`)) {
-        if (i < 7 || d >= sundayStart) thisWeek++;
-        else lastWeek++;
-      }
-    }
-    // Simpler: count days with duo_done_ key in each window
-    thisWeek = 0; lastWeek = 0;
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(sundayStart); d.setDate(d.getDate() + i);
-      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-      if (localStorage.getItem(`duo_done_${dk}`)) thisWeek++;
-    }
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(prevStart); d.setDate(d.getDate() + i);
-      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-      if (localStorage.getItem(`duo_done_${dk}`)) lastWeek++;
-    }
-
-    const allTime = parseInt(localStorage.getItem('duo_done_total') || '0');
-    if (data.updatedToday) {
-      const today = getTodayKey();
-      if (!localStorage.getItem(`duo_counted_${today}`)) {
-        localStorage.setItem('duo_done_total', allTime + 1);
-        localStorage.setItem(`duo_counted_${today}`, '1');
-      }
-    }
-    const allTimeFinal = parseInt(localStorage.getItem('duo_done_total') || '0');
-
-    const wkEl = document.getElementById('duoCountWeek');
-    const pvEl = document.getElementById('duoCountPrev');
-    const ttEl = document.getElementById('duoCountTotal');
-    if (wkEl) wkEl.textContent = thisWeek;
-    if (pvEl) pvEl.textContent = lastWeek;
-    if (ttEl) ttEl.textContent = allTimeFinal;
-
-    renderStreakGrid();
-  } catch(e) {
-    console.error('Duolingo fetch error:', e);
-  }
-}
-
-// Load Duolingo on app open
-loadDuolingo();
 
 function restartRoutine() {
   completedExercises = new Set();
