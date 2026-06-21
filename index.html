@@ -2674,8 +2674,9 @@ async function loadStravaActivities() {
   }
   document.getElementById('stravaBody').innerHTML = `<div class="strava-loading">Loading...</div>`;
   try {
-    const res = await fetchWithTimeout('https://www.strava.com/api/v3/athlete/activities?per_page=20', {
-      headers: { 'Authorization': `Bearer ${token}` }
+    const res = await fetchWithTimeout(`https://www.strava.com/api/v3/athlete/activities?per_page=20&_=${Date.now()}`, {
+      headers: { 'Authorization': `Bearer ${token}` },
+      cache: 'no-store'
     });
     if (res.status === 401) {
       localStorage.removeItem('strava_access_token');
