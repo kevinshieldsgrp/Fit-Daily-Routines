@@ -906,6 +906,28 @@
   .walk .card-stat-num { color: var(--white); }
   .walk .card-stat-divider { background: rgba(251,191,36,0.15); }
   .walk .card-arrow { background: rgba(251,191,36,0.2); color: #fbbf24; }
+  .walk-log-row {
+    display: flex; justify-content: flex-end;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid rgba(251,191,36,0.12);
+  }
+  .walk-log-btn {
+    background: rgba(251,191,36,0.12);
+    border: 1px solid rgba(251,191,36,0.35);
+    color: #fbbf24;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .walk-log-btn:active {
+    background: rgba(251,191,36,0.28);
+    transform: scale(0.96);
+  }
 
   /* food-btn used in water card */
   .food-inputs {
@@ -1078,6 +1100,13 @@
 
     <!-- ── STREAK GRID ── -->
     <div class="streak-grid">
+      <div class="streak-pill s-habits" id="spill-habits">
+        <div class="streak-pill-icon">🌟</div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Habits</div>
+          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
       <div class="streak-pill s-hip" id="spill-hip">
         <div class="streak-pill-icon">💪</div>
         <div class="streak-pill-body">
@@ -1092,13 +1121,6 @@
           <div class="streak-pill-count" id="spill-golf-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
-      <div class="streak-pill s-walk" id="spill-walk">
-        <div class="streak-pill-icon">🚶</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Walk</div>
-          <div class="streak-pill-count" id="spill-walk-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
       <div class="streak-pill s-water" id="spill-water">
         <div class="streak-pill-icon">💧</div>
         <div class="streak-pill-body">
@@ -1106,11 +1128,11 @@
           <div class="streak-pill-count" id="spill-water-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
-      <div class="streak-pill s-habits" id="spill-habits">
-        <div class="streak-pill-icon">🌟</div>
+      <div class="streak-pill s-walk" id="spill-walk">
+        <div class="streak-pill-icon">🚶</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Habits</div>
-          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+          <div class="streak-pill-label">Walk</div>
+          <div class="streak-pill-count" id="spill-walk-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-strava" id="spill-strava">
@@ -1208,6 +1230,9 @@
               <div class="card-stat-label">All Time</div>
             </div>
           </div>
+        </div>
+        <div class="walk-log-row">
+          <button class="walk-log-btn" onclick="logManualWalk()">+ Log Walk</button>
         </div>
       </div>
 
@@ -1996,13 +2021,15 @@ function goToList() {
 }
 
 function getWeekKey(offset = 0) {
-  // Week = Sun 00:00 → Sat 23:59. offset=-1 returns previous week.
+  // Week = Mon 00:00 → Sun 23:59. offset=-1 returns previous week.
   const now = new Date();
-  const sunday = new Date(now);
-  sunday.setDate(now.getDate() - now.getDay() + offset * 7);
-  const y = sunday.getFullYear();
-  const m = String(sunday.getMonth() + 1).padStart(2, '0');
-  const d = String(sunday.getDate()).padStart(2, '0');
+  const monday = new Date(now);
+  const dow = now.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+  const diffToMonday = dow === 0 ? -6 : 1 - dow; // days to subtract/add to reach Monday
+  monday.setDate(now.getDate() + diffToMonday + offset * 7);
+  const y = monday.getFullYear();
+  const m = String(monday.getMonth() + 1).padStart(2, '0');
+  const d = String(monday.getDate()).padStart(2, '0');
   return `week-${y}${m}${d}`;
 }
 
@@ -2565,6 +2592,7 @@ function updateStreak() {
 renderStreakGrid();
 renderGoals();
 renderGoalsStreak();
+renderWalkDisplay();
 
 /* ── STRAVA ── */
 const STRAVA_CLIENT_ID = '227459';
@@ -2687,18 +2715,20 @@ function updateStravaStats(activities) {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
 
-    const sundayStart = new Date();
-    sundayStart.setDate(sundayStart.getDate() - sundayStart.getDay());
-    sundayStart.setHours(0, 0, 0, 0);
+    const weekStart = new Date();
+    const dow = weekStart.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+    const diffToMonday = dow === 0 ? -6 : 1 - dow;
+    weekStart.setDate(weekStart.getDate() + diffToMonday);
+    weekStart.setHours(0, 0, 0, 0);
 
-    const prevStart = new Date(sundayStart);
+    const prevStart = new Date(weekStart);
     prevStart.setDate(prevStart.getDate() - 7);
 
     // Strava totals (all activity types)
-    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
+    const thisWeek = activities.filter(a => new Date(a.start_date_local) >= weekStart).length;
     const lastWeek = activities.filter(a => {
       const d = new Date(a.start_date_local);
-      return d >= prevStart && d < sundayStart;
+      return d >= prevStart && d < weekStart;
     }).length;
 
     const storedTotal = parseInt(localStorage.getItem('completions_strava') || '0');
@@ -2715,10 +2745,10 @@ function updateStravaStats(activities) {
     const WALK_TYPES = ['Walk', 'Hike', 'VirtualWalk'];
     const walkActivities = activities.filter(a => WALK_TYPES.includes(a.type) || WALK_TYPES.includes(a.sport_type));
 
-    const walkThisWeek = walkActivities.filter(a => new Date(a.start_date_local) >= sundayStart).length;
+    const walkThisWeek = walkActivities.filter(a => new Date(a.start_date_local) >= weekStart).length;
     const walkLastWeek = walkActivities.filter(a => {
       const d = new Date(a.start_date_local);
-      return d >= prevStart && d < sundayStart;
+      return d >= prevStart && d < weekStart;
     }).length;
     const storedWalkTotal = parseInt(localStorage.getItem('completions_walk') || '0');
     const walkTotal = Math.max(storedWalkTotal, walkActivities.length);
@@ -2726,12 +2756,7 @@ function updateStravaStats(activities) {
     localStorage.setItem(`completions_walk_${weekKey}`, walkThisWeek);
     localStorage.setItem(`completions_walk_${prevKey}`, walkLastWeek);
 
-    const wkEl = document.getElementById('walkCountWeek');
-    const wpEl = document.getElementById('walkCountPrev');
-    const wtEl = document.getElementById('walkCountTotal');
-    if (wkEl) wkEl.textContent = walkThisWeek;
-    if (wpEl) wpEl.textContent = walkLastWeek;
-    if (wtEl) wtEl.textContent = walkTotal;
+    renderWalkDisplay();
 
     // Update Walk streak for any walk done today
     const todayKey = getTodayKey();
@@ -2751,6 +2776,44 @@ function updateStravaStats(activities) {
     });
     if (anyToday) updateCategoryStreak('streak_strava');
 
+  } catch(e) {}
+}
+
+// Combines Strava-derived walk counts with manually logged walks for display
+function renderWalkDisplay() {
+  try {
+    const weekKey = getWeekKey();
+    const prevKey = getPrevWeekKey();
+
+    const stravaWeek  = parseInt(localStorage.getItem(`completions_walk_${weekKey}`) || '0');
+    const stravaPrev  = parseInt(localStorage.getItem(`completions_walk_${prevKey}`) || '0');
+    const stravaTotal = parseInt(localStorage.getItem('completions_walk') || '0');
+
+    const manualWeek  = parseInt(localStorage.getItem(`walk_manual_${weekKey}`) || '0');
+    const manualPrev  = parseInt(localStorage.getItem(`walk_manual_${prevKey}`) || '0');
+    const manualTotal = parseInt(localStorage.getItem('walk_manual_total') || '0');
+
+    const wkEl = document.getElementById('walkCountWeek');
+    const wpEl = document.getElementById('walkCountPrev');
+    const wtEl = document.getElementById('walkCountTotal');
+    if (wkEl) wkEl.textContent = stravaWeek + manualWeek;
+    if (wpEl) wpEl.textContent = stravaPrev + manualPrev;
+    if (wtEl) wtEl.textContent = stravaTotal + manualTotal;
+  } catch(e) {}
+}
+
+// Manually log a walk that wasn't captured by Strava
+function logManualWalk() {
+  try {
+    const weekKey = getWeekKey();
+    const totalKey = 'walk_manual_total';
+    const weeklyKey = `walk_manual_${weekKey}`;
+    localStorage.setItem(totalKey,  parseInt(localStorage.getItem(totalKey)  || '0') + 1);
+    localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
+
+    updateCategoryStreak('streak_walk');
+    renderWalkDisplay();
+    renderStreakGrid();
   } catch(e) {}
 }
 
