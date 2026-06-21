@@ -345,6 +345,15 @@
   .streak-pill.zero .streak-pill-count { opacity: 0.35; }
   .streak-pill.zero .streak-pill-icon { opacity: 0.35; }
 
+  /* Bold border when streak is active (non-zero) */
+  .streak-pill:not(.zero) { border-width: 2px; }
+  .streak-pill.s-hip:not(.zero)    { border-color: var(--hip-primary); }
+  .streak-pill.s-golf:not(.zero)   { border-color: var(--golf-primary); }
+  .streak-pill.s-water:not(.zero)  { border-color: var(--water-primary); }
+  .streak-pill.s-habits:not(.zero) { border-color: var(--food-primary); }
+  .streak-pill.s-strava:not(.zero) { border-color: var(--strava-primary); }
+  .streak-pill.s-walk:not(.zero)   { border-color: #fbbf24; }
+
   .routine-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
   .routine-card {
@@ -906,27 +915,18 @@
   .walk .card-stat-num { color: var(--white); }
   .walk .card-stat-divider { background: rgba(251,191,36,0.15); }
   .walk .card-arrow { background: rgba(251,191,36,0.2); color: #fbbf24; }
-  .walk-log-row {
-    display: flex; justify-content: flex-end;
-    margin-top: 10px; padding-top: 10px;
-    border-top: 1px solid rgba(251,191,36,0.12);
-  }
-  .walk-log-btn {
-    background: rgba(251,191,36,0.12);
-    border: 1px solid rgba(251,191,36,0.35);
-    color: #fbbf24;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px; font-weight: 600;
-    padding: 7px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    white-space: nowrap;
-    -webkit-user-select: none;
+  .walk-add-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: rgba(251,191,36,0.2); color: #fbbf24;
+    border: none; cursor: pointer; -webkit-user-select: none;
     transition: background 0.15s, transform 0.1s;
   }
-  .walk-log-btn:active {
-    background: rgba(251,191,36,0.28);
-    transform: scale(0.96);
+  .walk-add-btn:active {
+    background: rgba(251,191,36,0.35);
+    transform: scale(0.92);
   }
 
   /* food-btn used in water card */
@@ -1121,18 +1121,18 @@
           <div class="streak-pill-count" id="spill-golf-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
-      <div class="streak-pill s-water" id="spill-water">
-        <div class="streak-pill-icon">💧</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Water</div>
-          <div class="streak-pill-count" id="spill-water-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
       <div class="streak-pill s-walk" id="spill-walk">
         <div class="streak-pill-icon">🚶</div>
         <div class="streak-pill-body">
           <div class="streak-pill-label">Walk</div>
           <div class="streak-pill-count" id="spill-walk-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
+      <div class="streak-pill s-water" id="spill-water">
+        <div class="streak-pill-icon">💧</div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Water</div>
+          <div class="streak-pill-count" id="spill-water-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-strava" id="spill-strava">
@@ -1213,6 +1213,9 @@
         <div class="card-header-row">
           <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">🚶 Walk</div>
+            <button class="walk-add-btn" onclick="logManualWalk()" aria-label="Log a walk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
           </div>
           <div class="card-stats">
             <div class="card-stat-item">
@@ -1230,9 +1233,6 @@
               <div class="card-stat-label">All Time</div>
             </div>
           </div>
-        </div>
-        <div class="walk-log-row">
-          <button class="walk-log-btn" onclick="logManualWalk()">+ Log Walk</button>
         </div>
       </div>
 
@@ -1272,7 +1272,6 @@
               <div class="habits-dot" id="hdot0"></div>
               <div class="habits-dot" id="hdot1"></div>
               <div class="habits-dot" id="hdot2"></div>
-              <div class="habits-dot" id="hdot3"></div>
             </div>
             <div class="card-stats">
               <div class="card-stat-item">
@@ -1429,41 +1428,15 @@
       </div>
     </div>
 
-    <div class="habit-card" id="hcard-nosnack" onclick="toggleHabit('nosnack')">
-      <div class="habit-check" id="hcheck-nosnack">🌙</div>
-      <div class="habit-info">
-        <div class="habit-name">No Snacking After 8pm</div>
-        <div class="habit-desc">Kitchen closed after 8:00 pm</div>
-        <div class="habit-week-dots" id="hweek-nosnack"></div>
-      </div>
-      <div class="habit-streak-wrap">
-        <div class="habit-streak" id="hstreak-nosnack">0</div>
-        <div class="habit-streak-label">streak</div>
-      </div>
-    </div>
-
     <div class="habit-card" id="hcard-mindful" onclick="toggleHabit('mindful')">
-      <div class="habit-check" id="hcheck-mindful">🧘</div>
+      <div class="habit-check" id="hcheck-mindful">⏱️</div>
       <div class="habit-info">
-        <div class="habit-name">No Mindless Eating</div>
-        <div class="habit-desc">Ate intentionally — no screens, no grazing</div>
+        <div class="habit-name">Intermittent Fast 8pm-10:30am</div>
+        <div class="habit-desc">No food outside the 8:00pm – 10:30am fasting window</div>
         <div class="habit-week-dots" id="hweek-mindful"></div>
       </div>
       <div class="habit-streak-wrap">
         <div class="habit-streak" id="hstreak-mindful">0</div>
-        <div class="habit-streak-label">streak</div>
-      </div>
-    </div>
-
-    <div class="habit-card" id="hcard-golf" onclick="toggleHabit('golf')">
-      <div class="habit-check" id="hcheck-golf">⛳</div>
-      <div class="habit-info">
-        <div class="habit-name">Golf Practice</div>
-        <div class="habit-desc">Practiced today — range, short game, or drills</div>
-        <div class="habit-week-dots" id="hweek-golf"></div>
-      </div>
-      <div class="habit-streak-wrap">
-        <div class="habit-streak" id="hstreak-golf">0</div>
         <div class="habit-streak-label">streak</div>
       </div>
     </div>
@@ -2260,9 +2233,9 @@ function renderFoodInputs(data) {
 (function initFood() { renderFoodInputs(getFoodToday()); })();
 
 /* ── HABITS TRACKING ── */
-const HABITS = ['exercise', 'nosnack', 'mindful', 'golf', 'espanol'];
+const HABITS = ['exercise', 'mindful', 'espanol'];
 
-const HABIT_ICONS = { exercise: '🏃', nosnack: '🌙', mindful: '🧘', golf: '⛳', espanol: '🇪🇸' };
+const HABIT_ICONS = { exercise: '🏃', mindful: '⏱️', espanol: '🇪🇸' };
 
 function getHabitsToday() {
   try {
@@ -2383,8 +2356,8 @@ function renderHabitsScreen() {
     // Summary score
     const score = document.getElementById('habitsSummaryScore');
     if (score) {
-      score.textContent = `${doneCount} / 5`;
-      score.className = 'habits-summary-score' + (doneCount === 5 ? ' all-done' : '');
+      score.textContent = `${doneCount} / ${HABITS.length}`;
+      score.className = 'habits-summary-score' + (doneCount === HABITS.length ? ' all-done' : '');
     }
 
     // Date label
