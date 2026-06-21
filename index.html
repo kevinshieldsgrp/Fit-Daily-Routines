@@ -2571,7 +2571,7 @@ renderWalkDisplay();
 const STRAVA_CLIENT_ID = '227459';
 const STRAVA_LAMBDA    = 'https://rr39k9puxc.execute-api.us-west-2.amazonaws.com/default/strava-oauth';
 const STRAVA_REDIRECT  = 'https://kevinshieldsgrp.github.io/Fit-Daily-Routines/';
-const STRAVA_SCOPE     = 'read,activity:read';
+const STRAVA_SCOPE     = 'read,activity:read_all';
 
 const ACTIVITY_ICONS = {
   Run:           { icon: '🏃', bg: 'rgba(232,115,74,0.15)' },
@@ -2591,9 +2591,15 @@ function stravaAuth() {
   window.location.href = url;
 }
 
+function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 async function stravaExchangeCode(code) {
   try {
-    const res = await fetch(STRAVA_LAMBDA, {
+    const res = await fetchWithTimeout(STRAVA_LAMBDA, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ code, grantType: 'authorization_code' })
@@ -2605,6 +2611,8 @@ async function stravaExchangeCode(code) {
       localStorage.setItem('strava_expires_at', data.expires_at);
       window.history.replaceState({}, '', STRAVA_REDIRECT);
       await loadStravaActivities();
+    } else {
+      renderStravaError();
     }
   } catch(e) {
     console.error('Strava exchange error:', e);
@@ -2615,7 +2623,7 @@ async function stravaExchangeCode(code) {
 async function stravaRefreshToken() {
   try {
     const refreshToken = localStorage.getItem('strava_refresh_token');
-    const res = await fetch(STRAVA_LAMBDA, {
+    const res = await fetchWithTimeout(STRAVA_LAMBDA, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken, grantType: 'refresh_token' })
@@ -2666,7 +2674,7 @@ async function loadStravaActivities() {
   }
   document.getElementById('stravaBody').innerHTML = `<div class="strava-loading">Loading...</div>`;
   try {
-    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=20', {
+    const res = await fetchWithTimeout('https://www.strava.com/api/v3/athlete/activities?per_page=20', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 401) {
@@ -2826,7 +2834,7 @@ function openStravaActivity(id) {
 
 function renderStravaError() {
   document.getElementById('stravaBody').innerHTML =
-    `<div class="strava-empty">Could not load activities</div>`;
+    `<div class="strava-empty" style="cursor:pointer;" onclick="loadStravaActivities()">Could not load activities — tap to retry</div>`;
 }
 
 (async function initStrava() {
