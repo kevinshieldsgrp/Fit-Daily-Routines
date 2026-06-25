@@ -1074,12 +1074,46 @@
   }
   .habits-summary-score.all-done { color: #4ade80; }
 
+  /* ── PULL TO REFRESH ── */
+  #ptr-indicator {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: center;
+    height: 0;
+    overflow: hidden;
+    z-index: 999;
+    transition: height 0.2s ease;
+    pointer-events: none;
+  }
+  #ptr-indicator.visible { height: 56px; }
+  .ptr-inner {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+  .ptr-spinner {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(232,115,74,0.3);
+    border-top-color: var(--hip-primary);
+    border-radius: 50%;
+  }
+  .ptr-spinner.spin { animation: ptr-spin 0.7s linear infinite; }
+  @keyframes ptr-spin { to { transform: rotate(360deg); } }
+
 </style>
 </head>
 <body>
 
 <!-- ══ HOME ══ -->
 <div id="home" class="screen active">
+  <!-- Pull-to-refresh indicator -->
+  <div id="ptr-indicator">
+    <div class="ptr-inner">
+      <div class="ptr-spinner" id="ptr-spinner"></div>
+      <span id="ptr-label">Pull to refresh</span>
+    </div>
+  </div>
   <div class="home-bg"></div>
   <div class="home-inner">
     <div class="home-header">
@@ -1500,10 +1534,16 @@ const ROUTINES = {
         instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 30 seconds, then switch sides.\n2x Each Side"
       },
       {
-        name: "Single-Leg Squat",
-        detail: "8 reps each leg • 2 sets",
-        timer: 70,
-        instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward. Slowly lower into a single-leg squat — 60–70° of knee bend. Drive through the left heel to stand. Keep left knee tracking over your second toe.\n\n8 reps, 2x each side"
+        name: "Deep Lunge with Thoracic Rotation",
+        detail: "8 reps each side • 2 sets",
+        timer: 80,
+        instructions: "Step your left foot forward into a deep lunge, right knee hovering just above the floor.\n\nPlace your right hand on the floor inside your left foot for stability.\n\nRotate your left arm up toward the ceiling, opening your chest — follow it with your eyes and hold 2 seconds at the top.\n\nReturn hand to floor. That's 1 rep.\n\nComplete 8 reps on the left side, then switch — right foot forward, rotate right arm up.\n2 sets each side."
+      },
+      {
+        name: "Slow Eccentric Single-Leg Squat",
+        detail: "8 reps each leg • 4-sec lower • 2 sets",
+        timer: 90,
+        instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward.\n\nSlowly lower into a single-leg squat over 4 full seconds — count it out. Aim for 60–70° of knee bend.\n\nDrive through your left heel to stand. Keep your left knee tracking over your second toe throughout.\n\nThe slow lowering is the work — don't rush it.\n\n8 reps on the left, then switch to the right.\n2 sets each side."
       },
       {
         name: "Single-Leg Glute Bridge",
@@ -1512,34 +1552,22 @@ const ROUTINES = {
         instructions: "On your back, knees bent, feet flat. Extend your right leg straight. Drive through your left heel, squeeze your left glute, and bridge up until your body forms a straight line.\n\nHold 2 seconds at the top, lower slowly.\nComplete 15 reps 2x each side"
       },
       {
-        name: "Side Plank with Clamshells",
-        detail: "15 reps per side • 2 sets",
-        timer: 70,
-        instructions: "Lie on your left side, elbow under shoulder, hips stacked. Lift into a side plank. With your top knee bent and feet together, rotate your right knee open toward the ceiling.\n\n15 controlled reps\n2x Each Side"
+        name: "Banded Side Plank with Clamshells",
+        detail: "15 reps per side • 2 sets • Band above knees",
+        timer: 80,
+        instructions: "Place a resistance band just above your knees.\n\nLie on your left side, elbow under shoulder, hips stacked. Lift into a side plank — hold that position throughout.\n\nWith your top knee bent and feet together, rotate your right knee open toward the ceiling against the band resistance. Control the return — don't let the band snap it down.\n\n15 controlled reps on the right side, then switch to the left.\n2 sets each side.\n\nThe band adds significant deep hip rotator demand — keep the movement deliberate."
       },
       {
-        name: "Hip Hinge to Squat",
-        detail: "10 reps • 2 sets",
-        timer: 70,
-        instructions: "Stand feet shoulder-width apart. Push your hips back into a hip hinge — slight knee bend, flat back, hamstrings loaded. Transition smoothly into a full squat, dropping hips down between your heels. Drive through both heels to stand.\n\nPause 1 second at the bottom\n10 reps controlled, 2x"
+        name: "Goblet Squat",
+        detail: "10 reps • 2 sets • Hold weight at chest",
+        timer: 80,
+        instructions: "Hold a dumbbell, kettlebell, or any weight vertically at your chest with both hands — elbows tucked in.\n\nFeet shoulder-width apart, toes turned out slightly.\n\nSit down into a deep squat, keeping your chest tall and elbows inside your knees at the bottom. Let the weight counterbalance you as you sink deep.\n\nDrive through both heels to stand, squeezing your glutes at the top.\n\nThe upright torso position opens the deep hip rotators — go as deep as is comfortable.\n\n10 reps, 2 sets."
       },
       {
-        name: "Single Leg RDL",
+        name: "Curtsy Lunge",
         detail: "10 reps each side • 2 sets",
-        timer: 70,
-        instructions: "Stand tall, feet hip-width apart. Shift your weight onto your right foot, soft bend in the knee. Hinge at the hips, sending them back as your left leg extends straight behind you — keep your back flat and hips square to the floor. Lower until you feel a strong hamstring stretch in the standing leg, then drive through the right heel to return to standing.\n\nControl the movement — don't let your hips rotate open.\n10 reps on the right, then switch to the left.\n2 sets each side."
-      },
-      {
-        name: "Hip 3-Way",
-        detail: "15 reps each side • 2 sets",
-        timer: 70,
-        instructions: "Stand on a folded towel with your left foot (adds instability and engages the hip). Right foot is the working leg.\n\nTap right foot forward, return to middle.\nTap right foot out to the side, return to middle.\nStep right foot back into a curtsy lunge (crossing behind and to the left), return to middle.\n\nThat's 1 rep. Complete 15 reps on the right, then switch — stand on right foot, work the left.\n2 sets each side."
-      },
-      {
-        name: "Lateral Band Hip Slide",
-        detail: "15 reps each side • 2 sets",
-        timer: 70,
-        instructions: "Place a resistance band just above your knees. Stand with feet hip-width apart, slight bend in both knees, hips back in an athletic stance.\n\nSlide your left foot out to the side — pushing against the band — then bring it back under control. Keep your hips level and your standing knee tracking over your second toe throughout. Don't let the band snap your knee inward on the return.\n\nComplete 15 reps to the left, then 15 to the right.\n2 sets each side."
+        timer: 80,
+        instructions: "Stand with feet hip-width apart, hands on hips or out for balance.\n\nStep your right foot back and across to the left — crossing behind your left leg — and lower your right knee toward the floor. Your left knee bends as you sink down. Keep your chest upright and your left knee tracking over your second toe.\n\nPause briefly at the bottom, then drive through your left heel to return to standing.\n\nThat's 1 rep on the left side. Complete 10 reps, then switch — step left foot back and across to do 10 reps on the right side.\n\n2 sets each side.\n\nThe crossing pattern directly loads the deep hip rotators and glute med — the key stabilizers for a powerful golf stance."
       },
       {
         name: "Core",
@@ -2853,6 +2881,77 @@ function restartRoutine() {
   currentExIndex = 0;
   showExercise();
 }
+
+/* ── PULL TO REFRESH ── */
+(function() {
+  let startY = 0;
+  let pulling = false;
+  let triggered = false;
+  const THRESHOLD = 72; // px of pull needed to trigger
+
+  const indicator = document.getElementById('ptr-indicator');
+  const spinner   = document.getElementById('ptr-spinner');
+  const label     = document.getElementById('ptr-label');
+
+  function isHomeActive() {
+    return document.getElementById('home').classList.contains('active');
+  }
+
+  document.addEventListener('touchstart', e => {
+    if (!isHomeActive()) return;
+    // Only start if we're at the very top of the page
+    if (window.scrollY > 2) return;
+    startY = e.touches[0].clientY;
+    pulling = true;
+    triggered = false;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (!pulling || !isHomeActive()) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy <= 0) { pulling = false; return; }
+
+    // Show indicator proportionally up to threshold
+    const progress = Math.min(dy / THRESHOLD, 1);
+    if (progress > 0.1) {
+      indicator.classList.add('visible');
+      if (dy >= THRESHOLD && !triggered) {
+        label.textContent = 'Release to refresh';
+        spinner.style.borderTopColor = 'var(--hip-primary)';
+      } else {
+        label.textContent = 'Pull to refresh';
+        spinner.style.borderTopColor = `rgba(232,115,74,${0.3 + progress * 0.7})`;
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', async () => {
+    if (!pulling || !isHomeActive()) return;
+    pulling = false;
+
+    if (indicator.classList.contains('visible') && !triggered) {
+      triggered = true;
+      label.textContent = 'Refreshing…';
+      spinner.classList.add('spin');
+
+      try {
+        await loadStravaActivities();
+        renderStreakGrid();
+        renderGoals();
+        renderGoalsStreak();
+        renderHabitsDots();
+        renderFoodInputs(getFoodToday());
+      } catch(e) {}
+    }
+
+    // Hide indicator
+    indicator.classList.remove('visible');
+    setTimeout(() => {
+      spinner.classList.remove('spin');
+      label.textContent = 'Pull to refresh';
+    }, 300);
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
