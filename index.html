@@ -20,6 +20,8 @@
     --golf-light: #7ac4a0;
     --body-primary: #d6455a;
     --body-light: #ef8a98;
+    --bend-primary: #6d7ae0;
+    --bend-light: #a8b1ee;
     --swim-primary: #14b8a6;
     --swim-light: #5eead4;
     --text: #f0f0f5;
@@ -323,6 +325,13 @@
   }
   .streak-pill.s-body .streak-pill-count { color: var(--body-primary); }
 
+  .streak-pill.s-bend {
+    background: rgba(109,122,224,0.1);
+    border: 1px solid rgba(109,122,224,0.22);
+    color: var(--bend-light);
+  }
+  .streak-pill.s-bend .streak-pill-count { color: var(--bend-primary); }
+
   .streak-pill.s-water {
     background: rgba(56,189,248,0.08);
     border: 1px solid rgba(56,189,248,0.2);
@@ -367,6 +376,7 @@
   .streak-pill.s-hip:not(.zero)    { border-color: var(--hip-primary); }
   .streak-pill.s-golf:not(.zero)   { border-color: var(--golf-primary); }
   .streak-pill.s-body:not(.zero)   { border-color: var(--body-primary); }
+  .streak-pill.s-bend:not(.zero)   { border-color: var(--bend-primary); }
   .streak-pill.s-water:not(.zero)  { border-color: var(--water-primary); }
   .streak-pill.s-habits:not(.zero) { border-color: var(--food-primary); }
   .streak-pill.s-strava:not(.zero) { border-color: var(--strava-primary); }
@@ -402,6 +412,11 @@
     border: 1px solid rgba(214,69,90,0.25);
     box-shadow: 0 4px 30px rgba(214,69,90,0.1);
   }
+  .routine-card.bend {
+    background: linear-gradient(135deg, #14162a 0%, #191c33 100%);
+    border: 1px solid rgba(109,122,224,0.25);
+    box-shadow: 0 4px 30px rgba(109,122,224,0.1);
+  }
 
   .card-accent {
     position: absolute;
@@ -413,6 +428,7 @@
   .hip .card-accent { background: var(--hip-primary); }
   .golf .card-accent { background: var(--golf-primary); }
   .body .card-accent { background: var(--body-primary); }
+  .bend .card-accent { background: var(--bend-primary); }
 
   .card-tag {
     font-size: 9px;
@@ -427,6 +443,7 @@
   .hip .card-tag { color: var(--hip-primary); background: rgba(232,115,74,0.12); }
   .golf .card-tag { color: var(--golf-primary); background: rgba(74,158,122,0.12); }
   .body .card-tag { color: var(--body-primary); background: rgba(214,69,90,0.12); }
+  .bend .card-tag { color: var(--bend-primary); background: rgba(109,122,224,0.12); }
 
   .card-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -460,6 +477,7 @@
   .hip .card-meta-item { color: var(--hip-light); }
   .golf .card-meta-item { color: var(--golf-light); }
   .body .card-meta-item { color: var(--body-light); }
+  .bend .card-meta-item { color: var(--bend-light); }
 
   .card-meta-item svg { width: 14px; height: 14px; flex-shrink: 0; }
 
@@ -802,18 +820,22 @@
   .c-hip { color: var(--hip-primary); }
   .c-golf { color: var(--golf-primary); }
   .c-body { color: var(--body-primary); }
+  .c-bend { color: var(--bend-primary); }
   .bg-hip { background: var(--hip-primary); }
   .bg-golf { background: var(--golf-primary); }
   .bg-body { background: var(--body-primary); }
+  .bg-bend { background: var(--bend-primary); }
   .bg-hip-soft { background: rgba(232,115,74,0.15); }
   .bg-golf-soft { background: rgba(74,158,122,0.15); }
   .bg-body-soft { background: rgba(214,69,90,0.15); }
+  .bg-bend-soft { background: rgba(109,122,224,0.15); }
   .border-hip { border-color: rgba(232,115,74,0.4) !important; }
   .border-golf { border-color: rgba(74,158,122,0.4) !important; }
   .border-body { border-color: rgba(214,69,90,0.4) !important; }
   .fill-hip { background: var(--hip-primary) !important; }
   .fill-golf { background: var(--golf-primary) !important; }
   .fill-body { background: var(--body-primary) !important; }
+  .fill-bend { background: var(--bend-primary) !important; }
 
   /* ── INLINE CARD STATS ── */
   .card-header-row {
@@ -1220,6 +1242,13 @@
           <div class="streak-pill-count" id="spill-body-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
+      <div class="streak-pill s-bend" id="spill-bend">
+        <div class="streak-pill-icon">🧘</div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Bend</div>
+          <div class="streak-pill-count" id="spill-bend-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
       <div class="streak-pill s-walk" id="spill-walk">
         <div class="streak-pill-icon">🚶</div>
         <div class="streak-pill-body">
@@ -1336,6 +1365,35 @@
             <div class="card-stat-divider"></div>
             <div class="card-stat-item">
               <div class="card-stat-num" id="bodyCountTotal">0</div>
+              <div class="card-stat-label">All Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BEND CARD ── -->
+      <div class="routine-card bend" onclick="openRoutine('bend')">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <div class="card-title">Bend</div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <div class="card-stats">
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="bendCountWeek">0</div>
+              <div class="card-stat-label">This Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="bendCountPrev">0</div>
+              <div class="card-stat-label">Last Wk</div>
+            </div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="bendCountTotal">0</div>
               <div class="card-stat-label">All Time</div>
             </div>
           </div>
@@ -1644,10 +1702,10 @@
 </div>
 
 <script>
-const ROUTINE_COLOR_VAR  = { hip: 'var(--hip-primary)', golf: 'var(--golf-primary)', body: 'var(--body-primary)' };
-const ROUTINE_COLOR_SOFT = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)' };
-const ROUTINE_DONE_BG    = { hip: 'rgba(232,115,74,0.15)', golf: 'rgba(74,158,122,0.15)', body: 'rgba(214,69,90,0.15)' };
-const ROUTINE_DONE_ICON  = { hip: '💪', golf: '⛳', body: '🏋️' };
+const ROUTINE_COLOR_VAR  = { hip: 'var(--hip-primary)', golf: 'var(--golf-primary)', body: 'var(--body-primary)', bend: 'var(--bend-primary)' };
+const ROUTINE_COLOR_SOFT = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)', bend: 'rgba(109,122,224,0.12)' };
+const ROUTINE_DONE_BG    = { hip: 'rgba(232,115,74,0.15)', golf: 'rgba(74,158,122,0.15)', body: 'rgba(214,69,90,0.15)', bend: 'rgba(109,122,224,0.15)' };
+const ROUTINE_DONE_ICON  = { hip: '💪', golf: '⛳', body: '🏋️', bend: '🧘' };
 
 const ROUTINES = {
   hip: {
@@ -1889,6 +1947,74 @@ const ROUTINES = {
         detail: "12-15 reps • 3 sets",
         timer: 180,
         instructions: "Lie face down (or sit, depending on machine) with the pad positioned just above your heels.\n\nCurl your legs up toward your glutes, squeezing your hamstrings, then lower under control back to the start.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
+      }
+    ]
+  },
+  bend: {
+    name: "Bend",
+    label: "Mobility",
+    subtitle: "Full-body stretch flow. 30 seconds per hold.",
+    color: "bend",
+    exercises: [
+      {
+        name: "Upward Salute",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Stand tall, feet hip-width apart. Sweep both arms overhead, palms facing each other or touching.\n\nReach up through your fingertips, gently arching your upper back and lifting through your chest.\n\nHold 30 seconds, breathing steadily."
+      },
+      {
+        name: "Scapula Stretch",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Bring your right arm across your chest at shoulder height. Use your left hand to gently press the right arm closer to your body, feeling the stretch behind your shoulder blade.\n\nHold 30 seconds, keeping your shoulders relaxed and away from your ears."
+      },
+      {
+        name: "Toe Touch",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Stand with feet hip-width apart, knees soft. Hinge forward from your hips and let your upper body hang toward your toes.\n\nLet your head and neck relax, arms reaching toward the floor or holding opposite elbows.\n\nHold 30 seconds, breathing into your lower back and hamstrings."
+      },
+      {
+        name: "Wide Leg Bend",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Step your feet out wide, toes turned slightly in. Hinge forward from your hips, letting your torso fold between your legs.\n\nRest your hands on the floor or on blocks, letting your head hang heavy.\n\nHold 30 seconds, feeling the stretch through your inner thighs and hamstrings."
+      },
+      {
+        name: "Standing Quad Stretch",
+        detail: "30 sec each side",
+        timer: 30,
+        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 30 seconds, then switch sides."
+      },
+      {
+        name: "Calf Stretch",
+        detail: "30 sec each side",
+        timer: 30,
+        instructions: "Step your right foot back into a staggered stance, both feet pointing forward. Keep your right leg straight and heel pressed into the floor.\n\nLean forward slightly, feeling the stretch in your right calf. Hold 30 seconds, then switch sides."
+      },
+      {
+        name: "Pigeon",
+        detail: "30 sec each side",
+        timer: 30,
+        instructions: "From all fours, bring your right knee forward toward your right wrist, angling your shin across your body. Extend your left leg straight back behind you.\n\nSquare your hips as best you can and fold forward over your front leg.\n\nHold 30 seconds, then switch sides."
+      },
+      {
+        name: "Upward Dog",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Lie face down, hands planted under your shoulders. Press through your hands to lift your chest and thighs off the floor, straightening your arms.\n\nRoll your shoulders back and down, keeping your hips low and open through the front of your body.\n\nHold 30 seconds."
+      },
+      {
+        name: "Downward Dog",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "From hands and knees, tuck your toes and lift your hips up and back, forming an inverted V shape.\n\nPress your hands into the floor, straighten your legs as much is comfortable, and let your heels reach toward the ground.\n\nHold 30 seconds, breathing into your hamstrings and shoulders."
+      },
+      {
+        name: "Child's Pose",
+        detail: "30 sec hold",
+        timer: 30,
+        instructions: "Kneel on the floor, big toes touching, knees wide. Sit back onto your heels and fold forward, reaching your arms out in front of you.\n\nRest your forehead on the floor and let your whole body relax.\n\nHold 30 seconds, breathing slowly and deeply."
       }
     ]
   }
@@ -2689,7 +2815,7 @@ function loadStats() {
   try {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
-    ['hip', 'golf', 'body'].forEach(type => {
+    ['hip', 'golf', 'body', 'bend'].forEach(type => {
       const total = parseInt(localStorage.getItem(`completions_${type}`) || '0');
       const week  = parseInt(localStorage.getItem(`completions_${type}_${weekKey}`) || '0');
       const prev  = parseInt(localStorage.getItem(`completions_${type}_${prevKey}`) || '0');
@@ -2797,6 +2923,7 @@ function renderStreakGrid() {
       { id: 'hip',    key: 'streak_hip' },
       { id: 'golf',   key: 'streak_golf' },
       { id: 'body',   key: 'streak_body' },
+      { id: 'bend',   key: 'streak_bend' },
       { id: 'walk',   key: 'streak_walk' },
       { id: 'swim',   key: 'streak_swim' },
       { id: 'water',  key: 'streak_water' },
