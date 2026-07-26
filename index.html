@@ -118,15 +118,6 @@
     letter-spacing: 0.5px;
     color: var(--text);
   }
-  .goals-streak {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--text-dim);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .goals-streak b { color: #fbbf24; font-size: 14px; }
   .goals-edit-btn {
     background: var(--card);
     border: 1px solid var(--border);
@@ -305,6 +296,13 @@
   }
 
   /* Color variants */
+  .streak-pill.s-goals {
+    background: rgba(167,139,250,0.1);
+    border: 1px solid rgba(167,139,250,0.22);
+    color: var(--food-light);
+  }
+  .streak-pill.s-goals .streak-pill-count { color: var(--food-primary); }
+
   .streak-pill.s-hip {
     background: rgba(232,115,74,0.1);
     border: 1px solid rgba(232,115,74,0.22);
@@ -339,13 +337,6 @@
   }
   .streak-pill.s-water .streak-pill-count { color: var(--water-primary); }
 
-  .streak-pill.s-habits {
-    background: rgba(167,139,250,0.08);
-    border: 1px solid rgba(167,139,250,0.2);
-    color: var(--food-light);
-  }
-  .streak-pill.s-habits .streak-pill-count { color: var(--food-primary); }
-
   .streak-pill.s-strava {
     background: rgba(26,86,219,0.08);
     border: 1px solid rgba(26,86,219,0.22);
@@ -373,12 +364,12 @@
 
   /* Bold border when streak is active (non-zero) */
   .streak-pill:not(.zero) { border-width: 2px; }
+  .streak-pill.s-goals:not(.zero)  { border-color: var(--food-primary); }
   .streak-pill.s-hip:not(.zero)    { border-color: var(--hip-primary); }
   .streak-pill.s-golf:not(.zero)   { border-color: var(--golf-primary); }
   .streak-pill.s-body:not(.zero)   { border-color: var(--body-primary); }
   .streak-pill.s-bend:not(.zero)   { border-color: var(--bend-primary); }
   .streak-pill.s-water:not(.zero)  { border-color: var(--water-primary); }
-  .streak-pill.s-habits:not(.zero) { border-color: var(--food-primary); }
   .streak-pill.s-strava:not(.zero) { border-color: var(--strava-primary); }
   .streak-pill.s-walk:not(.zero)   { border-color: #fbbf24; }
   .streak-pill.s-swim:not(.zero)   { border-color: var(--swim-primary); }
@@ -918,7 +909,7 @@
     padding: 14px; text-align: center; font-size: 12px; color: var(--text-muted);
   }
 
-  /* ── WATER / HABITS CARDS ── */
+  /* ── WATER CARD ── */
   :root {
     --food-primary: #a78bfa; --food-light: #c4b5fd;
     --water-primary: #38bdf8; --water-light: #7dd3fc;
@@ -946,19 +937,6 @@
   .water .food-goal-text.goal-met { color: #4ade80; }
   .water .food-goal-fill.goal-met { background: #4ade80; }
 
-  /* Habits card — purple, tappable */
-  .routine-card.food {
-    background: linear-gradient(135deg, #130e1e 0%, #1a1228 100%);
-    border: 1px solid rgba(167,139,250,0.25);
-    box-shadow: 0 4px 30px rgba(167,139,250,0.08);
-    cursor: pointer;
-  }
-  .food .card-accent { background: var(--food-primary); }
-  .food .card-stat-num { color: var(--white); }
-  .food .card-stats { border-top-color: rgba(167,139,250,0.15); }
-  .food .card-stat-divider { background: rgba(167,139,250,0.15); }
-  .food .card-arrow { background: rgba(167,139,250,0.2); color: var(--food-primary); }
-
   /* Walk card — yellow/amber */
   .routine-card.walk {
     background: linear-gradient(135deg, #1a1600 0%, #241e00 100%);
@@ -981,6 +959,19 @@
   }
   .walk-add-btn:active {
     background: rgba(251,191,36,0.35);
+    transform: scale(0.92);
+  }
+  .walk-remove-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: rgba(251,191,36,0.12); color: #fbbf24;
+    border: none; cursor: pointer; -webkit-user-select: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .walk-remove-btn:active {
+    background: rgba(251,191,36,0.25);
     transform: scale(0.92);
   }
 
@@ -1006,6 +997,19 @@
   }
   .swim-add-btn:active {
     background: rgba(20,184,166,0.35);
+    transform: scale(0.92);
+  }
+  .swim-remove-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: rgba(20,184,166,0.12); color: var(--swim-primary);
+    border: none; cursor: pointer; -webkit-user-select: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .swim-remove-btn:active {
+    background: rgba(20,184,166,0.25);
     transform: scale(0.92);
   }
 
@@ -1057,17 +1061,8 @@
     font-weight: 300; flex-shrink: 0; width: 44px; text-align: right;
   }
   .food-goal-text.goal-met { color: #4ade80; }
-  .habits-dots { display: flex; gap: 4px; align-items: center; }
-  .habits-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: rgba(167,139,250,0.3);
-    transition: background 0.2s;
-  }
-  .habits-dot.done { background: #4ade80; }
 
-  /* ── HABITS SCREEN ── */
-  #habits { background: var(--bg); flex-direction: column; }
-
+  /* ── HABITS/GOALS-EDITOR HEADER (shared) ── */
   .habits-header { padding: 52px 24px 16px; }
 
   .habits-title {
@@ -1083,76 +1078,6 @@
     display: flex; flex-direction: column; gap: 10px;
     flex: 1;
   }
-
-  .habit-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 12px;
-    cursor: pointer;
-    transition: transform 0.12s ease, border-color 0.2s, background 0.2s;
-    -webkit-user-select: none;
-  }
-  .habit-card:active { transform: scale(0.98); }
-  .habit-card.checked {
-    background: rgba(74,222,128,0.07);
-    border-color: rgba(74,222,128,0.35);
-  }
-
-  .habit-check {
-    width: 34px; height: 34px; border-radius: 50%;
-    border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; font-size: 16px;
-    background: rgba(255,255,255,0.03);
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .habit-card.checked .habit-check {
-    border-color: #4ade80;
-    background: rgba(74,222,128,0.15);
-  }
-
-  .habit-info { flex: 1; }
-  .habit-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
-  .habit-card.checked .habit-name { color: #4ade80; }
-  .habit-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.4; }
-
-  .habit-streak-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
-  .habit-streak {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px; color: var(--text-muted);
-    line-height: 1; text-align: center; min-width: 26px;
-  }
-  .habit-streak-label {
-    font-size: 8px; color: var(--text-muted); text-align: center;
-    letter-spacing: 0.5px; text-transform: uppercase;
-  }
-
-  .habit-week-dots {
-    display: flex; gap: 3px; margin-top: 6px;
-  }
-  .habit-week-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(255,255,255,0.07);
-    transition: background 0.2s;
-  }
-  .habit-week-dot.hit { background: #4ade80; }
-  .habit-week-dot.today { outline: 1px solid rgba(255,255,255,0.25); outline-offset: 1px; }
-
-  .habits-summary {
-    padding: 11px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .habits-summary-label { font-size: 11px; color: var(--text-muted); font-weight: 300; }
-  .habits-summary-score {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; color: var(--white); letter-spacing: 0.5px;
-  }
-  .habits-summary-score.all-done { color: #4ade80; }
 
   /* ── PULL TO REFRESH ── */
   #ptr-indicator {
@@ -1206,7 +1131,6 @@
     <div class="goals-section">
       <div class="goals-header">
         <div class="goals-title">This Week's Goals</div>
-        <div class="goals-streak">🔥 <b id="goals-streak-count">0</b> wk streak</div>
       </div>
       <div id="goals-list"></div>
       <button class="goals-edit-btn" onclick="openGoalsEditor()" style="width:100%; margin-top:4px;">Edit Goals</button>
@@ -1214,11 +1138,11 @@
 
     <!-- ── STREAK GRID ── -->
     <div class="streak-grid">
-      <div class="streak-pill s-habits" id="spill-habits">
-        <div class="streak-pill-icon">🌟</div>
+      <div class="streak-pill s-goals" id="spill-goals">
+        <div class="streak-pill-icon">🎯</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Habits</div>
-          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+          <div class="streak-pill-label">Weekly Goals</div>
+          <div class="streak-pill-count" id="spill-goals-count">0<span style="font-size:11px;opacity:0.45;"> of 0</span></div>
         </div>
       </div>
       <div class="streak-pill s-hip" id="spill-hip">
@@ -1406,9 +1330,14 @@
         <div class="card-header-row">
           <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">🚶 Walk</div>
-            <button class="walk-add-btn" onclick="logManualWalk()" aria-label="Log a walk">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button class="walk-remove-btn" onclick="logManualWalk(-1)" aria-label="Remove a walk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button class="walk-add-btn" onclick="logManualWalk(1)" aria-label="Log a walk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
           </div>
           <div class="card-stats">
             <div class="card-stat-item">
@@ -1435,9 +1364,14 @@
         <div class="card-header-row">
           <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">🏊 Swim</div>
-            <button class="swim-add-btn" onclick="logManualSwim()" aria-label="Log a swim">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            </button>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button class="swim-remove-btn" onclick="logManualSwim(-1)" aria-label="Remove a swim">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button class="swim-add-btn" onclick="logManualSwim(1)" aria-label="Log a swim">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
           </div>
           <div class="card-stats">
             <div class="card-stat-item">
@@ -1475,42 +1409,6 @@
               <div class="food-goal-fill" id="waterFill" style="width:0%; background:var(--water-primary);"></div>
             </div>
             <div class="food-goal-text" id="waterGoalText" style="width:36px;">0 / 8</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── HABITS CARD ── -->
-      <div class="routine-card food" onclick="openHabits()">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">Habits</div>
-            <div class="card-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
-            <div class="habits-dots" id="habitsDots" style="margin:0;">
-              <div class="habits-dot" id="hdot0"></div>
-              <div class="habits-dot" id="hdot1"></div>
-              <div class="habits-dot" id="hdot2"></div>
-            </div>
-            <div class="card-stats">
-              <div class="card-stat-item">
-                <div class="card-stat-num" id="foodCountWeek">0</div>
-                <div class="card-stat-label">This Wk</div>
-              </div>
-              <div class="card-stat-divider"></div>
-              <div class="card-stat-item">
-                <div class="card-stat-num" id="foodCountPrev">0</div>
-                <div class="card-stat-label">Last Wk</div>
-              </div>
-              <div class="card-stat-divider"></div>
-              <div class="card-stat-item">
-                <div class="card-stat-num" id="foodCountTotal">0</div>
-                <div class="card-stat-label">Perfect Days</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1623,65 +1521,6 @@
   <div class="done-sub" id="doneSub">Great work. See you next session.</div>
   <button class="done-btn" id="doneMainBtn" onclick="goHome()">BACK TO HOME</button>
   <button class="done-btn-secondary" onclick="restartRoutine()">REPEAT ROUTINE</button>
-</div>
-
-<!-- ══ HABITS ══ -->
-<div id="habits" class="screen">
-  <div class="habits-header">
-    <button class="back-btn" onclick="goHome()" style="margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
-      <span>Home</span>
-    </button>
-    <div class="habits-title">TODAY'S HABITS</div>
-    <div class="habits-subtitle" id="habitsDate">—</div>
-  </div>
-  <div class="habits-body">
-
-    <div class="habit-card" id="hcard-exercise" onclick="toggleHabit('exercise')">
-      <div class="habit-check" id="hcheck-exercise">🏃</div>
-      <div class="habit-info">
-        <div class="habit-name">AM Exercise</div>
-        <div class="habit-desc">Complete a morning routine or workout</div>
-        <div class="habit-week-dots" id="hweek-exercise"></div>
-      </div>
-      <div class="habit-streak-wrap">
-        <div class="habit-streak" id="hstreak-exercise">0</div>
-        <div class="habit-streak-label">streak</div>
-      </div>
-    </div>
-
-    <div class="habit-card" id="hcard-mindful" onclick="toggleHabit('mindful')">
-      <div class="habit-check" id="hcheck-mindful">⏱️</div>
-      <div class="habit-info">
-        <div class="habit-name">Intermittent Fast 8pm-10:30am</div>
-        <div class="habit-desc">No food outside the 8:00pm – 10:30am fasting window</div>
-        <div class="habit-week-dots" id="hweek-mindful"></div>
-      </div>
-      <div class="habit-streak-wrap">
-        <div class="habit-streak" id="hstreak-mindful">0</div>
-        <div class="habit-streak-label">streak</div>
-      </div>
-    </div>
-
-    <div class="habit-card" id="hcard-espanol" onclick="toggleHabit('espanol')">
-      <div class="habit-check" id="hcheck-espanol">🇪🇸</div>
-      <div class="habit-info">
-        <div class="habit-name">Español</div>
-        <div class="habit-desc">Completed Duolingo lesson</div>
-        <div class="habit-week-dots" id="hweek-espanol"></div>
-      </div>
-      <div class="habit-streak-wrap">
-        <div class="habit-streak" id="hstreak-espanol">0</div>
-        <div class="habit-streak-label">streak</div>
-      </div>
-    </div>
-
-    <div class="habits-summary">
-      <div class="habits-summary-label">Today's score</div>
-      <div class="habits-summary-score" id="habitsSummaryScore">0 / 5</div>
-    </div>
-
-  </div>
 </div>
 
 <!-- ── GOALS EDITOR ── -->
@@ -1947,6 +1786,18 @@ const ROUTINES = {
         detail: "12-15 reps • 3 sets",
         timer: 180,
         instructions: "Lie face down (or sit, depending on machine) with the pad positioned just above your heels.\n\nCurl your legs up toward your glutes, squeezing your hamstrings, then lower under control back to the start.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
+      },
+      {
+        name: "Core",
+        detail: "3 minutes • Ab work",
+        timer: 180,
+        instructions: "3 minutes of ab work — mix in exercises like crunches, leg raises, bicycles, or Russian twists.\n\nMove at a steady pace and keep your core braced throughout. Rest briefly between movements as needed, but keep the total working time to 3 minutes."
+      },
+      {
+        name: "Plank",
+        detail: "70 sec hold",
+        timer: 70,
+        instructions: "Forearms on the floor, elbows under shoulders, body in a straight line from head to heels.\n\nBrace your core and glutes, keep your hips level — don't let them sag or pike up.\n\nHold for 70 seconds, breathing steadily throughout."
       }
     ]
   },
@@ -1982,15 +1833,21 @@ const ROUTINES = {
       },
       {
         name: "Standing Quad Stretch",
-        detail: "30 sec each side",
-        timer: 30,
-        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 30 seconds, then switch sides."
+        detail: "60 sec each side",
+        timer: 60,
+        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 60 seconds, then switch sides."
       },
       {
         name: "Calf Stretch",
-        detail: "30 sec each side",
+        detail: "45 sec each side",
+        timer: 45,
+        instructions: "Step your right foot back into a staggered stance, both feet pointing forward. Keep your right leg straight and heel pressed into the floor.\n\nLean forward slightly, feeling the stretch in your right calf. Hold 45 seconds, then switch sides."
+      },
+      {
+        name: "Downward Dog",
+        detail: "30 sec hold",
         timer: 30,
-        instructions: "Step your right foot back into a staggered stance, both feet pointing forward. Keep your right leg straight and heel pressed into the floor.\n\nLean forward slightly, feeling the stretch in your right calf. Hold 30 seconds, then switch sides."
+        instructions: "From hands and knees, tuck your toes and lift your hips up and back, forming an inverted V shape.\n\nPress your hands into the floor, straighten your legs as much is comfortable, and let your heels reach toward the ground.\n\nHold 30 seconds, breathing into your hamstrings and shoulders."
       },
       {
         name: "Pigeon",
@@ -2003,12 +1860,6 @@ const ROUTINES = {
         detail: "30 sec hold",
         timer: 30,
         instructions: "Lie face down, hands planted under your shoulders. Press through your hands to lift your chest and thighs off the floor, straightening your arms.\n\nRoll your shoulders back and down, keeping your hips low and open through the front of your body.\n\nHold 30 seconds."
-      },
-      {
-        name: "Downward Dog",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "From hands and knees, tuck your toes and lift your hips up and back, forming an inverted V shape.\n\nPress your hands into the floor, straighten your legs as much is comfortable, and let your heels reach toward the ground.\n\nHold 30 seconds, breathing into your hamstrings and shoulders."
       },
       {
         name: "Child's Pose",
@@ -2033,10 +1884,9 @@ function goHome() {
   timerRunning = false;
   stopWakeLock();
   showScreen('home');
-  renderHabitsDots();
   renderFoodInputs(getFoodToday());
   renderGoals();
-  renderGoalsStreak();
+  renderGoalsTally();
 }
 
 function showScreen(id) {
@@ -2391,7 +2241,6 @@ function getPrevWeekKey() { return getWeekKey(-1); }
 
 /* ── WEEKLY GOALS ── */
 const GOALS_TEMPLATE_KEY = 'goals_template'; // [{name, target}]
-const GOALS_STREAK_KEY   = 'goals_streak';   // {current, best, lastWeek}
 
 function getGoalsTemplate() {
   try {
@@ -2432,60 +2281,22 @@ function adjustGoal(idx, delta) {
   progress[idx] = val;
   setGoalsProgress(weekKey, progress);
   renderGoals();
-  checkGoalsStreak();
+  renderGoalsTally();
 }
 
-function checkGoalsStreak() {
+// Tallies how many of this week's goals have been met, shown as "x of y"
+function renderGoalsTally() {
   try {
     const weekKey = getWeekKey();
     const template = getGoalsTemplate();
-    if (!template.length) return;
     const progress = getGoalsProgress(weekKey);
-    const allDone = template.every((g, i) => (progress[i] || 0) >= g.target);
+    const total = template.length;
+    const met = template.filter((g, i) => (progress[i] || 0) >= g.target).length;
 
-    let data = { current: 0, best: 0, lastWeek: '' };
-    try {
-      const raw = localStorage.getItem(GOALS_STREAK_KEY);
-      if (raw) data = JSON.parse(raw);
-    } catch(e) {}
-
-    if (allDone) {
-      if (data.lastWeek !== weekKey) {
-        const prevWeek = getPrevWeekKey();
-        if (data.lastWeek === prevWeek) {
-          data.current += 1;
-        } else {
-          data.current = 1;
-        }
-        data.lastWeek = weekKey;
-        if (data.current > data.best) data.best = data.current;
-      }
-    } else {
-      // If this week was previously marked complete but no longer is, undo it
-      if (data.lastWeek === weekKey) {
-        data.current = Math.max(0, data.current - 1);
-        data.lastWeek = '';
-      }
-    }
-    localStorage.setItem(GOALS_STREAK_KEY, JSON.stringify(data));
-    renderGoalsStreak();
-  } catch(e) {}
-}
-
-function renderGoalsStreak() {
-  try {
-    let data = { current: 0, best: 0, lastWeek: '' };
-    try {
-      const raw = localStorage.getItem(GOALS_STREAK_KEY);
-      if (raw) data = JSON.parse(raw);
-    } catch(e) {}
-    // If neither last week nor this week is marked complete, streak is stale -> 0
-    const weekKey = getWeekKey();
-    const prevWeek = getPrevWeekKey();
-    let current = data.current;
-    if (data.lastWeek !== weekKey && data.lastWeek !== prevWeek) current = 0;
-    const el = document.getElementById('goals-streak-count');
-    if (el) el.textContent = current;
+    const el = document.getElementById('spill-goals-count');
+    if (el) el.innerHTML = `${met}<span style="font-size:11px;opacity:0.45;"> of ${total}</span>`;
+    const pill = document.getElementById('spill-goals');
+    if (pill) pill.classList.toggle('zero', met === 0);
   } catch(e) {}
 }
 
@@ -2559,7 +2370,7 @@ function saveGoals() {
     .map(g => ({ name: (g.name || '').trim() || 'Untitled Goal', target: Math.max(1, parseInt(g.target) || 1) }));
   setGoalsTemplate(cleaned);
   renderGoals();
-  checkGoalsStreak();
+  renderGoalsTally();
   goHome();
 }
 
@@ -2613,204 +2424,6 @@ function renderFoodInputs(data) {
 // Initialize water on load
 (function initFood() { renderFoodInputs(getFoodToday()); })();
 
-/* ── HABITS TRACKING ── */
-const HABITS = ['exercise', 'mindful', 'espanol'];
-
-const HABIT_ICONS = { exercise: '🏃', mindful: '⏱️', espanol: '🇪🇸' };
-
-function getHabitsToday() {
-  try {
-    const raw = localStorage.getItem(`habits_${getTodayDateKey()}`);
-    return raw ? JSON.parse(raw) : {};
-  } catch(e) { return {}; }
-}
-
-function saveHabitsToday(data) {
-  try { localStorage.setItem(`habits_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
-}
-
-function getDayKey(daysAgo) {
-  const d = new Date();
-  d.setDate(d.getDate() - daysAgo);
-  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function getHabitStreak(habitId) {
-  let streak = 0;
-  // Walk back from yesterday (today might not be done yet)
-  for (let i = 1; i <= 365; i++) {
-    const key = getDayKey(i);
-    try {
-      const raw = localStorage.getItem(`habits_${key}`);
-      const data = raw ? JSON.parse(raw) : {};
-      if (data[habitId]) streak++;
-      else break;
-    } catch(e) { break; }
-  }
-  return streak;
-}
-
-function getHabitWeekHistory(habitId) {
-  // Returns array of 7 bools — Mon to Sun of current week, with today included
-  const result = [];
-  const today = new Date();
-  const dayOfWeek = today.getDay(); // 0=Sun
-  // Build Mon-Sun array (7 days), where index 0=Mon
-  for (let i = 0; i < 7; i++) {
-    // i=0 is Monday: offset from Sunday = 1
-    const offset = ((dayOfWeek === 0 ? 7 : dayOfWeek) - 1) - i;
-    const d = new Date(today);
-    d.setDate(today.getDate() - offset);
-    const key = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    try {
-      const raw = localStorage.getItem(`habits_${key}`);
-      const data = raw ? JSON.parse(raw) : {};
-      result.push({ done: !!data[habitId], isToday: offset === 0 });
-    } catch(e) { result.push({ done: false, isToday: false }); }
-  }
-  return result;
-}
-
-function toggleHabit(habitId) {
-  const today = getHabitsToday();
-  today[habitId] = !today[habitId];
-  saveHabitsToday(today);
-  renderHabitsScreen();
-  renderHabitsDots();
-  loadHabitsStats();
-  // Update habits streak when all 3 are done
-  if (HABITS.every(id => !!today[id])) updateCategoryStreak('streak_habits');
-}
-
-// Called when a routine completes — auto-checks AM Exercise
-function autoCheckExercise() {
-  const today = getHabitsToday();
-  if (!today.exercise) {
-    today.exercise = true;
-    saveHabitsToday(today);
-    renderHabitsDots();
-  }
-  // Check if all habits now done
-  if (HABITS.every(id => !!today[id])) updateCategoryStreak('streak_habits');
-}
-
-function renderHabitsDots() {
-  try {
-    const today = getHabitsToday();
-    HABITS.forEach((id, i) => {
-      const dot = document.getElementById(`hdot${i}`);
-      if (dot) dot.className = 'habits-dot' + (today[id] ? ' done' : '');
-    });
-  } catch(e) {}
-}
-
-function renderHabitsScreen() {
-  try {
-    const today = getHabitsToday();
-    let doneCount = 0;
-
-    HABITS.forEach(id => {
-      const checked = !!today[id];
-      if (checked) doneCount++;
-
-      const card = document.getElementById(`hcard-${id}`);
-      const check = document.getElementById(`hcheck-${id}`);
-      const streakEl = document.getElementById(`hstreak-${id}`);
-      const weekEl = document.getElementById(`hweek-${id}`);
-
-      if (card) card.className = 'habit-card' + (checked ? ' checked' : '');
-      if (check) check.textContent = checked ? '✓' : HABIT_ICONS[id];
-
-      // Streak: if today is done, show streak+1 (today counts)
-      const streak = getHabitStreak(id) + (checked ? 1 : 0);
-      if (streakEl) streakEl.textContent = streak;
-
-      // Week history dots
-      if (weekEl) {
-        const history = getHabitWeekHistory(id);
-        weekEl.innerHTML = history.map(day =>
-          `<div class="habit-week-dot${day.done ? ' hit' : ''}${day.isToday ? ' today' : ''}"></div>`
-        ).join('');
-      }
-    });
-
-    // Summary score
-    const score = document.getElementById('habitsSummaryScore');
-    if (score) {
-      score.textContent = `${doneCount} / ${HABITS.length}`;
-      score.className = 'habits-summary-score' + (doneCount === HABITS.length ? ' all-done' : '');
-    }
-
-    // Date label
-    const dateEl = document.getElementById('habitsDate');
-    if (dateEl) {
-      const d = new Date();
-      dateEl.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    }
-
-    renderHabitsDots();
-  } catch(e) {}
-}
-
-function openHabits() {
-  renderHabitsScreen();
-  renderHabitsDots();
-  showScreen('habits');
-}
-
-function loadHabitsStats() {
-  try {
-    const weekKey = getWeekKey();
-    const prevKey = getPrevWeekKey();
-
-    // Count days this week / last week where all 3 habits were done
-    let thisWeekPerfect = 0, lastWeekPerfect = 0, allTimePerfect = 0;
-
-    // This week: walk back up to 7 days
-    const today = new Date();
-    const dow = today.getDay(); // 0=Sun
-    const daysIntoWeek = dow === 0 ? 0 : dow; // Mon-based: days since Sunday
-
-    for (let i = 0; i <= 6; i++) {
-      const key = getDayKey(i);
-      try {
-        const raw = localStorage.getItem(`habits_${key}`);
-        const data = raw ? JSON.parse(raw) : {};
-        if (HABITS.every(id => !!data[id])) thisWeekPerfect++;
-      } catch(e) {}
-    }
-
-    for (let i = 7; i <= 13; i++) {
-      const key = getDayKey(i);
-      try {
-        const raw = localStorage.getItem(`habits_${key}`);
-        const data = raw ? JSON.parse(raw) : {};
-        if (HABITS.every(id => !!data[id])) lastWeekPerfect++;
-      } catch(e) {}
-    }
-
-    // All time: scan stored habits_ keys
-    for (let i = 0; i <= 365; i++) {
-      const key = getDayKey(i);
-      try {
-        const raw = localStorage.getItem(`habits_${key}`);
-        if (!raw) continue;
-        const data = JSON.parse(raw);
-        if (HABITS.every(id => !!data[id])) allTimePerfect++;
-      } catch(e) {}
-    }
-
-    document.getElementById('foodCountWeek').textContent  = thisWeekPerfect;
-    document.getElementById('foodCountPrev').textContent  = lastWeekPerfect;
-    document.getElementById('foodCountTotal').textContent = allTimePerfect;
-  } catch(e) {}
-}
-
-// Initialize on load
-loadHabitsStats();
-
-/* ── END HABITS TRACKING ── */
-
 function loadStats() {
   try {
     const weekKey = getWeekKey();
@@ -2847,7 +2460,6 @@ function showDone() {
 
   incrementCompletion(currentRoutine);
   updateCategoryStreak('streak_' + currentRoutine);
-  autoCheckExercise();
   stopWakeLock();
 
   document.getElementById('doneIcon').style.background = ROUTINE_DONE_BG[c];
@@ -2877,7 +2489,7 @@ function getYesterdayKey() {
 }
 
 // Update a category streak when that category is completed today.
-// key prefix examples: 'streak_hip', 'streak_golf', 'streak_water', 'streak_habits'
+// key prefix examples: 'streak_hip', 'streak_golf', 'streak_water'
 function updateCategoryStreak(key) {
   try {
     const today = getTodayKey();
@@ -2927,7 +2539,6 @@ function renderStreakGrid() {
       { id: 'walk',   key: 'streak_walk' },
       { id: 'swim',   key: 'streak_swim' },
       { id: 'water',  key: 'streak_water' },
-      { id: 'habits', key: 'streak_habits' },
       { id: 'strava', key: 'streak_strava' },
     ];
     categories.forEach(({ id, key }) => {
@@ -2942,13 +2553,13 @@ function renderStreakGrid() {
 
 // Called when a routine completes
 function updateStreak() {
-  // kept for backwards compat — now handled per-category in showDone / adjustFood / toggleHabit
+  // kept for backwards compat — now handled per-category in showDone / adjustFood
 }
 
 // Render streak grid on load
 renderStreakGrid();
 renderGoals();
-renderGoalsStreak();
+renderGoalsTally();
 renderWalkDisplay();
 renderSwimDisplay();
 
@@ -3195,16 +2806,18 @@ function renderSwimDisplay() {
   } catch(e) {}
 }
 
-// Manually log a swim that wasn't captured by Strava
-function logManualSwim() {
+// Manually log (or remove) a swim that wasn't captured by Strava
+function logManualSwim(delta = 1) {
   try {
     const weekKey = getWeekKey();
     const totalKey = 'swim_manual_total';
     const weeklyKey = `swim_manual_${weekKey}`;
-    localStorage.setItem(totalKey,  parseInt(localStorage.getItem(totalKey)  || '0') + 1);
-    localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
+    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
+    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
+    localStorage.setItem(totalKey,  newTotal);
+    localStorage.setItem(weeklyKey, newWeekly);
 
-    updateCategoryStreak('streak_swim');
+    if (delta > 0) updateCategoryStreak('streak_swim');
     renderSwimDisplay();
     renderStreakGrid();
   } catch(e) {}
@@ -3233,16 +2846,18 @@ function renderWalkDisplay() {
   } catch(e) {}
 }
 
-// Manually log a walk that wasn't captured by Strava
-function logManualWalk() {
+// Manually log (or remove) a walk that wasn't captured by Strava
+function logManualWalk(delta = 1) {
   try {
     const weekKey = getWeekKey();
     const totalKey = 'walk_manual_total';
     const weeklyKey = `walk_manual_${weekKey}`;
-    localStorage.setItem(totalKey,  parseInt(localStorage.getItem(totalKey)  || '0') + 1);
-    localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
+    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
+    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
+    localStorage.setItem(totalKey,  newTotal);
+    localStorage.setItem(weeklyKey, newWeekly);
 
-    updateCategoryStreak('streak_walk');
+    if (delta > 0) updateCategoryStreak('streak_walk');
     renderWalkDisplay();
     renderStreakGrid();
   } catch(e) {}
@@ -3359,8 +2974,7 @@ function restartRoutine() {
         await loadStravaActivities();
         renderStreakGrid();
         renderGoals();
-        renderGoalsStreak();
-        renderHabitsDots();
+        renderGoalsTally();
         renderFoodInputs(getFoodToday());
       } catch(e) {}
     }
