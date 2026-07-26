@@ -76,7 +76,7 @@
 
   .home-title {
     font-family: 'DM Sans', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
     line-height: 1.2;
     color: var(--white);
@@ -130,24 +130,30 @@
   .goal-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
   .goal-card.complete { border-color: rgba(74,222,128,0.4); }
-  .goal-info { flex: 1; min-width: 0; }
+  .goal-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
   .goal-name {
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text);
-    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    min-width: 0;
   }
   .goal-progress-bar {
-    height: 6px;
+    width: 50px;
+    flex-shrink: 0;
+    height: 5px;
     background: rgba(255,255,255,0.08);
     border-radius: 3px;
     overflow: hidden;
@@ -161,20 +167,21 @@
   .goal-card.complete .goal-progress-fill { background: #4ade80; }
   .goal-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--text-dim);
-    min-width: 38px;
+    min-width: 32px;
     text-align: center;
+    flex-shrink: 0;
   }
   .goal-card.complete .goal-count { color: #4ade80; }
-  .goal-btns { display: flex; gap: 6px; }
+  .goal-btns { display: flex; gap: 4px; flex-shrink: 0; }
   .goal-btn {
-    width: 32px; height: 32px;
-    border-radius: 8px;
+    width: 26px; height: 26px;
+    border-radius: 7px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,0.04);
     color: var(--text);
-    font-size: 16px;
+    font-size: 14px;
     display: flex; align-items: center; justify-content: center;
   }
   .goal-empty {
@@ -481,6 +488,7 @@
   .hip .card-arrow { background: rgba(232,115,74,0.2); color: var(--hip-primary); }
   .golf .card-arrow { background: rgba(74,158,122,0.2); color: var(--golf-primary); }
   .body .card-arrow { background: rgba(214,69,90,0.2); color: var(--body-primary); }
+  .bend .card-arrow { background: rgba(109,122,224,0.2); color: var(--bend-primary); }
 
   .home-footer {
     text-align: center;
@@ -923,19 +931,34 @@
     cursor: default;
   }
   .water .card-accent { background: var(--water-primary); }
-  .water .card-tag { color: var(--water-primary); background: rgba(56,189,248,0.12); }
-  .water .card-title { color: var(--white); }
   .water .card-stat-num { color: var(--white); }
   .water .card-stat-divider { background: rgba(56,189,248,0.15); }
-  .water .food-btn { color: var(--water-light); }
-  .water .food-btn:active { background: rgba(56,189,248,0.15); }
-  .water .food-counter {
-    border-color: rgba(56,189,248,0.2);
+  .water-add-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: rgba(56,189,248,0.2); color: var(--water-primary);
+    border: none; cursor: pointer; -webkit-user-select: none;
+    transition: background 0.15s, transform 0.1s;
   }
-  .water .food-goal-fill { background: var(--water-primary); }
-  .water .food-goal-text { color: var(--text-muted); }
-  .water .food-goal-text.goal-met { color: #4ade80; }
-  .water .food-goal-fill.goal-met { background: #4ade80; }
+  .water-add-btn:active {
+    background: rgba(56,189,248,0.35);
+    transform: scale(0.92);
+  }
+  .water-remove-btn {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    background: rgba(56,189,248,0.12); color: var(--water-primary);
+    border: none; cursor: pointer; -webkit-user-select: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .water-remove-btn:active {
+    background: rgba(56,189,248,0.25);
+    transform: scale(0.92);
+  }
 
   /* Walk card — yellow/amber */
   .routine-card.walk {
@@ -1013,55 +1036,6 @@
     transform: scale(0.92);
   }
 
-  /* food-btn used in water card */
-  .food-inputs {
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .food-row {
-    display: flex; align-items: center; gap: 8px;
-  }
-  .food-counter {
-    display: flex; align-items: center;
-    background: rgba(255,255,255,0.05);
-    border-radius: 8px; overflow: hidden;
-    flex-shrink: 0;
-  }
-  /* food-btn used in water card */
-  .food-btn {
-    background: none; border: none;
-    font-size: 18px; font-weight: 300;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; -webkit-user-select: none;
-    transition: background 0.1s;
-    flex-shrink: 0;
-  }
-
-  .food-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; line-height: 1;
-    color: var(--white); text-align: center;
-    width: 36px;
-  }
-
-  .food-goal-bar {
-    flex: 1; height: 4px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 2px; overflow: hidden;
-  }
-  .food-goal-fill {
-    height: 100%; border-radius: 2px;
-    transition: width 0.3s ease;
-    max-width: 100%;
-  }
-  .food-goal-fill.goal-met { background: #4ade80; }
-
-  .food-goal-text {
-    font-size: 10px; color: var(--text-muted);
-    font-weight: 300; flex-shrink: 0; width: 44px; text-align: right;
-  }
-  .food-goal-text.goal-met { color: #4ade80; }
-
   /* ── HABITS/GOALS-EDITOR HEADER (shared) ── */
   .habits-header { padding: 52px 24px 16px; }
 
@@ -1122,16 +1096,14 @@
   <div class="home-bg"></div>
   <div class="home-inner">
     <div class="home-header">
-      <div class="home-title">Live <span>Better</span></div>
+      <div class="home-title">Borrowing Time- Future Might Not Have</div>
 
     </div>
     <div class="divider"></div>
 
     <!-- ── WEEKLY GOALS ── -->
     <div class="goals-section">
-      <div class="goals-header">
-        <div class="goals-title">This Week's Goals</div>
-      </div>
+      <div class="goals-header"></div>
       <div id="goals-list"></div>
       <button class="goals-edit-btn" onclick="openGoalsEditor()" style="width:100%; margin-top:4px;">Edit Goals</button>
     </div>
@@ -1396,19 +1368,32 @@
       <div class="routine-card water">
         <div class="card-accent"></div>
         <div class="card-header-row">
-          <div class="card-title-group" style="flex-shrink:0;">
+          <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">💧 Water</div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <button class="water-remove-btn" onclick="adjustWater(-1)" aria-label="Remove a glass of water">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button class="water-add-btn" onclick="adjustWater(1)" aria-label="Log a glass of water">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+            </div>
           </div>
-          <div style="display:flex; align-items:center; gap:8px; flex:1; justify-content:flex-end;">
-            <div class="food-counter" style="border-color:rgba(56,189,248,0.2);">
-              <button class="food-btn" onclick="adjustFood('water',-1)">−</button>
-              <div class="food-val" id="waterVal">0</div>
-              <button class="food-btn" onclick="adjustFood('water',1)">+</button>
+          <div class="card-stats">
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="waterCountWeek">0</div>
+              <div class="card-stat-label">This Wk</div>
             </div>
-            <div class="food-goal-bar" style="width:80px; flex:none;">
-              <div class="food-goal-fill" id="waterFill" style="width:0%; background:var(--water-primary);"></div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="waterCountPrev">0</div>
+              <div class="card-stat-label">Last Wk</div>
             </div>
-            <div class="food-goal-text" id="waterGoalText" style="width:36px;">0 / 8</div>
+            <div class="card-stat-divider"></div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="waterCountTotal">0</div>
+              <div class="card-stat-label">All Time</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1884,7 +1869,7 @@ function goHome() {
   timerRunning = false;
   stopWakeLock();
   showScreen('home');
-  renderFoodInputs(getFoodToday());
+  renderWaterDisplay();
   renderGoals();
   renderGoalsTally();
 }
@@ -2375,54 +2360,44 @@ function saveGoals() {
 }
 
 
-const WATER_GOAL = 8;
-
-function getTodayDateKey() {
-  const d = new Date();
-  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-}
-
-function getFoodToday() {
+// Combines the running water count for display — This Wk / Last Wk / All Time
+function renderWaterDisplay() {
   try {
-    const raw = localStorage.getItem(`food_${getTodayDateKey()}`);
-    return raw ? JSON.parse(raw) : { water: 0 };
-  } catch(e) { return { water: 0 }; }
+    const weekKey = getWeekKey();
+    const prevKey = getPrevWeekKey();
+
+    const week  = parseInt(localStorage.getItem(`completions_water_${weekKey}`) || '0');
+    const prev  = parseInt(localStorage.getItem(`completions_water_${prevKey}`) || '0');
+    const total = parseInt(localStorage.getItem('completions_water') || '0');
+
+    const wkEl = document.getElementById('waterCountWeek');
+    const wpEl = document.getElementById('waterCountPrev');
+    const wtEl = document.getElementById('waterCountTotal');
+    if (wkEl) wkEl.textContent = week;
+    if (wpEl) wpEl.textContent = prev;
+    if (wtEl) wtEl.textContent = total;
+  } catch(e) {}
 }
 
-function saveFoodToday(data) {
-  try { localStorage.setItem(`food_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
-}
-
-function syncWaterStat() {
-  const el = document.getElementById('waterStatToday');
-  if (el) el.textContent = getFoodToday().water;
-}
-
-function adjustFood(type, delta) {
-  const today = getFoodToday();
-  if (type === 'water') today.water = Math.max(0, Math.min(20, today.water + delta));
-  saveFoodToday(today);
-  renderFoodInputs(today);
-}
-
-function renderFoodInputs(data) {
+// Log (or remove) a glass of water
+function adjustWater(delta) {
   try {
-    const waterPct = Math.min(100, (data.water / WATER_GOAL) * 100);
-    const waterMet = data.water >= WATER_GOAL;
-    document.getElementById('waterVal').textContent = data.water;
-    const wFill = document.getElementById('waterFill');
-    wFill.style.width = waterPct + '%';
-    wFill.className = 'food-goal-fill' + (waterMet ? ' goal-met' : '');
-    const wText = document.getElementById('waterGoalText');
-    wText.textContent = `${data.water} / ${WATER_GOAL}`;
-    wText.className = 'food-goal-text' + (waterMet ? ' goal-met' : '');
-    // Update water streak when goal first reached today
-    if (waterMet) updateCategoryStreak('streak_water');
+    const weekKey = getWeekKey();
+    const totalKey = 'completions_water';
+    const weeklyKey = `completions_water_${weekKey}`;
+    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
+    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
+    localStorage.setItem(totalKey,  newTotal);
+    localStorage.setItem(weeklyKey, newWeekly);
+
+    if (delta > 0) updateCategoryStreak('streak_water');
+    renderWaterDisplay();
+    renderStreakGrid();
   } catch(e) {}
 }
 
 // Initialize water on load
-(function initFood() { renderFoodInputs(getFoodToday()); })();
+renderWaterDisplay();
 
 function loadStats() {
   try {
@@ -2553,7 +2528,7 @@ function renderStreakGrid() {
 
 // Called when a routine completes
 function updateStreak() {
-  // kept for backwards compat — now handled per-category in showDone / adjustFood
+  // kept for backwards compat — now handled per-category in showDone / adjustWater
 }
 
 // Render streak grid on load
@@ -2975,7 +2950,7 @@ function restartRoutine() {
         renderStreakGrid();
         renderGoals();
         renderGoalsTally();
-        renderFoodInputs(getFoodToday());
+        renderWaterDisplay();
       } catch(e) {}
     }
 
