@@ -100,6 +100,27 @@
     margin: 6px 0;
   }
 
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 6px 0 5px;
+  }
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #2a2a3a;
+  }
+  .section-divider-text {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8888aa;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+
   /* ── WEEKLY GOALS ── */
   .goals-section {
     margin-bottom: 5px;
@@ -112,9 +133,10 @@
   }
   .goals-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 17px;
+    font-size: 21px;
     letter-spacing: 0.5px;
     color: var(--text);
+    margin-bottom: 6px;
   }
   .goals-streak {
     font-family: 'DM Sans', sans-serif;
@@ -347,6 +369,21 @@
     white-space: nowrap;
   }
   .water-daily-count.goal-met { color: #4ade80; }
+
+  .tile-counts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+  .tile-week-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    opacity: 0.7;
+  }
 
   /* ── HABITS TILE ── */
   .habits-tile-arrow {
@@ -1302,6 +1339,7 @@
     </div>
 
     <!-- ── WATER DAILY CARD ── -->
+    <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Featured</span><div class="section-divider-line"></div></div>
     <div class="water-daily-card" id="waterDailyCard">
       <div class="water-daily-left">
         <span class="water-daily-icon">💧</span>
@@ -1316,7 +1354,10 @@
         <div class="water-daily-bar">
           <div class="water-daily-fill" id="waterFill" style="width:0%;"></div>
         </div>
-        <div class="water-daily-count" id="waterGoalText">0 / 10</div>
+        <div class="tile-counts">
+          <div class="water-daily-count" id="waterGoalText">0 / 10</div>
+          <div class="tile-week-count" id="waterWeeklyDays">0 / 7 wk</div>
+        </div>
       </div>
     </div>
 
@@ -1330,7 +1371,10 @@
         <div class="water-daily-bar">
           <div class="habits-daily-fill" id="habitsDailyFill" style="width:0%;"></div>
         </div>
-        <div class="water-daily-count" id="habitsDailyCount">0 / 3</div>
+        <div class="tile-counts">
+          <div class="water-daily-count" id="habitsDailyCount">0 / 3</div>
+          <div class="tile-week-count" id="habitsWeeklyDays">0 / 7 wk</div>
+        </div>
       </div>
       <button class="habits-tile-arrow" onclick="openHabits()" aria-label="Open habits">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -1338,6 +1382,7 @@
     </div>
 
     <!-- ── STREAK GRID ── -->
+    <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Streaks</span><div class="section-divider-line"></div></div>
     <div class="streak-grid">
       <div class="streak-pill s-hip" id="spill-hip">
         <div class="streak-pill-icon">💪</div>
@@ -1378,7 +1423,7 @@
       </div>
     </div>
 
-    <div class="divider"></div>
+    <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Routines</span><div class="section-divider-line"></div></div>
     <div class="routine-cards">
 
       <!-- ── BEND CARD ── -->
@@ -2616,7 +2661,7 @@ function renderFoodInputs(data) {
     const wSub = document.getElementById('waterWeeklyDays');
     if (wSub) {
       const daysHit = getWaterDaysHitThisWeek();
-      wSub.textContent = `${daysHit} / 7 days this week`;
+      wSub.textContent = `${daysHit}/7 wk`;
     }
 
     // Update water streak when goal first reached today
@@ -2775,7 +2820,7 @@ function renderHabitsTile() {
           if (HABITS.every(id => !!data[id])) perfectDays++;
         } catch(e) {}
       }
-      sub.textContent = `${perfectDays} / 7 days this week`;
+      sub.textContent = `${perfectDays}/7 wk`;
     }
   } catch(e) {}
 }
