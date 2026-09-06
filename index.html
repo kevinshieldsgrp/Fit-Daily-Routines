@@ -63,7 +63,7 @@
   .home-inner {
     position: relative;
     z-index: 1;
-    padding: 52px 24px 28px;
+    padding: 16px 20px 20px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -97,22 +97,22 @@
   .divider {
     width: 40px; height: 2px;
     background: var(--border);
-    margin: 10px 0;
+    margin: 6px 0;
   }
 
   /* ── WEEKLY GOALS ── */
   .goals-section {
-    margin-bottom: 14px;
+    margin-bottom: 5px;
   }
   .goals-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
   .goals-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
+    font-size: 17px;
     letter-spacing: 0.5px;
     color: var(--text);
   }
@@ -137,24 +137,24 @@
   .goal-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin-bottom: 8px;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-bottom: 3px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
   .goal-card.complete { border-color: rgba(74,222,128,0.4); }
   .goal-info { flex: 1; min-width: 0; }
   .goal-name {
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .goal-progress-bar {
-    height: 6px;
+    height: 4px;
     background: rgba(255,255,255,0.08);
     border-radius: 3px;
     overflow: hidden;
@@ -168,20 +168,20 @@
   .goal-card.complete .goal-progress-fill { background: #4ade80; }
   .goal-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: var(--text-dim);
-    min-width: 38px;
+    min-width: 32px;
     text-align: center;
   }
   .goal-card.complete .goal-count { color: #4ade80; }
-  .goal-btns { display: flex; gap: 6px; }
+  .goal-btns { display: flex; gap: 5px; }
   .goal-btn {
-    width: 32px; height: 32px;
-    border-radius: 8px;
+    width: 26px; height: 26px;
+    border-radius: 7px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,0.04);
     color: var(--text);
-    font-size: 16px;
+    font-size: 14px;
     display: flex; align-items: center; justify-content: center;
   }
   .goal-empty {
@@ -253,71 +253,80 @@
   }
 
   /* ── WATER DAILY CARD ── */
+  /* ── WATER / HABITS DAILY TILES — single-row, same height as routine cards ── */
   .water-daily-card {
     background: rgba(56,189,248,0.07);
     border: 1px solid rgba(56,189,248,0.2);
-    border-radius: 12px;
-    padding: 10px 14px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .water-daily-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+    flex-shrink: 0;
+    gap: 7px;
+    margin-bottom: 0;
   }
   .water-daily-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 7px;
+    flex-shrink: 0;
   }
-  .water-daily-icon { font-size: 20px; }
+  .water-daily-icon { font-size: 14px; line-height: 1; }
   .water-daily-title {
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--white);
-    line-height: 1.2;
+    line-height: 1;
+    white-space: nowrap;
   }
   .water-daily-sub {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
-    margin-top: 1px;
+    white-space: nowrap;
+    display: none;
   }
   .water-daily-controls {
     display: flex;
     align-items: center;
-    gap: 0;
     background: rgba(56,189,248,0.1);
     border: 1px solid rgba(56,189,248,0.2);
-    border-radius: 10px;
+    border-radius: 7px;
     overflow: hidden;
+    flex-shrink: 0;
   }
   .water-adj-btn {
-    width: 36px; height: 36px;
+    width: 26px; height: 26px;
     background: transparent;
     border: none;
     color: #38bdf8;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
     display: flex; align-items: center; justify-content: center;
   }
   .water-adj-btn:active { background: rgba(56,189,248,0.15); }
   .water-daily-val {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
+    font-size: 16px;
     color: var(--white);
-    min-width: 28px;
+    min-width: 18px;
     text-align: center;
   }
   .water-daily-bar-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
+    flex: 1;
   }
   .water-daily-bar {
     flex: 1;
-    height: 6px;
+    height: 4px;
     background: rgba(255,255,255,0.08);
     border-radius: 3px;
     overflow: hidden;
@@ -331,20 +340,21 @@
   .water-daily-fill.goal-met { background: #4ade80; }
   .water-daily-count {
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
-    min-width: 36px;
+    min-width: 28px;
     text-align: right;
+    white-space: nowrap;
   }
   .water-daily-count.goal-met { color: #4ade80; }
 
   /* ── HABITS TILE ── */
   .habits-tile-arrow {
-    width: 32px; height: 32px;
+    width: 26px; height: 26px;
     display: flex; align-items: center; justify-content: center;
     background: rgba(167,139,250,0.12);
     border: 1px solid rgba(167,139,250,0.25);
-    border-radius: 8px;
+    border-radius: 7px;
     color: #a78bfa;
     flex-shrink: 0;
   }
@@ -359,24 +369,26 @@
 
   /* ── STREAK GRID ── */
   .streak-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: 4px;
   }
 
   .streak-pill {
-    border-radius: 10px;
-    padding: 8px 8px;
+    border-radius: 8px;
+    padding: 5px 6px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
     position: relative;
     overflow: hidden;
   }
 
   .streak-pill-icon {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1;
     flex-shrink: 0;
   }
@@ -390,9 +402,9 @@
   }
 
   .streak-pill-label {
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     opacity: 0.7;
     white-space: nowrap;
@@ -402,7 +414,7 @@
 
   .streak-pill-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 17px;
+    font-size: 14px;
     line-height: 1;
     letter-spacing: 0.5px;
   }
@@ -479,11 +491,11 @@
   }
   .streak-pill.s-bend .streak-pill-count { color: var(--bend-primary); }
 
-  .routine-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .routine-cards { display: flex; flex-direction: column; gap: 6px; flex: 1; }
 
   .routine-card {
     border-radius: var(--radius);
-    padding: 10px 14px;
+    padding: 8px 14px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -603,7 +615,7 @@
   }
 
   .list-header {
-    padding: 52px 24px 20px;
+    padding: 36px 20px 12px;
     position: relative;
   }
 
@@ -612,7 +624,7 @@
     font-size: 13px; font-weight: 500;
     background: none; border: none;
     cursor: pointer; padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     -webkit-user-select: none;
   }
   .back-btn svg { width: 18px; height: 18px; }
@@ -621,20 +633,20 @@
     font-size: 10px; font-weight: 700;
     letter-spacing: 2.5px; text-transform: uppercase;
     display: inline-block; padding: 3px 10px;
-    border-radius: 20px; margin-bottom: 10px;
+    border-radius: 20px; margin-bottom: 6px;
   }
 
   .list-title {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px; line-height: 0.95;
+    font-size: 36px; line-height: 0.95;
     color: var(--white); letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .list-subtitle {
-    font-size: 13px; color: var(--text-muted);
+    font-size: 12px; color: var(--text-muted);
     font-weight: 300; line-height: 1.4;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 
   .list-progress-bar {
@@ -648,15 +660,15 @@
 
   .exercises-list {
     flex: 1; overflow-y: auto;
-    padding: 8px 24px 100px;
+    padding: 6px 20px 100px;
     -webkit-overflow-scrolling: touch;
   }
 
   .exercise-item {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
     border-radius: var(--radius-sm);
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     background: var(--surface);
     border: 1px solid var(--border);
     cursor: pointer;
@@ -1279,39 +1291,26 @@
   </div>
   <div class="home-bg"></div>
   <div class="home-inner">
-    <div class="home-header">
-      <div class="home-title">Live <span>Better</span></div>
-
-    </div>
-    <div class="divider"></div>
 
     <!-- ── WEEKLY GOALS ── -->
     <div class="goals-section">
       <div class="goals-header">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div class="goals-title">Borrowing Time, FMNV</div>
-          <button class="goals-edit-btn" onclick="openGoalsEditor()" style="padding:3px 8px; font-size:11px;">Edit</button>
-        </div>
-        <div class="goals-streak">🔥 <b id="goals-streak-count">0</b> wk streak</div>
+        <div class="goals-title">Borrowing Time, FMNV</div>
+        <button class="goals-edit-btn" onclick="openGoalsEditor()" style="padding:3px 8px; font-size:11px;">Edit</button>
       </div>
       <div id="goals-list"></div>
     </div>
 
     <!-- ── WATER DAILY CARD ── -->
     <div class="water-daily-card" id="waterDailyCard">
-      <div class="water-daily-top">
-        <div class="water-daily-left">
-          <span class="water-daily-icon">💧</span>
-          <div>
-            <div class="water-daily-title">Water</div>
-            <div class="water-daily-sub" id="waterWeeklyDays">— / 7 days this week</div>
-          </div>
-        </div>
-        <div class="water-daily-controls">
-          <button class="water-adj-btn" onclick="adjustFood('water',-1)">−</button>
-          <div class="water-daily-val" id="waterVal">0</div>
-          <button class="water-adj-btn" onclick="adjustFood('water',1)">+</button>
-        </div>
+      <div class="water-daily-left">
+        <span class="water-daily-icon">💧</span>
+        <div class="water-daily-title">Water</div>
+      </div>
+      <div class="water-daily-controls">
+        <button class="water-adj-btn" onclick="adjustFood('water',-1)">−</button>
+        <div class="water-daily-val" id="waterVal">0</div>
+        <button class="water-adj-btn" onclick="adjustFood('water',1)">+</button>
       </div>
       <div class="water-daily-bar-row">
         <div class="water-daily-bar">
@@ -1323,35 +1322,23 @@
 
     <!-- ── HABITS DAILY TILE ── -->
     <div class="water-daily-card" id="habitsDailyCard" style="border-color:rgba(167,139,250,0.25); background:rgba(167,139,250,0.07);">
-      <div class="water-daily-top">
-        <div class="water-daily-left">
-          <span class="water-daily-icon">🌟</span>
-          <div>
-            <div class="water-daily-title">Habits</div>
-            <div class="water-daily-sub" id="habitsWeeklyDays">— / 7 days this week</div>
-          </div>
-        </div>
-        <button class="habits-tile-arrow" onclick="openHabits()" aria-label="Open habits">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+      <div class="water-daily-left">
+        <span class="water-daily-icon">🌟</span>
+        <div class="water-daily-title">Habits</div>
       </div>
       <div class="water-daily-bar-row">
         <div class="water-daily-bar">
           <div class="habits-daily-fill" id="habitsDailyFill" style="width:0%;"></div>
         </div>
-        <div class="water-daily-count" id="habitsDailyCount" style="min-width:28px;">0 / 3</div>
+        <div class="water-daily-count" id="habitsDailyCount">0 / 3</div>
       </div>
+      <button class="habits-tile-arrow" onclick="openHabits()" aria-label="Open habits">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
 
     <!-- ── STREAK GRID ── -->
     <div class="streak-grid">
-      <div class="streak-pill s-habits" id="spill-habits">
-        <div class="streak-pill-icon">🌟</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Habits</div>
-          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
       <div class="streak-pill s-hip" id="spill-hip">
         <div class="streak-pill-icon">💪</div>
         <div class="streak-pill-body">
@@ -1362,20 +1349,13 @@
       <div class="streak-pill s-golf" id="spill-golf">
         <div class="streak-pill-icon">⛳</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Golf Flex</div>
+          <div class="streak-pill-label">Golf</div>
           <div class="streak-pill-count" id="spill-golf-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
-      <div class="streak-pill s-water" id="spill-water">
-        <div class="streak-pill-icon">💧</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Water</div>
-          <div class="streak-pill-count" id="spill-water-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-strava" id="spill-strava">
         <div class="streak-pill-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
         </div>
         <div class="streak-pill-body">
           <div class="streak-pill-label">Strava</div>
@@ -1385,7 +1365,7 @@
       <div class="streak-pill s-body" id="spill-body">
         <div class="streak-pill-icon">🏋️</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Total Body</div>
+          <div class="streak-pill-label">Strength</div>
           <div class="streak-pill-count" id="spill-body-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
@@ -1709,7 +1689,7 @@ const ROUTINES = {
   hip: {
     name: "Hip & Quad",
     label: "Strength",
-    subtitle: "Left hip & quad. Do both morning and evening.",
+    subtitle: "",
     color: "hip",
     exercises: [
       {
@@ -1720,21 +1700,21 @@ const ROUTINES = {
       },
       {
         name: "Standing Hip Flexor Stretch",
-        detail: "30 sec each side • 2 sets",
-        timer: 70,
-        instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 30 seconds, then switch sides.\n2x Each Side"
-      },
-      {
-        name: "Deep Lunge with Thoracic Rotation",
-        detail: "8 reps each side • 2 sets",
-        timer: 80,
-        instructions: "Step your left foot forward into a deep lunge, right knee hovering just above the floor.\n\nPlace your right hand on the floor inside your left foot for stability.\n\nRotate your left arm up toward the ceiling, opening your chest — follow it with your eyes and hold 2 seconds at the top.\n\nReturn hand to floor. That's 1 rep.\n\nComplete 8 reps on the left side, then switch — right foot forward, rotate right arm up.\n2 sets each side."
+        detail: "45 sec each side • 2 sets",
+        timer: 90,
+        instructions: "Left foot on chair, knee bent at 90°, right foot back in a lunge stance. Drive right hip forward, stretch in the right hip flexor.\n\nHold 45 seconds, then switch sides.\n2x Each Side"
       },
       {
         name: "Slow Eccentric Single-Leg Squat",
         detail: "8 reps each leg • 4-sec lower • 2 sets",
         timer: 90,
         instructions: "Stand facing a chair for light support. Shift weight to your left foot, extend right leg slightly forward.\n\nSlowly lower into a single-leg squat over 4 full seconds — count it out. Aim for 60–70° of knee bend.\n\nDrive through your left heel to stand. Keep your left knee tracking over your second toe throughout.\n\nThe slow lowering is the work — don't rush it.\n\n8 reps on the left, then switch to the right.\n2 sets each side."
+      },
+      {
+        name: "Deep Lunge with Thoracic Rotation",
+        detail: "8 reps each side • 2 sets",
+        timer: 80,
+        instructions: "Step your left foot forward into a deep lunge, right knee hovering just above the floor.\n\nPlace your right hand on the floor inside your left foot for stability.\n\nRotate your left arm up toward the ceiling, opening your chest — follow it with your eyes and hold 2 seconds at the top.\n\nReturn hand to floor. That's 1 rep.\n\nComplete 8 reps on the left side, then switch — right foot forward, rotate right arm up.\n2 sets each side."
       },
       {
         name: "Single-Leg Glute Bridge",
@@ -1783,7 +1763,7 @@ const ROUTINES = {
   golf: {
     name: "Golf Mobility",
     label: "Mobility",
-    subtitle: "Full golf mobility. Morning and evening.",
+    subtitle: "",
     color: "golf",
     exercises: [
       {
@@ -1865,97 +1845,97 @@ const ROUTINES = {
   body: {
     name: "Total Body",
     label: "Strength",
-    subtitle: "Full body: chest, arms, shoulders, back & legs. ~45-50 min.",
+    subtitle: "",
     color: "body",
     exercises: [
       {
         name: "Barbell Bench Press",
         detail: "8-10 reps • 3 sets",
-        timer: 240,
+        timer: 0,
         instructions: "Lie on the bench, feet flat on the floor, grip the bar just outside shoulder width.\n\nUnrack and lower the bar under control to your mid-chest, elbows at roughly a 45° angle from your body.\n\nPress back up to full lock-out.\n\n8-10 reps per set, 3 sets. Rest 60-75 seconds between sets."
       },
       {
         name: "Incline Dumbbell Press",
         detail: "10-12 reps • 3 sets",
-        timer: 210,
+        timer: 0,
         instructions: "Set the bench to a 30-45° incline. Hold a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells up and slightly in until your arms are extended, then lower under control back to the start.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
       },
       {
         name: "Cable Tricep Pushdown",
         detail: "12-15 reps • 2 sets",
-        timer: 120,
+        timer: 0,
         instructions: "Stand at the cable station with a straight or angled bar attached at the top pulley. Elbows tucked at your sides.\n\nPush the bar down until your arms are fully extended, squeezing your triceps at the bottom, then let it return under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Overhead Dumbbell Extension",
         detail: "10-12 reps • 2 sets",
-        timer: 120,
+        timer: 0,
         instructions: "Hold one dumbbell with both hands, arms extended overhead.\n\nLower the dumbbell behind your head by bending at the elbows, keeping your upper arms still, then extend back to the top.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Barbell or EZ-Bar Curl",
         detail: "10-12 reps • 2 sets",
-        timer: 120,
+        timer: 0,
         instructions: "Stand holding the bar with an underhand grip, shoulder-width apart, elbows at your sides.\n\nCurl the bar up toward your shoulders without swinging your torso, then lower under control.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Dumbbell Hammer Curl",
         detail: "12-15 reps • 2 sets",
-        timer: 120,
+        timer: 0,
         instructions: "Hold a dumbbell in each hand at your sides, palms facing your body (neutral grip).\n\nCurl both dumbbells up toward your shoulders, keeping your wrists neutral throughout, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Seated Dumbbell Shoulder Press",
         detail: "8-10 reps • 3 sets",
-        timer: 210,
+        timer: 0,
         instructions: "Sit on a bench with back support, a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells overhead until your arms are extended, then lower back to shoulder height under control.\n\n8-10 reps per set, 3 sets. Rest 60 seconds between sets."
       },
       {
         name: "Lateral Raises",
         detail: "12-15 reps • 2 sets",
-        timer: 120,
+        timer: 0,
         instructions: "Stand holding a dumbbell in each hand at your sides, slight bend in the elbows.\n\nRaise both arms out to the sides until roughly shoulder height, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Lat Pulldown",
         detail: "10-12 reps • 3 sets",
-        timer: 210,
+        timer: 0,
         instructions: "Sit at the lat pulldown station, grip the bar wider than shoulder width.\n\nPull the bar down to your upper chest, driving your elbows down and back, then let it return under control to full extension.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
       },
       {
         name: "Seated Cable Row",
         detail: "10-12 reps • 2 sets",
-        timer: 150,
+        timer: 0,
         instructions: "Sit at the cable row station, feet on the platform, knees slightly bent, grip the handle.\n\nPull the handle to your torso, squeezing your shoulder blades together, then extend back under control.\n\n10-12 reps per set, 2 sets. Rest 60 seconds between sets."
       },
       {
         name: "Leg Press Sled",
         detail: "10-12 reps • 3 sets",
-        timer: 210,
+        timer: 0,
         instructions: "Sit in the leg press machine, feet shoulder-width on the platform.\n\nRelease the safety and lower the sled under control until your knees are near 90°, then press back up without locking your knees out hard.\n\n10-12 reps per set, 3 sets. Rest 60-75 seconds between sets."
       },
       {
         name: "Leg Extensions",
         detail: "12-15 reps • 3 sets",
-        timer: 180,
+        timer: 0,
         instructions: "Sit in the leg extension machine, shins behind the pad, knees aligned with the machine's pivot point.\n\nExtend your legs to full extension, squeezing your quads at the top, then lower under control.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Leg Curls",
         detail: "12-15 reps • 3 sets",
-        timer: 180,
+        timer: 0,
         instructions: "Lie face down (or sit, depending on machine) with the pad positioned just above your heels.\n\nCurl your legs up toward your glutes, squeezing your hamstrings, then lower under control back to the start.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Core",
         detail: "3 minutes • Ab work",
-        timer: 180,
+        timer: 0,
         instructions: "3 minutes of ab work — mix in exercises like crunches, leg raises, bicycles, or Russian twists.\n\nMove at a steady pace and keep your core braced throughout. Rest briefly between movements as needed, but keep the total working time to 3 minutes."
       },
       {
         name: "Plank",
         detail: "70 sec hold",
-        timer: 70,
+        timer: 0,
         instructions: "Forearms on the floor, elbows under shoulders, body in a straight line from head to heels.\n\nBrace your core and glutes, keep your hips level — don't let them sag or pike up.\n\nHold for 70 seconds, breathing steadily throughout."
       }
     ]
@@ -1963,7 +1943,7 @@ const ROUTINES = {
   bend: {
     name: "Bend",
     label: "Mobility",
-    subtitle: "Full-body stretch flow. 30 seconds per hold.",
+    subtitle: "",
     color: "bend",
     exercises: [
       {
@@ -1974,9 +1954,9 @@ const ROUTINES = {
       },
       {
         name: "Scapula Stretch",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Bring your right arm across your chest at shoulder height. Use your left hand to gently press the right arm closer to your body, feeling the stretch behind your shoulder blade.\n\nHold 30 seconds, keeping your shoulders relaxed and away from your ears."
+        detail: "20 sec each side",
+        timer: 40,
+        instructions: "Bring your right arm across your chest at shoulder height. Use your left hand to gently press the right arm closer to your body, feeling the stretch behind your shoulder blade.\n\nHold 20 seconds, keeping your shoulders relaxed and away from your ears. Switch sides and repeat."
       },
       {
         name: "Toe Touch",
@@ -1992,9 +1972,9 @@ const ROUTINES = {
       },
       {
         name: "Standing Quad Stretch",
-        detail: "60 sec each side",
-        timer: 60,
-        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 60 seconds, then switch sides."
+        detail: "40 sec each side",
+        timer: 80,
+        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 40 seconds, then switch sides."
       },
       {
         name: "Calf Stretch",
@@ -2165,13 +2145,15 @@ function showExercise(autoStart = false) {
 
   document.getElementById('timerLabel').textContent = 'TIMER';
 
+  const timerContainer = document.querySelector('.timer-container');
+
   if (ex.timer) {
+    if (timerContainer) timerContainer.style.display = '';
     timerTotal = ex.timer;
     timerSeconds = ex.timer;
     document.getElementById('timerFill').style.background = color;
     updateTimerDisplay();
     if (autoStart) {
-      // Announce name first, then start timer after speech has time to play
       announceExercise(ex.name);
       document.getElementById('timerToggleBtn').textContent = 'STARTING…';
       setTimeout(() => {
@@ -2181,6 +2163,8 @@ function showExercise(autoStart = false) {
     } else {
       document.getElementById('timerToggleBtn').textContent = 'START';
     }
+  } else {
+    if (timerContainer) timerContainer.style.display = 'none';
   }
 
   showScreen('exercise');
@@ -3016,11 +3000,9 @@ function renderStreakGrid() {
     const categories = [
       { id: 'hip',    key: 'streak_hip' },
       { id: 'golf',   key: 'streak_golf' },
+      { id: 'strava', key: 'streak_strava' },
       { id: 'body',   key: 'streak_body' },
       { id: 'bend',   key: 'streak_bend' },
-      { id: 'water',  key: 'streak_water' },
-      { id: 'habits', key: 'streak_habits' },
-      { id: 'strava', key: 'streak_strava' },
     ];
     categories.forEach(({ id, key }) => {
       const { current, best } = readCategoryStreak(key);
