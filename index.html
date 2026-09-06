@@ -18,12 +18,6 @@
     --hip-light: #f5a07a;
     --golf-primary: #4a9e7a;
     --golf-light: #7ac4a0;
-    --body-primary: #d6455a;
-    --body-light: #ef8a98;
-    --bend-primary: #6d7ae0;
-    --bend-light: #a8b1ee;
-    --swim-primary: #14b8a6;
-    --swim-light: #5eead4;
     --text: #f0f0f5;
     --text-muted: #8888aa;
     --white: #ffffff;
@@ -76,7 +70,7 @@
 
   .home-title {
     font-family: 'DM Sans', sans-serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
     line-height: 1.2;
     color: var(--white);
@@ -118,6 +112,15 @@
     letter-spacing: 0.5px;
     color: var(--text);
   }
+  .goals-streak {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .goals-streak b { color: #fbbf24; font-size: 14px; }
   .goals-edit-btn {
     background: var(--card);
     border: 1px solid var(--border);
@@ -130,30 +133,24 @@
   .goal-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 6px 10px;
-    margin-bottom: 6px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
   .goal-card.complete { border-color: rgba(74,222,128,0.4); }
-  .goal-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+  .goal-info { flex: 1; min-width: 0; }
   .goal-name {
     font-family: 'DM Sans', sans-serif;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1;
-    min-width: 0;
+    margin-bottom: 4px;
   }
   .goal-progress-bar {
-    width: 50px;
-    flex-shrink: 0;
-    height: 5px;
+    height: 6px;
     background: rgba(255,255,255,0.08);
     border-radius: 3px;
     overflow: hidden;
@@ -167,21 +164,20 @@
   .goal-card.complete .goal-progress-fill { background: #4ade80; }
   .goal-count {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--text-dim);
-    min-width: 32px;
+    min-width: 38px;
     text-align: center;
-    flex-shrink: 0;
   }
   .goal-card.complete .goal-count { color: #4ade80; }
-  .goal-btns { display: flex; gap: 4px; flex-shrink: 0; }
+  .goal-btns { display: flex; gap: 6px; }
   .goal-btn {
-    width: 26px; height: 26px;
-    border-radius: 7px;
+    width: 32px; height: 32px;
+    border-radius: 8px;
     border: 1px solid var(--border);
     background: rgba(255,255,255,0.04);
     color: var(--text);
-    font-size: 14px;
+    font-size: 16px;
     display: flex; align-items: center; justify-content: center;
   }
   .goal-empty {
@@ -252,6 +248,92 @@
     font-size: 14px;
   }
 
+  /* ── WATER DAILY CARD ── */
+  .water-daily-card {
+    background: rgba(56,189,248,0.07);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+  .water-daily-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .water-daily-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .water-daily-icon { font-size: 20px; }
+  .water-daily-title {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .water-daily-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .water-daily-controls {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .water-adj-btn {
+    width: 36px; height: 36px;
+    background: transparent;
+    border: none;
+    color: #38bdf8;
+    font-size: 20px;
+    font-weight: 300;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .water-adj-btn:active { background: rgba(56,189,248,0.15); }
+  .water-daily-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--white);
+    min-width: 28px;
+    text-align: center;
+  }
+  .water-daily-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .water-daily-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .water-daily-fill {
+    height: 100%;
+    background: #38bdf8;
+    border-radius: 3px;
+    transition: width 0.2s ease;
+  }
+  .water-daily-fill.goal-met { background: #4ade80; }
+  .water-daily-count {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 36px;
+    text-align: right;
+  }
+  .water-daily-count.goal-met { color: #4ade80; }
+
   /* ── STREAK GRID ── */
   .streak-grid {
     display: grid;
@@ -303,13 +385,6 @@
   }
 
   /* Color variants */
-  .streak-pill.s-goals {
-    background: rgba(167,139,250,0.1);
-    border: 1px solid rgba(167,139,250,0.22);
-    color: var(--food-light);
-  }
-  .streak-pill.s-goals .streak-pill-count { color: var(--food-primary); }
-
   .streak-pill.s-hip {
     background: rgba(232,115,74,0.1);
     border: 1px solid rgba(232,115,74,0.22);
@@ -323,19 +398,6 @@
     color: var(--golf-light);
   }
   .streak-pill.s-golf .streak-pill-count { color: var(--golf-primary); }
-  .streak-pill.s-body {
-    background: rgba(214,69,90,0.1);
-    border: 1px solid rgba(214,69,90,0.22);
-    color: var(--body-light);
-  }
-  .streak-pill.s-body .streak-pill-count { color: var(--body-primary); }
-
-  .streak-pill.s-bend {
-    background: rgba(109,122,224,0.1);
-    border: 1px solid rgba(109,122,224,0.22);
-    color: var(--bend-light);
-  }
-  .streak-pill.s-bend .streak-pill-count { color: var(--bend-primary); }
 
   .streak-pill.s-water {
     background: rgba(56,189,248,0.08);
@@ -343,6 +405,13 @@
     color: var(--water-light);
   }
   .streak-pill.s-water .streak-pill-count { color: var(--water-primary); }
+
+  .streak-pill.s-habits {
+    background: rgba(167,139,250,0.08);
+    border: 1px solid rgba(167,139,250,0.2);
+    color: var(--food-light);
+  }
+  .streak-pill.s-habits .streak-pill-count { color: var(--food-primary); }
 
   .streak-pill.s-strava {
     background: rgba(26,86,219,0.08);
@@ -358,28 +427,18 @@
   }
   .streak-pill.s-walk .streak-pill-count { color: #fbbf24; }
 
-  .streak-pill.s-swim {
-    background: rgba(20,184,166,0.08);
-    border: 1px solid rgba(20,184,166,0.2);
-    color: var(--swim-light);
-  }
-  .streak-pill.s-swim .streak-pill-count { color: var(--swim-primary); }
-
   /* Dim pill when streak is zero */
   .streak-pill.zero .streak-pill-count { opacity: 0.35; }
   .streak-pill.zero .streak-pill-icon { opacity: 0.35; }
 
   /* Bold border when streak is active (non-zero) */
   .streak-pill:not(.zero) { border-width: 2px; }
-  .streak-pill.s-goals:not(.zero)  { border-color: var(--food-primary); }
   .streak-pill.s-hip:not(.zero)    { border-color: var(--hip-primary); }
   .streak-pill.s-golf:not(.zero)   { border-color: var(--golf-primary); }
-  .streak-pill.s-body:not(.zero)   { border-color: var(--body-primary); }
-  .streak-pill.s-bend:not(.zero)   { border-color: var(--bend-primary); }
   .streak-pill.s-water:not(.zero)  { border-color: var(--water-primary); }
+  .streak-pill.s-habits:not(.zero) { border-color: var(--food-primary); }
   .streak-pill.s-strava:not(.zero) { border-color: var(--strava-primary); }
   .streak-pill.s-walk:not(.zero)   { border-color: #fbbf24; }
-  .streak-pill.s-swim:not(.zero)   { border-color: var(--swim-primary); }
 
   .routine-cards { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
@@ -405,16 +464,6 @@
     border: 1px solid rgba(74,158,122,0.25);
     box-shadow: 0 4px 30px rgba(74,158,122,0.1);
   }
-  .routine-card.body {
-    background: linear-gradient(135deg, #200f13 0%, #2a1017 100%);
-    border: 1px solid rgba(214,69,90,0.25);
-    box-shadow: 0 4px 30px rgba(214,69,90,0.1);
-  }
-  .routine-card.bend {
-    background: linear-gradient(135deg, #14162a 0%, #191c33 100%);
-    border: 1px solid rgba(109,122,224,0.25);
-    box-shadow: 0 4px 30px rgba(109,122,224,0.1);
-  }
 
   .card-accent {
     position: absolute;
@@ -425,8 +474,6 @@
   }
   .hip .card-accent { background: var(--hip-primary); }
   .golf .card-accent { background: var(--golf-primary); }
-  .body .card-accent { background: var(--body-primary); }
-  .bend .card-accent { background: var(--bend-primary); }
 
   .card-tag {
     font-size: 9px;
@@ -440,8 +487,6 @@
   }
   .hip .card-tag { color: var(--hip-primary); background: rgba(232,115,74,0.12); }
   .golf .card-tag { color: var(--golf-primary); background: rgba(74,158,122,0.12); }
-  .body .card-tag { color: var(--body-primary); background: rgba(214,69,90,0.12); }
-  .bend .card-tag { color: var(--bend-primary); background: rgba(109,122,224,0.12); }
 
   .card-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -474,8 +519,6 @@
   }
   .hip .card-meta-item { color: var(--hip-light); }
   .golf .card-meta-item { color: var(--golf-light); }
-  .body .card-meta-item { color: var(--body-light); }
-  .bend .card-meta-item { color: var(--bend-light); }
 
   .card-meta-item svg { width: 14px; height: 14px; flex-shrink: 0; }
 
@@ -487,8 +530,6 @@
   }
   .hip .card-arrow { background: rgba(232,115,74,0.2); color: var(--hip-primary); }
   .golf .card-arrow { background: rgba(74,158,122,0.2); color: var(--golf-primary); }
-  .body .card-arrow { background: rgba(214,69,90,0.2); color: var(--body-primary); }
-  .bend .card-arrow { background: rgba(109,122,224,0.2); color: var(--bend-primary); }
 
   .home-footer {
     text-align: center;
@@ -818,23 +859,14 @@
   /* Color helpers */
   .c-hip { color: var(--hip-primary); }
   .c-golf { color: var(--golf-primary); }
-  .c-body { color: var(--body-primary); }
-  .c-bend { color: var(--bend-primary); }
   .bg-hip { background: var(--hip-primary); }
   .bg-golf { background: var(--golf-primary); }
-  .bg-body { background: var(--body-primary); }
-  .bg-bend { background: var(--bend-primary); }
   .bg-hip-soft { background: rgba(232,115,74,0.15); }
   .bg-golf-soft { background: rgba(74,158,122,0.15); }
-  .bg-body-soft { background: rgba(214,69,90,0.15); }
-  .bg-bend-soft { background: rgba(109,122,224,0.15); }
   .border-hip { border-color: rgba(232,115,74,0.4) !important; }
   .border-golf { border-color: rgba(74,158,122,0.4) !important; }
-  .border-body { border-color: rgba(214,69,90,0.4) !important; }
   .fill-hip { background: var(--hip-primary) !important; }
   .fill-golf { background: var(--golf-primary) !important; }
-  .fill-body { background: var(--body-primary) !important; }
-  .fill-bend { background: var(--bend-primary) !important; }
 
   /* ── INLINE CARD STATS ── */
   .card-header-row {
@@ -917,7 +949,7 @@
     padding: 14px; text-align: center; font-size: 12px; color: var(--text-muted);
   }
 
-  /* ── WATER CARD ── */
+  /* ── WATER / HABITS CARDS ── */
   :root {
     --food-primary: #a78bfa; --food-light: #c4b5fd;
     --water-primary: #38bdf8; --water-light: #7dd3fc;
@@ -931,34 +963,32 @@
     cursor: default;
   }
   .water .card-accent { background: var(--water-primary); }
+  .water .card-tag { color: var(--water-primary); background: rgba(56,189,248,0.12); }
+  .water .card-title { color: var(--white); }
   .water .card-stat-num { color: var(--white); }
   .water .card-stat-divider { background: rgba(56,189,248,0.15); }
-  .water-add-btn {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: rgba(56,189,248,0.2); color: var(--water-primary);
-    border: none; cursor: pointer; -webkit-user-select: none;
-    transition: background 0.15s, transform 0.1s;
+  .water .food-btn { color: var(--water-light); }
+  .water .food-btn:active { background: rgba(56,189,248,0.15); }
+  .water .food-counter {
+    border-color: rgba(56,189,248,0.2);
   }
-  .water-add-btn:active {
-    background: rgba(56,189,248,0.35);
-    transform: scale(0.92);
+  .water .food-goal-fill { background: var(--water-primary); }
+  .water .food-goal-text { color: var(--text-muted); }
+  .water .food-goal-text.goal-met { color: #4ade80; }
+  .water .food-goal-fill.goal-met { background: #4ade80; }
+
+  /* Habits card — purple, tappable */
+  .routine-card.food {
+    background: linear-gradient(135deg, #130e1e 0%, #1a1228 100%);
+    border: 1px solid rgba(167,139,250,0.25);
+    box-shadow: 0 4px 30px rgba(167,139,250,0.08);
+    cursor: pointer;
   }
-  .water-remove-btn {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: rgba(56,189,248,0.12); color: var(--water-primary);
-    border: none; cursor: pointer; -webkit-user-select: none;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .water-remove-btn:active {
-    background: rgba(56,189,248,0.25);
-    transform: scale(0.92);
-  }
+  .food .card-accent { background: var(--food-primary); }
+  .food .card-stat-num { color: var(--white); }
+  .food .card-stats { border-top-color: rgba(167,139,250,0.15); }
+  .food .card-stat-divider { background: rgba(167,139,250,0.15); }
+  .food .card-arrow { background: rgba(167,139,250,0.2); color: var(--food-primary); }
 
   /* Walk card — yellow/amber */
   .routine-card.walk {
@@ -984,59 +1014,66 @@
     background: rgba(251,191,36,0.35);
     transform: scale(0.92);
   }
-  .walk-remove-btn {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: rgba(251,191,36,0.12); color: #fbbf24;
-    border: none; cursor: pointer; -webkit-user-select: none;
-    transition: background 0.15s, transform 0.1s;
+
+  /* food-btn used in water card */
+  .food-inputs {
+    display: flex; flex-direction: column; gap: 8px;
   }
-  .walk-remove-btn:active {
-    background: rgba(251,191,36,0.25);
-    transform: scale(0.92);
+  .food-row {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .food-counter {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px; overflow: hidden;
+    flex-shrink: 0;
+  }
+  /* food-btn used in water card */
+  .food-btn {
+    background: none; border: none;
+    font-size: 18px; font-weight: 300;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-user-select: none;
+    transition: background 0.1s;
+    flex-shrink: 0;
   }
 
-  /* Swim card — teal */
-  .routine-card.swim {
-    background: linear-gradient(135deg, #001a17 0%, #002420 100%);
-    border: 1px solid rgba(20,184,166,0.25);
-    box-shadow: 0 4px 30px rgba(20,184,166,0.08);
-    cursor: pointer;
-  }
-  .swim .card-accent { background: var(--swim-primary); }
-  .swim .card-stat-num { color: var(--white); }
-  .swim .card-stat-divider { background: rgba(20,184,166,0.15); }
-  .swim .card-arrow { background: rgba(20,184,166,0.2); color: var(--swim-primary); }
-  .swim-add-btn {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: rgba(20,184,166,0.2); color: var(--swim-primary);
-    border: none; cursor: pointer; -webkit-user-select: none;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .swim-add-btn:active {
-    background: rgba(20,184,166,0.35);
-    transform: scale(0.92);
-  }
-  .swim-remove-btn {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    background: rgba(20,184,166,0.12); color: var(--swim-primary);
-    border: none; cursor: pointer; -webkit-user-select: none;
-    transition: background 0.15s, transform 0.1s;
-  }
-  .swim-remove-btn:active {
-    background: rgba(20,184,166,0.25);
-    transform: scale(0.92);
+  .food-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; line-height: 1;
+    color: var(--white); text-align: center;
+    width: 36px;
   }
 
-  /* ── HABITS/GOALS-EDITOR HEADER (shared) ── */
+  .food-goal-bar {
+    flex: 1; height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px; overflow: hidden;
+  }
+  .food-goal-fill {
+    height: 100%; border-radius: 2px;
+    transition: width 0.3s ease;
+    max-width: 100%;
+  }
+  .food-goal-fill.goal-met { background: #4ade80; }
+
+  .food-goal-text {
+    font-size: 10px; color: var(--text-muted);
+    font-weight: 300; flex-shrink: 0; width: 44px; text-align: right;
+  }
+  .food-goal-text.goal-met { color: #4ade80; }
+  .habits-dots { display: flex; gap: 4px; align-items: center; }
+  .habits-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(167,139,250,0.3);
+    transition: background 0.2s;
+  }
+  .habits-dot.done { background: #4ade80; }
+
+  /* ── HABITS SCREEN ── */
+  #habits { background: var(--bg); flex-direction: column; }
+
   .habits-header { padding: 52px 24px 16px; }
 
   .habits-title {
@@ -1052,6 +1089,76 @@
     display: flex; flex-direction: column; gap: 10px;
     flex: 1;
   }
+
+  .habit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.2s, background 0.2s;
+    -webkit-user-select: none;
+  }
+  .habit-card:active { transform: scale(0.98); }
+  .habit-card.checked {
+    background: rgba(74,222,128,0.07);
+    border-color: rgba(74,222,128,0.35);
+  }
+
+  .habit-check {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 16px;
+    background: rgba(255,255,255,0.03);
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .habit-card.checked .habit-check {
+    border-color: #4ade80;
+    background: rgba(74,222,128,0.15);
+  }
+
+  .habit-info { flex: 1; }
+  .habit-name { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .habit-card.checked .habit-name { color: #4ade80; }
+  .habit-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.4; }
+
+  .habit-streak-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .habit-streak {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; color: var(--text-muted);
+    line-height: 1; text-align: center; min-width: 26px;
+  }
+  .habit-streak-label {
+    font-size: 8px; color: var(--text-muted); text-align: center;
+    letter-spacing: 0.5px; text-transform: uppercase;
+  }
+
+  .habit-week-dots {
+    display: flex; gap: 3px; margin-top: 6px;
+  }
+  .habit-week-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    transition: background 0.2s;
+  }
+  .habit-week-dot.hit { background: #4ade80; }
+  .habit-week-dot.today { outline: 1px solid rgba(255,255,255,0.25); outline-offset: 1px; }
+
+  .habits-summary {
+    padding: 11px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .habits-summary-label { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+  .habits-summary-score {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; color: var(--white); letter-spacing: 0.5px;
+  }
+  .habits-summary-score.all-done { color: #4ade80; }
 
   /* ── PULL TO REFRESH ── */
   #ptr-indicator {
@@ -1096,25 +1203,54 @@
   <div class="home-bg"></div>
   <div class="home-inner">
     <div class="home-header">
-      <div class="home-title">Borrowing Time\ FMNH</div>
+      <div class="home-title">Live <span>Better</span></div>
 
     </div>
     <div class="divider"></div>
 
     <!-- ── WEEKLY GOALS ── -->
     <div class="goals-section">
-      <div class="goals-header"></div>
+      <div class="goals-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="goals-title">Borrowing Time, FMNV</div>
+          <button class="goals-edit-btn" onclick="openGoalsEditor()" style="padding:3px 8px; font-size:11px;">Edit</button>
+        </div>
+        <div class="goals-streak">🔥 <b id="goals-streak-count">0</b> wk streak</div>
+      </div>
       <div id="goals-list"></div>
-      <button class="goals-edit-btn" onclick="openGoalsEditor()" style="width:100%; margin-top:4px;">Edit Goals</button>
+    </div>
+
+    <!-- ── WATER DAILY CARD ── -->
+    <div class="water-daily-card" id="waterDailyCard">
+      <div class="water-daily-top">
+        <div class="water-daily-left">
+          <span class="water-daily-icon">💧</span>
+          <div>
+            <div class="water-daily-title">Water</div>
+            <div class="water-daily-sub" id="waterWeeklyDays">— / 7 days this week</div>
+          </div>
+        </div>
+        <div class="water-daily-controls">
+          <button class="water-adj-btn" onclick="adjustFood('water',-1)">−</button>
+          <div class="water-daily-val" id="waterVal">0</div>
+          <button class="water-adj-btn" onclick="adjustFood('water',1)">+</button>
+        </div>
+      </div>
+      <div class="water-daily-bar-row">
+        <div class="water-daily-bar">
+          <div class="water-daily-fill" id="waterFill" style="width:0%;"></div>
+        </div>
+        <div class="water-daily-count" id="waterGoalText">0 / 10</div>
+      </div>
     </div>
 
     <!-- ── STREAK GRID ── -->
     <div class="streak-grid">
-      <div class="streak-pill s-goals" id="spill-goals">
-        <div class="streak-pill-icon">🎯</div>
+      <div class="streak-pill s-habits" id="spill-habits">
+        <div class="streak-pill-icon">🌟</div>
         <div class="streak-pill-body">
-          <div class="streak-pill-label">Weekly Goals</div>
-          <div class="streak-pill-count" id="spill-goals-count">0<span style="font-size:11px;opacity:0.45;"> of 0</span></div>
+          <div class="streak-pill-label">Habits</div>
+          <div class="streak-pill-count" id="spill-habits-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-hip" id="spill-hip">
@@ -1131,32 +1267,11 @@
           <div class="streak-pill-count" id="spill-golf-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
-      <div class="streak-pill s-body" id="spill-body">
-        <div class="streak-pill-icon">🏋️</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Total Body</div>
-          <div class="streak-pill-count" id="spill-body-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
-      <div class="streak-pill s-bend" id="spill-bend">
-        <div class="streak-pill-icon">🧘</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Bend</div>
-          <div class="streak-pill-count" id="spill-bend-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
       <div class="streak-pill s-walk" id="spill-walk">
         <div class="streak-pill-icon">🚶</div>
         <div class="streak-pill-body">
           <div class="streak-pill-label">Walk</div>
           <div class="streak-pill-count" id="spill-walk-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
-        </div>
-      </div>
-      <div class="streak-pill s-swim" id="spill-swim">
-        <div class="streak-pill-icon">🏊</div>
-        <div class="streak-pill-body">
-          <div class="streak-pill-label">Swim</div>
-          <div class="streak-pill-count" id="spill-swim-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
       <div class="streak-pill s-water" id="spill-water">
@@ -1238,78 +1353,15 @@
         </div>
       </div>
 
-      <!-- ── TOTAL BODY CARD ── -->
-      <div class="routine-card body" onclick="openRoutine('body')">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title">Total Body</div>
-            <div class="card-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bodyCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bodyCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bodyCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── BEND CARD ── -->
-      <div class="routine-card bend" onclick="openRoutine('bend')">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title">Bend</div>
-            <div class="card-arrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bendCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bendCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="bendCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- ── WALK CARD ── -->
       <div class="routine-card walk">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
             <div class="card-title" style="color:var(--white);">🚶 Walk</div>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <button class="walk-remove-btn" onclick="logManualWalk(-1)" aria-label="Remove a walk">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <button class="walk-add-btn" onclick="logManualWalk(1)" aria-label="Log a walk">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-            </div>
+            <button class="walk-add-btn" onclick="logManualWalk()" aria-label="Log a walk">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
           </div>
           <div class="card-stats">
             <div class="card-stat-item">
@@ -1330,69 +1382,39 @@
         </div>
       </div>
 
-      <!-- ── SWIM CARD ── -->
-      <div class="routine-card swim">
-        <div class="card-accent"></div>
-        <div class="card-header-row">
-          <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">🏊 Swim</div>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <button class="swim-remove-btn" onclick="logManualSwim(-1)" aria-label="Remove a swim">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <button class="swim-add-btn" onclick="logManualSwim(1)" aria-label="Log a swim">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="swimCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="swimCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="swimCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- ── WATER CARD ── -->
-      <div class="routine-card water">
+
+      <!-- ── HABITS CARD ── -->
+      <div class="routine-card food" onclick="openHabits()">
         <div class="card-accent"></div>
         <div class="card-header-row">
           <div class="card-title-group">
-            <div class="card-title" style="color:var(--white);">💧 Water</div>
-            <div style="display:flex; align-items:center; gap:6px;">
-              <button class="water-remove-btn" onclick="adjustWater(-1)" aria-label="Remove a glass of water">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
-              <button class="water-add-btn" onclick="adjustWater(1)" aria-label="Log a glass of water">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </button>
+            <div class="card-title" style="color:var(--white);">Habits</div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
           </div>
-          <div class="card-stats">
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="waterCountWeek">0</div>
-              <div class="card-stat-label">This Wk</div>
+          <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+            <div class="habits-dots" id="habitsDots" style="margin:0;">
+              <div class="habits-dot" id="hdot0"></div>
+              <div class="habits-dot" id="hdot1"></div>
+              <div class="habits-dot" id="hdot2"></div>
             </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="waterCountPrev">0</div>
-              <div class="card-stat-label">Last Wk</div>
-            </div>
-            <div class="card-stat-divider"></div>
-            <div class="card-stat-item">
-              <div class="card-stat-num" id="waterCountTotal">0</div>
-              <div class="card-stat-label">All Time</div>
+            <div class="card-stats">
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountWeek">0</div>
+                <div class="card-stat-label">This Wk</div>
+              </div>
+              <div class="card-stat-divider"></div>
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountPrev">0</div>
+                <div class="card-stat-label">Last Wk</div>
+              </div>
+              <div class="card-stat-divider"></div>
+              <div class="card-stat-item">
+                <div class="card-stat-num" id="foodCountTotal">0</div>
+                <div class="card-stat-label">Perfect Days</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1508,6 +1530,65 @@
   <button class="done-btn-secondary" onclick="restartRoutine()">REPEAT ROUTINE</button>
 </div>
 
+<!-- ══ HABITS ══ -->
+<div id="habits" class="screen">
+  <div class="habits-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Home</span>
+    </button>
+    <div class="habits-title">TODAY'S HABITS</div>
+    <div class="habits-subtitle" id="habitsDate">—</div>
+  </div>
+  <div class="habits-body">
+
+    <div class="habit-card" id="hcard-exercise" onclick="toggleHabit('exercise')">
+      <div class="habit-check" id="hcheck-exercise">🏃</div>
+      <div class="habit-info">
+        <div class="habit-name">AM Exercise</div>
+        <div class="habit-desc">Complete a morning routine or workout</div>
+        <div class="habit-week-dots" id="hweek-exercise"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-exercise">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habit-card" id="hcard-mindful" onclick="toggleHabit('mindful')">
+      <div class="habit-check" id="hcheck-mindful">⏱️</div>
+      <div class="habit-info">
+        <div class="habit-name">Intermittent Fast 8pm-10:30am</div>
+        <div class="habit-desc">No food outside the 8:00pm – 10:30am fasting window</div>
+        <div class="habit-week-dots" id="hweek-mindful"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-mindful">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habit-card" id="hcard-espanol" onclick="toggleHabit('espanol')">
+      <div class="habit-check" id="hcheck-espanol">🇪🇸</div>
+      <div class="habit-info">
+        <div class="habit-name">Español</div>
+        <div class="habit-desc">Completed Duolingo lesson</div>
+        <div class="habit-week-dots" id="hweek-espanol"></div>
+      </div>
+      <div class="habit-streak-wrap">
+        <div class="habit-streak" id="hstreak-espanol">0</div>
+        <div class="habit-streak-label">streak</div>
+      </div>
+    </div>
+
+    <div class="habits-summary">
+      <div class="habits-summary-label">Today's score</div>
+      <div class="habits-summary-score" id="habitsSummaryScore">0 / 5</div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ── GOALS EDITOR ── -->
 <div id="goalsEditor" class="screen">
   <div class="habits-header">
@@ -1526,11 +1607,6 @@
 </div>
 
 <script>
-const ROUTINE_COLOR_VAR  = { hip: 'var(--hip-primary)', golf: 'var(--golf-primary)', body: 'var(--body-primary)', bend: 'var(--bend-primary)' };
-const ROUTINE_COLOR_SOFT = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)', bend: 'rgba(109,122,224,0.12)' };
-const ROUTINE_DONE_BG    = { hip: 'rgba(232,115,74,0.15)', golf: 'rgba(74,158,122,0.15)', body: 'rgba(214,69,90,0.15)', bend: 'rgba(109,122,224,0.15)' };
-const ROUTINE_DONE_ICON  = { hip: '💪', golf: '⛳', body: '🏋️', bend: '🧘' };
-
 const ROUTINES = {
   hip: {
     name: "Hip & Quad",
@@ -1687,172 +1763,6 @@ const ROUTINES = {
         instructions: "Lie down on table, weight on ankle\n\n6 minutes"
       }
     ]
-  },
-  body: {
-    name: "Total Body",
-    label: "Strength",
-    subtitle: "Full body: chest, arms, shoulders, back & legs. ~45-50 min.",
-    color: "body",
-    exercises: [
-      {
-        name: "Barbell Bench Press",
-        detail: "8-10 reps • 3 sets",
-        timer: 240,
-        instructions: "Lie on the bench, feet flat on the floor, grip the bar just outside shoulder width.\n\nUnrack and lower the bar under control to your mid-chest, elbows at roughly a 45° angle from your body.\n\nPress back up to full lock-out.\n\n8-10 reps per set, 3 sets. Rest 60-75 seconds between sets."
-      },
-      {
-        name: "Incline Dumbbell Press",
-        detail: "10-12 reps • 3 sets",
-        timer: 210,
-        instructions: "Set the bench to a 30-45° incline. Hold a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells up and slightly in until your arms are extended, then lower under control back to the start.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
-      },
-      {
-        name: "Cable Tricep Pushdown",
-        detail: "12-15 reps • 2 sets",
-        timer: 120,
-        instructions: "Stand at the cable station with a straight or angled bar attached at the top pulley. Elbows tucked at your sides.\n\nPush the bar down until your arms are fully extended, squeezing your triceps at the bottom, then let it return under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Overhead Dumbbell Extension",
-        detail: "10-12 reps • 2 sets",
-        timer: 120,
-        instructions: "Hold one dumbbell with both hands, arms extended overhead.\n\nLower the dumbbell behind your head by bending at the elbows, keeping your upper arms still, then extend back to the top.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Barbell or EZ-Bar Curl",
-        detail: "10-12 reps • 2 sets",
-        timer: 120,
-        instructions: "Stand holding the bar with an underhand grip, shoulder-width apart, elbows at your sides.\n\nCurl the bar up toward your shoulders without swinging your torso, then lower under control.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Dumbbell Hammer Curl",
-        detail: "12-15 reps • 2 sets",
-        timer: 120,
-        instructions: "Hold a dumbbell in each hand at your sides, palms facing your body (neutral grip).\n\nCurl both dumbbells up toward your shoulders, keeping your wrists neutral throughout, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Seated Dumbbell Shoulder Press",
-        detail: "8-10 reps • 3 sets",
-        timer: 210,
-        instructions: "Sit on a bench with back support, a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells overhead until your arms are extended, then lower back to shoulder height under control.\n\n8-10 reps per set, 3 sets. Rest 60 seconds between sets."
-      },
-      {
-        name: "Lateral Raises",
-        detail: "12-15 reps • 2 sets",
-        timer: 120,
-        instructions: "Stand holding a dumbbell in each hand at your sides, slight bend in the elbows.\n\nRaise both arms out to the sides until roughly shoulder height, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Lat Pulldown",
-        detail: "10-12 reps • 3 sets",
-        timer: 210,
-        instructions: "Sit at the lat pulldown station, grip the bar wider than shoulder width.\n\nPull the bar down to your upper chest, driving your elbows down and back, then let it return under control to full extension.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
-      },
-      {
-        name: "Seated Cable Row",
-        detail: "10-12 reps • 2 sets",
-        timer: 150,
-        instructions: "Sit at the cable row station, feet on the platform, knees slightly bent, grip the handle.\n\nPull the handle to your torso, squeezing your shoulder blades together, then extend back under control.\n\n10-12 reps per set, 2 sets. Rest 60 seconds between sets."
-      },
-      {
-        name: "Leg Press Sled",
-        detail: "10-12 reps • 3 sets",
-        timer: 210,
-        instructions: "Sit in the leg press machine, feet shoulder-width on the platform.\n\nRelease the safety and lower the sled under control until your knees are near 90°, then press back up without locking your knees out hard.\n\n10-12 reps per set, 3 sets. Rest 60-75 seconds between sets."
-      },
-      {
-        name: "Leg Extensions",
-        detail: "12-15 reps • 3 sets",
-        timer: 180,
-        instructions: "Sit in the leg extension machine, shins behind the pad, knees aligned with the machine's pivot point.\n\nExtend your legs to full extension, squeezing your quads at the top, then lower under control.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Leg Curls",
-        detail: "12-15 reps • 3 sets",
-        timer: 180,
-        instructions: "Lie face down (or sit, depending on machine) with the pad positioned just above your heels.\n\nCurl your legs up toward your glutes, squeezing your hamstrings, then lower under control back to the start.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Core",
-        detail: "3 minutes • Ab work",
-        timer: 180,
-        instructions: "3 minutes of ab work — mix in exercises like crunches, leg raises, bicycles, or Russian twists.\n\nMove at a steady pace and keep your core braced throughout. Rest briefly between movements as needed, but keep the total working time to 3 minutes."
-      },
-      {
-        name: "Plank",
-        detail: "70 sec hold",
-        timer: 70,
-        instructions: "Forearms on the floor, elbows under shoulders, body in a straight line from head to heels.\n\nBrace your core and glutes, keep your hips level — don't let them sag or pike up.\n\nHold for 70 seconds, breathing steadily throughout."
-      }
-    ]
-  },
-  bend: {
-    name: "Bend",
-    label: "Mobility",
-    subtitle: "Full-body stretch flow. 30 seconds per hold.",
-    color: "bend",
-    exercises: [
-      {
-        name: "Upward Salute",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Stand tall, feet hip-width apart. Sweep both arms overhead, palms facing each other or touching.\n\nReach up through your fingertips, gently arching your upper back and lifting through your chest.\n\nHold 30 seconds, breathing steadily."
-      },
-      {
-        name: "Scapula Stretch",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Bring your right arm across your chest at shoulder height. Use your left hand to gently press the right arm closer to your body, feeling the stretch behind your shoulder blade.\n\nHold 30 seconds, keeping your shoulders relaxed and away from your ears."
-      },
-      {
-        name: "Toe Touch",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Stand with feet hip-width apart, knees soft. Hinge forward from your hips and let your upper body hang toward your toes.\n\nLet your head and neck relax, arms reaching toward the floor or holding opposite elbows.\n\nHold 30 seconds, breathing into your lower back and hamstrings."
-      },
-      {
-        name: "Wide Leg Bend",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Step your feet out wide, toes turned slightly in. Hinge forward from your hips, letting your torso fold between your legs.\n\nRest your hands on the floor or on blocks, letting your head hang heavy.\n\nHold 30 seconds, feeling the stretch through your inner thighs and hamstrings."
-      },
-      {
-        name: "Standing Quad Stretch",
-        detail: "60 sec each side",
-        timer: 60,
-        instructions: "Stand tall, holding onto something for balance if needed. Bend your right knee and grab your right foot behind you, pulling your heel toward your glute.\n\nKeep your knees close together and your hips square. Hold 60 seconds, then switch sides."
-      },
-      {
-        name: "Calf Stretch",
-        detail: "45 sec each side",
-        timer: 45,
-        instructions: "Step your right foot back into a staggered stance, both feet pointing forward. Keep your right leg straight and heel pressed into the floor.\n\nLean forward slightly, feeling the stretch in your right calf. Hold 45 seconds, then switch sides."
-      },
-      {
-        name: "Downward Dog",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "From hands and knees, tuck your toes and lift your hips up and back, forming an inverted V shape.\n\nPress your hands into the floor, straighten your legs as much is comfortable, and let your heels reach toward the ground.\n\nHold 30 seconds, breathing into your hamstrings and shoulders."
-      },
-      {
-        name: "Pigeon",
-        detail: "30 sec each side",
-        timer: 30,
-        instructions: "From all fours, bring your right knee forward toward your right wrist, angling your shin across your body. Extend your left leg straight back behind you.\n\nSquare your hips as best you can and fold forward over your front leg.\n\nHold 30 seconds, then switch sides."
-      },
-      {
-        name: "Upward Dog",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Lie face down, hands planted under your shoulders. Press through your hands to lift your chest and thighs off the floor, straightening your arms.\n\nRoll your shoulders back and down, keeping your hips low and open through the front of your body.\n\nHold 30 seconds."
-      },
-      {
-        name: "Child's Pose",
-        detail: "30 sec hold",
-        timer: 30,
-        instructions: "Kneel on the floor, big toes touching, knees wide. Sit back onto your heels and fold forward, reaching your arms out in front of you.\n\nRest your forehead on the floor and let your whole body relax.\n\nHold 30 seconds, breathing slowly and deeply."
-      }
-    ]
   }
 };
 
@@ -1869,9 +1779,10 @@ function goHome() {
   timerRunning = false;
   stopWakeLock();
   showScreen('home');
-  renderWaterDisplay();
+  renderHabitsDots();
+  renderFoodInputs(getFoodToday());
   renderGoals();
-  renderGoalsTally();
+  renderGoalsStreak();
 }
 
 function showScreen(id) {
@@ -1889,7 +1800,7 @@ function openRoutine(type) {
   document.getElementById('listTag').className = `list-tag c-${c} bg-${c}-soft`;
   document.getElementById('listTitle').textContent = r.name.toUpperCase();
   document.getElementById('listSubtitle').textContent = r.subtitle;
-  document.getElementById('listBackBtn').style.color = ROUTINE_COLOR_VAR[c];
+  document.getElementById('listBackBtn').style.color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
 
   const startBtn = document.getElementById('startBtn');
   startBtn.className = `start-btn bg-${c}`;
@@ -1911,7 +1822,7 @@ function renderExerciseList() {
   r.exercises.forEach((ex, i) => {
     const div = document.createElement('div');
     div.className = 'exercise-item' + (completedExercises.has(i) ? ' completed' : '');
-    div.style.color = ROUTINE_COLOR_VAR[c];
+    div.style.color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
     if (completedExercises.has(i)) div.classList.add(`c-${c}`);
 
     div.innerHTML = `
@@ -1952,8 +1863,8 @@ function showExercise(autoStart = false) {
   const r = ROUTINES[currentRoutine];
   const ex = r.exercises[currentExIndex];
   const c = r.color;
-  const color = ROUTINE_COLOR_VAR[c];
-  const softBg = ROUTINE_COLOR_SOFT[c];
+  const color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
+  const softBg = c === 'hip' ? 'var(--bg-hip-soft, rgba(232,115,74,0.12))' : 'rgba(74,158,122,0.12)';
 
   clearInterval(timerInterval);
   timerRunning = false;
@@ -2226,6 +2137,7 @@ function getPrevWeekKey() { return getWeekKey(-1); }
 
 /* ── WEEKLY GOALS ── */
 const GOALS_TEMPLATE_KEY = 'goals_template'; // [{name, target}]
+const GOALS_STREAK_KEY   = 'goals_streak';   // {current, best, lastWeek}
 
 function getGoalsTemplate() {
   try {
@@ -2266,22 +2178,60 @@ function adjustGoal(idx, delta) {
   progress[idx] = val;
   setGoalsProgress(weekKey, progress);
   renderGoals();
-  renderGoalsTally();
+  checkGoalsStreak();
 }
 
-// Tallies how many of this week's goals have been met, shown as "x of y"
-function renderGoalsTally() {
+function checkGoalsStreak() {
   try {
     const weekKey = getWeekKey();
     const template = getGoalsTemplate();
+    if (!template.length) return;
     const progress = getGoalsProgress(weekKey);
-    const total = template.length;
-    const met = template.filter((g, i) => (progress[i] || 0) >= g.target).length;
+    const allDone = template.every((g, i) => (progress[i] || 0) >= g.target);
 
-    const el = document.getElementById('spill-goals-count');
-    if (el) el.innerHTML = `${met}<span style="font-size:11px;opacity:0.45;"> of ${total}</span>`;
-    const pill = document.getElementById('spill-goals');
-    if (pill) pill.classList.toggle('zero', met === 0);
+    let data = { current: 0, best: 0, lastWeek: '' };
+    try {
+      const raw = localStorage.getItem(GOALS_STREAK_KEY);
+      if (raw) data = JSON.parse(raw);
+    } catch(e) {}
+
+    if (allDone) {
+      if (data.lastWeek !== weekKey) {
+        const prevWeek = getPrevWeekKey();
+        if (data.lastWeek === prevWeek) {
+          data.current += 1;
+        } else {
+          data.current = 1;
+        }
+        data.lastWeek = weekKey;
+        if (data.current > data.best) data.best = data.current;
+      }
+    } else {
+      // If this week was previously marked complete but no longer is, undo it
+      if (data.lastWeek === weekKey) {
+        data.current = Math.max(0, data.current - 1);
+        data.lastWeek = '';
+      }
+    }
+    localStorage.setItem(GOALS_STREAK_KEY, JSON.stringify(data));
+    renderGoalsStreak();
+  } catch(e) {}
+}
+
+function renderGoalsStreak() {
+  try {
+    let data = { current: 0, best: 0, lastWeek: '' };
+    try {
+      const raw = localStorage.getItem(GOALS_STREAK_KEY);
+      if (raw) data = JSON.parse(raw);
+    } catch(e) {}
+    // If neither last week nor this week is marked complete, streak is stale -> 0
+    const weekKey = getWeekKey();
+    const prevWeek = getPrevWeekKey();
+    let current = data.current;
+    if (data.lastWeek !== weekKey && data.lastWeek !== prevWeek) current = 0;
+    const el = document.getElementById('goals-streak-count');
+    if (el) el.textContent = current;
   } catch(e) {}
 }
 
@@ -2355,55 +2305,299 @@ function saveGoals() {
     .map(g => ({ name: (g.name || '').trim() || 'Untitled Goal', target: Math.max(1, parseInt(g.target) || 1) }));
   setGoalsTemplate(cleaned);
   renderGoals();
-  renderGoalsTally();
+  checkGoalsStreak();
   goHome();
 }
 
 
-// Combines the running water count for display — This Wk / Last Wk / All Time
-function renderWaterDisplay() {
+const WATER_GOAL = 10;
+
+function getTodayDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getFoodToday() {
+  try {
+    const raw = localStorage.getItem(`food_${getTodayDateKey()}`);
+    return raw ? JSON.parse(raw) : { water: 0 };
+  } catch(e) { return { water: 0 }; }
+}
+
+function saveFoodToday(data) {
+  try { localStorage.setItem(`food_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
+}
+
+function syncWaterStat() {
+  const el = document.getElementById('waterStatToday');
+  if (el) el.textContent = getFoodToday().water;
+}
+
+function adjustFood(type, delta) {
+  const today = getFoodToday();
+  if (type === 'water') today.water = Math.max(0, Math.min(20, today.water + delta));
+  saveFoodToday(today);
+  renderFoodInputs(today);
+}
+
+function renderFoodInputs(data) {
+  try {
+    const waterPct = Math.min(100, (data.water / WATER_GOAL) * 100);
+    const waterMet = data.water >= WATER_GOAL;
+
+    const wVal = document.getElementById('waterVal');
+    if (wVal) wVal.textContent = data.water;
+
+    const wFill = document.getElementById('waterFill');
+    if (wFill) {
+      wFill.style.width = waterPct + '%';
+      wFill.className = 'water-daily-fill' + (waterMet ? ' goal-met' : '');
+    }
+
+    const wText = document.getElementById('waterGoalText');
+    if (wText) {
+      wText.textContent = `${data.water} / ${WATER_GOAL}`;
+      wText.className = 'water-daily-count' + (waterMet ? ' goal-met' : '');
+    }
+
+    // Weekly days-hit tally
+    const wSub = document.getElementById('waterWeeklyDays');
+    if (wSub) {
+      const daysHit = getWaterDaysHitThisWeek();
+      wSub.textContent = `${daysHit} / 7 days this week`;
+    }
+
+    // Update water streak when goal first reached today
+    if (waterMet) updateCategoryStreak('streak_water');
+  } catch(e) {}
+}
+
+function getWaterDaysHitThisWeek() {
+  try {
+    // Sun–Sat week (matching getWeekKey)
+    const now = new Date();
+    const dow = now.getDay(); // 0=Sun
+    let count = 0;
+    for (let i = 0; i <= dow; i++) {
+      const d = new Date(now);
+      d.setDate(now.getDate() - (dow - i));
+      const key = `food_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+      try {
+        const raw = localStorage.getItem(key);
+        const entry = raw ? JSON.parse(raw) : { water: 0 };
+        if ((entry.water || 0) >= WATER_GOAL) count++;
+      } catch(e) {}
+    }
+    return count;
+  } catch(e) { return 0; }
+}
+
+// Initialize water on load
+(function initFood() { renderFoodInputs(getFoodToday()); })();
+
+/* ── HABITS TRACKING ── */
+const HABITS = ['exercise', 'mindful', 'espanol'];
+
+const HABIT_ICONS = { exercise: '🏃', mindful: '⏱️', espanol: '🇪🇸' };
+
+function getHabitsToday() {
+  try {
+    const raw = localStorage.getItem(`habits_${getTodayDateKey()}`);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+
+function saveHabitsToday(data) {
+  try { localStorage.setItem(`habits_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
+}
+
+function getDayKey(daysAgo) {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function getHabitStreak(habitId) {
+  let streak = 0;
+  // Walk back from yesterday (today might not be done yet)
+  for (let i = 1; i <= 365; i++) {
+    const key = getDayKey(i);
+    try {
+      const raw = localStorage.getItem(`habits_${key}`);
+      const data = raw ? JSON.parse(raw) : {};
+      if (data[habitId]) streak++;
+      else break;
+    } catch(e) { break; }
+  }
+  return streak;
+}
+
+function getHabitWeekHistory(habitId) {
+  // Returns array of 7 bools — Mon to Sun of current week, with today included
+  const result = [];
+  const today = new Date();
+  const dayOfWeek = today.getDay(); // 0=Sun
+  // Build Mon-Sun array (7 days), where index 0=Mon
+  for (let i = 0; i < 7; i++) {
+    // i=0 is Monday: offset from Sunday = 1
+    const offset = ((dayOfWeek === 0 ? 7 : dayOfWeek) - 1) - i;
+    const d = new Date(today);
+    d.setDate(today.getDate() - offset);
+    const key = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+    try {
+      const raw = localStorage.getItem(`habits_${key}`);
+      const data = raw ? JSON.parse(raw) : {};
+      result.push({ done: !!data[habitId], isToday: offset === 0 });
+    } catch(e) { result.push({ done: false, isToday: false }); }
+  }
+  return result;
+}
+
+function toggleHabit(habitId) {
+  const today = getHabitsToday();
+  today[habitId] = !today[habitId];
+  saveHabitsToday(today);
+  renderHabitsScreen();
+  renderHabitsDots();
+  loadHabitsStats();
+  // Update habits streak when all 3 are done
+  if (HABITS.every(id => !!today[id])) updateCategoryStreak('streak_habits');
+}
+
+// Called when a routine completes — auto-checks AM Exercise
+function autoCheckExercise() {
+  const today = getHabitsToday();
+  if (!today.exercise) {
+    today.exercise = true;
+    saveHabitsToday(today);
+    renderHabitsDots();
+  }
+  // Check if all habits now done
+  if (HABITS.every(id => !!today[id])) updateCategoryStreak('streak_habits');
+}
+
+function renderHabitsDots() {
+  try {
+    const today = getHabitsToday();
+    HABITS.forEach((id, i) => {
+      const dot = document.getElementById(`hdot${i}`);
+      if (dot) dot.className = 'habits-dot' + (today[id] ? ' done' : '');
+    });
+  } catch(e) {}
+}
+
+function renderHabitsScreen() {
+  try {
+    const today = getHabitsToday();
+    let doneCount = 0;
+
+    HABITS.forEach(id => {
+      const checked = !!today[id];
+      if (checked) doneCount++;
+
+      const card = document.getElementById(`hcard-${id}`);
+      const check = document.getElementById(`hcheck-${id}`);
+      const streakEl = document.getElementById(`hstreak-${id}`);
+      const weekEl = document.getElementById(`hweek-${id}`);
+
+      if (card) card.className = 'habit-card' + (checked ? ' checked' : '');
+      if (check) check.textContent = checked ? '✓' : HABIT_ICONS[id];
+
+      // Streak: if today is done, show streak+1 (today counts)
+      const streak = getHabitStreak(id) + (checked ? 1 : 0);
+      if (streakEl) streakEl.textContent = streak;
+
+      // Week history dots
+      if (weekEl) {
+        const history = getHabitWeekHistory(id);
+        weekEl.innerHTML = history.map(day =>
+          `<div class="habit-week-dot${day.done ? ' hit' : ''}${day.isToday ? ' today' : ''}"></div>`
+        ).join('');
+      }
+    });
+
+    // Summary score
+    const score = document.getElementById('habitsSummaryScore');
+    if (score) {
+      score.textContent = `${doneCount} / ${HABITS.length}`;
+      score.className = 'habits-summary-score' + (doneCount === HABITS.length ? ' all-done' : '');
+    }
+
+    // Date label
+    const dateEl = document.getElementById('habitsDate');
+    if (dateEl) {
+      const d = new Date();
+      dateEl.textContent = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    }
+
+    renderHabitsDots();
+  } catch(e) {}
+}
+
+function openHabits() {
+  renderHabitsScreen();
+  renderHabitsDots();
+  showScreen('habits');
+}
+
+function loadHabitsStats() {
   try {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
 
-    const week  = parseInt(localStorage.getItem(`completions_water_${weekKey}`) || '0');
-    const prev  = parseInt(localStorage.getItem(`completions_water_${prevKey}`) || '0');
-    const total = parseInt(localStorage.getItem('completions_water') || '0');
+    // Count days this week / last week where all 3 habits were done
+    let thisWeekPerfect = 0, lastWeekPerfect = 0, allTimePerfect = 0;
 
-    const wkEl = document.getElementById('waterCountWeek');
-    const wpEl = document.getElementById('waterCountPrev');
-    const wtEl = document.getElementById('waterCountTotal');
-    if (wkEl) wkEl.textContent = week;
-    if (wpEl) wpEl.textContent = prev;
-    if (wtEl) wtEl.textContent = total;
+    // This week: walk back up to 7 days
+    const today = new Date();
+    const dow = today.getDay(); // 0=Sun
+    const daysIntoWeek = dow === 0 ? 0 : dow; // Mon-based: days since Sunday
+
+    for (let i = 0; i <= 6; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        const data = raw ? JSON.parse(raw) : {};
+        if (HABITS.every(id => !!data[id])) thisWeekPerfect++;
+      } catch(e) {}
+    }
+
+    for (let i = 7; i <= 13; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        const data = raw ? JSON.parse(raw) : {};
+        if (HABITS.every(id => !!data[id])) lastWeekPerfect++;
+      } catch(e) {}
+    }
+
+    // All time: scan stored habits_ keys
+    for (let i = 0; i <= 365; i++) {
+      const key = getDayKey(i);
+      try {
+        const raw = localStorage.getItem(`habits_${key}`);
+        if (!raw) continue;
+        const data = JSON.parse(raw);
+        if (HABITS.every(id => !!data[id])) allTimePerfect++;
+      } catch(e) {}
+    }
+
+    document.getElementById('foodCountWeek').textContent  = thisWeekPerfect;
+    document.getElementById('foodCountPrev').textContent  = lastWeekPerfect;
+    document.getElementById('foodCountTotal').textContent = allTimePerfect;
   } catch(e) {}
 }
 
-// Log (or remove) a glass of water
-function adjustWater(delta) {
-  try {
-    const weekKey = getWeekKey();
-    const totalKey = 'completions_water';
-    const weeklyKey = `completions_water_${weekKey}`;
-    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
-    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
-    localStorage.setItem(totalKey,  newTotal);
-    localStorage.setItem(weeklyKey, newWeekly);
+// Initialize on load
+loadHabitsStats();
 
-    if (delta > 0) updateCategoryStreak('streak_water');
-    renderWaterDisplay();
-    renderStreakGrid();
-  } catch(e) {}
-}
-
-// Initialize water on load
-renderWaterDisplay();
+/* ── END HABITS TRACKING ── */
 
 function loadStats() {
   try {
     const weekKey = getWeekKey();
     const prevKey = getPrevWeekKey();
-    ['hip', 'golf', 'body', 'bend'].forEach(type => {
+    ['hip', 'golf'].forEach(type => {
       const total = parseInt(localStorage.getItem(`completions_${type}`) || '0');
       const week  = parseInt(localStorage.getItem(`completions_${type}_${weekKey}`) || '0');
       const prev  = parseInt(localStorage.getItem(`completions_${type}_${prevKey}`) || '0');
@@ -2431,14 +2625,15 @@ function incrementCompletion(type) {
 function showDone() {
   const r = ROUTINES[currentRoutine];
   const c = r.color;
-  const color = ROUTINE_COLOR_VAR[c];
+  const color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
 
   incrementCompletion(currentRoutine);
   updateCategoryStreak('streak_' + currentRoutine);
+  autoCheckExercise();
   stopWakeLock();
 
-  document.getElementById('doneIcon').style.background = ROUTINE_DONE_BG[c];
-  document.getElementById('doneIcon').textContent = ROUTINE_DONE_ICON[c];
+  document.getElementById('doneIcon').style.background = c === 'hip' ? 'rgba(232,115,74,0.15)' : 'rgba(74,158,122,0.15)';
+  document.getElementById('doneIcon').textContent = c === 'hip' ? '💪' : '⛳';
 
   const total = parseInt(localStorage.getItem(`completions_${currentRoutine}`) || '0');
   document.getElementById('doneSub').textContent = `${r.name} complete — session #${total} done.`;
@@ -2464,7 +2659,7 @@ function getYesterdayKey() {
 }
 
 // Update a category streak when that category is completed today.
-// key prefix examples: 'streak_hip', 'streak_golf', 'streak_water'
+// key prefix examples: 'streak_hip', 'streak_golf', 'streak_water', 'streak_habits'
 function updateCategoryStreak(key) {
   try {
     const today = getTodayKey();
@@ -2509,11 +2704,9 @@ function renderStreakGrid() {
     const categories = [
       { id: 'hip',    key: 'streak_hip' },
       { id: 'golf',   key: 'streak_golf' },
-      { id: 'body',   key: 'streak_body' },
-      { id: 'bend',   key: 'streak_bend' },
       { id: 'walk',   key: 'streak_walk' },
-      { id: 'swim',   key: 'streak_swim' },
       { id: 'water',  key: 'streak_water' },
+      { id: 'habits', key: 'streak_habits' },
       { id: 'strava', key: 'streak_strava' },
     ];
     categories.forEach(({ id, key }) => {
@@ -2528,15 +2721,14 @@ function renderStreakGrid() {
 
 // Called when a routine completes
 function updateStreak() {
-  // kept for backwards compat — now handled per-category in showDone / adjustWater
+  // kept for backwards compat — now handled per-category in showDone / adjustFood / toggleHabit
 }
 
 // Render streak grid on load
 renderStreakGrid();
 renderGoals();
-renderGoalsTally();
+renderGoalsStreak();
 renderWalkDisplay();
-renderSwimDisplay();
 
 /* ── STRAVA ── */
 const STRAVA_CLIENT_ID = '227459';
@@ -2720,81 +2912,15 @@ function updateStravaStats(activities) {
     });
     if (walkedToday) updateCategoryStreak('streak_walk');
 
-    // Swim stats — Swim and OpenWaterSwim activity types count
-    const SWIM_TYPES = ['Swim', 'OpenWaterSwim'];
-    const swimActivities = activities.filter(a => SWIM_TYPES.includes(a.type) || SWIM_TYPES.includes(a.sport_type));
-
-    const swimThisWeek = swimActivities.filter(a => new Date(a.start_date_local) >= weekStart).length;
-    const swimLastWeek = swimActivities.filter(a => {
-      const d = new Date(a.start_date_local);
-      return d >= prevStart && d < weekStart;
-    }).length;
-    const storedSwimTotal = parseInt(localStorage.getItem('completions_swim') || '0');
-    const swimTotal = Math.max(storedSwimTotal, swimActivities.length);
-    localStorage.setItem('completions_swim', swimTotal);
-    localStorage.setItem(`completions_swim_${weekKey}`, swimThisWeek);
-    localStorage.setItem(`completions_swim_${prevKey}`, swimLastWeek);
-
-    renderSwimDisplay();
-
-    // Update Swim streak for any swim done today
-    const swamToday = swimActivities.some(a => {
-      const d = new Date(a.start_date_local);
-      const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-      return dk === todayKey;
-    });
-    if (swamToday) updateCategoryStreak('streak_swim');
-
-    // Update Strava streak for any non-walk, non-swim activity logged today
+    // Update Strava streak for any non-walk activity logged today
     const anyToday = activities.some(a => {
       if (WALK_TYPES.includes(a.type) || WALK_TYPES.includes(a.sport_type)) return false;
-      if (SWIM_TYPES.includes(a.type) || SWIM_TYPES.includes(a.sport_type)) return false;
       const d = new Date(a.start_date_local);
       const dk = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
       return dk === todayKey;
     });
     if (anyToday) updateCategoryStreak('streak_strava');
 
-  } catch(e) {}
-}
-
-// Combines Strava-derived swim counts with manually logged swims for display
-function renderSwimDisplay() {
-  try {
-    const weekKey = getWeekKey();
-    const prevKey = getPrevWeekKey();
-
-    const stravaWeek  = parseInt(localStorage.getItem(`completions_swim_${weekKey}`) || '0');
-    const stravaPrev  = parseInt(localStorage.getItem(`completions_swim_${prevKey}`) || '0');
-    const stravaTotal = parseInt(localStorage.getItem('completions_swim') || '0');
-
-    const manualWeek  = parseInt(localStorage.getItem(`swim_manual_${weekKey}`) || '0');
-    const manualPrev  = parseInt(localStorage.getItem(`swim_manual_${prevKey}`) || '0');
-    const manualTotal = parseInt(localStorage.getItem('swim_manual_total') || '0');
-
-    const skEl = document.getElementById('swimCountWeek');
-    const spEl = document.getElementById('swimCountPrev');
-    const stEl = document.getElementById('swimCountTotal');
-    if (skEl) skEl.textContent = stravaWeek + manualWeek;
-    if (spEl) spEl.textContent = stravaPrev + manualPrev;
-    if (stEl) stEl.textContent = stravaTotal + manualTotal;
-  } catch(e) {}
-}
-
-// Manually log (or remove) a swim that wasn't captured by Strava
-function logManualSwim(delta = 1) {
-  try {
-    const weekKey = getWeekKey();
-    const totalKey = 'swim_manual_total';
-    const weeklyKey = `swim_manual_${weekKey}`;
-    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
-    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
-    localStorage.setItem(totalKey,  newTotal);
-    localStorage.setItem(weeklyKey, newWeekly);
-
-    if (delta > 0) updateCategoryStreak('streak_swim');
-    renderSwimDisplay();
-    renderStreakGrid();
   } catch(e) {}
 }
 
@@ -2821,18 +2947,16 @@ function renderWalkDisplay() {
   } catch(e) {}
 }
 
-// Manually log (or remove) a walk that wasn't captured by Strava
-function logManualWalk(delta = 1) {
+// Manually log a walk that wasn't captured by Strava
+function logManualWalk() {
   try {
     const weekKey = getWeekKey();
     const totalKey = 'walk_manual_total';
     const weeklyKey = `walk_manual_${weekKey}`;
-    const newTotal  = Math.max(0, parseInt(localStorage.getItem(totalKey)  || '0') + delta);
-    const newWeekly = Math.max(0, parseInt(localStorage.getItem(weeklyKey) || '0') + delta);
-    localStorage.setItem(totalKey,  newTotal);
-    localStorage.setItem(weeklyKey, newWeekly);
+    localStorage.setItem(totalKey,  parseInt(localStorage.getItem(totalKey)  || '0') + 1);
+    localStorage.setItem(weeklyKey, parseInt(localStorage.getItem(weeklyKey) || '0') + 1);
 
-    if (delta > 0) updateCategoryStreak('streak_walk');
+    updateCategoryStreak('streak_walk');
     renderWalkDisplay();
     renderStreakGrid();
   } catch(e) {}
@@ -2949,8 +3073,9 @@ function restartRoutine() {
         await loadStravaActivities();
         renderStreakGrid();
         renderGoals();
-        renderGoalsTally();
-        renderWaterDisplay();
+        renderGoalsStreak();
+        renderHabitsDots();
+        renderFoodInputs(getFoodToday());
       } catch(e) {}
     }
 
