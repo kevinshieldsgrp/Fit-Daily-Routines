@@ -1286,6 +1286,58 @@
   }
   .habits-summary-score.all-done { color: #4ade80; }
 
+  /* ── BODY WORKOUT CHECKLIST ── */
+  .body-ex-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: background 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+  }
+  .body-ex-row.completed { opacity: 0.5; }
+  .body-ex-row.dragging-row {
+    opacity: 0.6;
+    background: var(--surface2);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  }
+  .body-ex-drag {
+    width: 30px; height: 30px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    touch-action: none;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .body-ex-info { flex: 1; min-width: 0; -webkit-user-select: none; user-select: none; }
+  .body-ex-name {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .body-ex-row.completed .body-ex-name {
+    text-decoration: line-through; color: var(--text-muted);
+  }
+  .body-ex-detail {
+    font-size: 12px; color: var(--text-muted); font-weight: 300; margin-top: 2px;
+  }
+  .body-ex-check {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0; display: flex;
+    align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.03);
+    transition: all 0.2s ease;
+    -webkit-user-select: none;
+  }
+  .body-ex-check svg { display: none; }
+  .body-ex-check.checked {
+    border-color: var(--body-primary);
+    background: var(--body-primary);
+  }
+  .body-ex-check.checked svg { display: block; }
+
   /* ── PULL TO REFRESH ── */
   #ptr-indicator {
     position: fixed;
@@ -1894,43 +1946,19 @@ const ROUTINES = {
     color: "body",
     exercises: [
       {
-        name: "Barbell Bench Press",
+        name: "Bench Press",
         detail: "8-10 reps • 3 sets",
         timer: 0,
         instructions: "Lie on the bench, feet flat on the floor, grip the bar just outside shoulder width.\n\nUnrack and lower the bar under control to your mid-chest, elbows at roughly a 45° angle from your body.\n\nPress back up to full lock-out.\n\n8-10 reps per set, 3 sets. Rest 60-75 seconds between sets."
       },
       {
-        name: "Incline Dumbbell Press",
+        name: "Incline Bench Press",
         detail: "10-12 reps • 3 sets",
         timer: 0,
-        instructions: "Set the bench to a 30-45° incline. Hold a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells up and slightly in until your arms are extended, then lower under control back to the start.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
+        instructions: "Set the bench to a 30-45° incline. Grip the bar just outside shoulder width, or hold a dumbbell in each hand at shoulder height.\n\nPress up until your arms are extended, then lower under control back to the start.\n\n10-12 reps per set, 3 sets. Rest 60 seconds between sets."
       },
       {
-        name: "Cable Tricep Pushdown",
-        detail: "12-15 reps • 2 sets",
-        timer: 0,
-        instructions: "Stand at the cable station with a straight or angled bar attached at the top pulley. Elbows tucked at your sides.\n\nPush the bar down until your arms are fully extended, squeezing your triceps at the bottom, then let it return under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Overhead Dumbbell Extension",
-        detail: "10-12 reps • 2 sets",
-        timer: 0,
-        instructions: "Hold one dumbbell with both hands, arms extended overhead.\n\nLower the dumbbell behind your head by bending at the elbows, keeping your upper arms still, then extend back to the top.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Barbell or EZ-Bar Curl",
-        detail: "10-12 reps • 2 sets",
-        timer: 0,
-        instructions: "Stand holding the bar with an underhand grip, shoulder-width apart, elbows at your sides.\n\nCurl the bar up toward your shoulders without swinging your torso, then lower under control.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Dumbbell Hammer Curl",
-        detail: "12-15 reps • 2 sets",
-        timer: 0,
-        instructions: "Hold a dumbbell in each hand at your sides, palms facing your body (neutral grip).\n\nCurl both dumbbells up toward your shoulders, keeping your wrists neutral throughout, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
-      },
-      {
-        name: "Seated Dumbbell Shoulder Press",
+        name: "Shoulder Press",
         detail: "8-10 reps • 3 sets",
         timer: 0,
         instructions: "Sit on a bench with back support, a dumbbell in each hand at shoulder height, palms facing forward.\n\nPress the dumbbells overhead until your arms are extended, then lower back to shoulder height under control.\n\n8-10 reps per set, 3 sets. Rest 60 seconds between sets."
@@ -1940,6 +1968,30 @@ const ROUTINES = {
         detail: "12-15 reps • 2 sets",
         timer: 0,
         instructions: "Stand holding a dumbbell in each hand at your sides, slight bend in the elbows.\n\nRaise both arms out to the sides until roughly shoulder height, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
+      },
+      {
+        name: "Hammer Curls",
+        detail: "12-15 reps • 2 sets",
+        timer: 0,
+        instructions: "Hold a dumbbell in each hand at your sides, palms facing your body (neutral grip).\n\nCurl both dumbbells up toward your shoulders, keeping your wrists neutral throughout, then lower under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
+      },
+      {
+        name: "Bicep Curls Reverse slow",
+        detail: "10-12 reps • 2 sets • slow lower",
+        timer: 0,
+        instructions: "Stand holding a bar or dumbbells with an overhand (reverse) grip, shoulder-width apart, elbows at your sides.\n\nCurl up over about 2 seconds, squeeze at the top, then lower slowly over 3-4 seconds — the slow lowering is the work.\n\n10-12 reps per set, 2 sets. Rest 45-60 seconds between sets."
+      },
+      {
+        name: "Overhead Tricep 1 Arm",
+        detail: "10-12 reps each arm • 2 sets",
+        timer: 0,
+        instructions: "Hold one dumbbell in one hand, arm extended straight overhead.\n\nLower the dumbbell behind your head by bending at the elbow, keeping your upper arm still, then extend back to the top.\n\n10-12 reps per arm, 2 sets. Rest 45-60 seconds between sets."
+      },
+      {
+        name: "Cable Tricep Push Down",
+        detail: "12-15 reps • 2 sets",
+        timer: 0,
+        instructions: "Stand at the cable station with a straight or angled bar attached at the top pulley. Elbows tucked at your sides.\n\nPush the bar down until your arms are fully extended, squeezing your triceps at the bottom, then let it return under control.\n\n12-15 reps per set, 2 sets. Rest 45-60 seconds between sets."
       },
       {
         name: "Lat Pulldown",
@@ -1954,34 +2006,35 @@ const ROUTINES = {
         instructions: "Sit at the cable row station, feet on the platform, knees slightly bent, grip the handle.\n\nPull the handle to your torso, squeezing your shoulder blades together, then extend back under control.\n\n10-12 reps per set, 2 sets. Rest 60 seconds between sets."
       },
       {
-        name: "Leg Press Sled",
+        name: "Sled Leg Press",
         detail: "10-12 reps • 3 sets",
         timer: 0,
         instructions: "Sit in the leg press machine, feet shoulder-width on the platform.\n\nRelease the safety and lower the sled under control until your knees are near 90°, then press back up without locking your knees out hard.\n\n10-12 reps per set, 3 sets. Rest 60-75 seconds between sets."
       },
       {
-        name: "Leg Extensions",
+        name: "Leg Extension",
         detail: "12-15 reps • 3 sets",
         timer: 0,
         instructions: "Sit in the leg extension machine, shins behind the pad, knees aligned with the machine's pivot point.\n\nExtend your legs to full extension, squeezing your quads at the top, then lower under control.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
       },
       {
-        name: "Leg Curls",
+        name: "Leg Curl",
         detail: "12-15 reps • 3 sets",
         timer: 0,
         instructions: "Lie face down (or sit, depending on machine) with the pad positioned just above your heels.\n\nCurl your legs up toward your glutes, squeezing your hamstrings, then lower under control back to the start.\n\n12-15 reps per set, 3 sets. Rest 45-60 seconds between sets."
       },
       {
-        name: "Core",
-        detail: "3 minutes • Ab work",
+        name: "Core & Plank",
+        detail: "3 min core • 70 sec plank",
         timer: 0,
-        instructions: "3 minutes of ab work — mix in exercises like crunches, leg raises, bicycles, or Russian twists.\n\nMove at a steady pace and keep your core braced throughout. Rest briefly between movements as needed, but keep the total working time to 3 minutes."
+        instructions: "3 minutes of ab work — mix in exercises like crunches, leg raises, bicycles, or Russian twists. Move at a steady pace and keep your core braced throughout.\n\nFinish with a 70 second plank hold — forearms on the floor, elbows under shoulders, body in a straight line from head to heels. Keep your hips level, don't let them sag or pike up."
       },
       {
-        name: "Plank",
-        detail: "70 sec hold",
+        name: "End with Bend Routine",
+        detail: "Full stretch flow to finish",
         timer: 0,
-        instructions: "Forearms on the floor, elbows under shoulders, body in a straight line from head to heels.\n\nBrace your core and glutes, keep your hips level — don't let them sag or pike up.\n\nHold for 70 seconds, breathing steadily throughout."
+        isBendLink: true,
+        instructions: "Head over to the Bend routine to stretch out everything you just worked.\n\nTap this exercise to jump straight to Bend."
       }
     ]
   },
@@ -2063,6 +2116,26 @@ let timerRunning = false;
 let timerSeconds = 0;
 let timerTotal = 0;
 
+/* ── BODY WORKOUT (checklist + reorder, no auto timer) ── */
+let bodyCompleted = new Set();
+let bodyExerciseOrder = [];
+let bodyDragCleanup = null;
+
+function loadBodyOrder() {
+  try {
+    const raw = localStorage.getItem('body_order');
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length === ROUTINES.body.exercises.length) return arr;
+    }
+  } catch(e) {}
+  return ROUTINES.body.exercises.map((_, i) => i);
+}
+
+function saveBodyOrder() {
+  try { localStorage.setItem('body_order', JSON.stringify(bodyExerciseOrder)); } catch(e) {}
+}
+
 function goHome() {
   clearInterval(timerInterval);
   timerRunning = false;
@@ -2100,8 +2173,132 @@ function openRoutine(type) {
   fill.className = `list-progress-fill fill-${c}`;
   fill.style.width = '0%';
 
-  renderExerciseList();
+  if (type === 'body') {
+    bodyCompleted = new Set();
+    bodyExerciseOrder = loadBodyOrder();
+    startBtn.textContent = 'FINISH WORKOUT';
+    startBtn.onclick = finishBodyWorkout;
+    renderBodyChecklist();
+  } else {
+    startBtn.textContent = 'START ROUTINE';
+    startBtn.onclick = startRoutine;
+    renderExerciseList();
+  }
   showScreen('list');
+}
+
+/* ── Body checklist rendering ── */
+function renderBodyChecklist() {
+  if (bodyDragCleanup) { bodyDragCleanup(); bodyDragCleanup = null; }
+  const list = document.getElementById('exercisesList');
+  list.innerHTML = '';
+
+  bodyExerciseOrder.forEach((masterIdx) => {
+    const ex = ROUTINES.body.exercises[masterIdx];
+    const done = bodyCompleted.has(masterIdx);
+    const row = document.createElement('div');
+    row.className = 'body-ex-row' + (done ? ' completed' : '');
+    row.dataset.masterIdx = masterIdx;
+    row.innerHTML = `
+      <div class="body-ex-drag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="6" r="1.6"/><circle cx="16" cy="6" r="1.6"/><circle cx="8" cy="12" r="1.6"/><circle cx="16" cy="12" r="1.6"/><circle cx="8" cy="18" r="1.6"/><circle cx="16" cy="18" r="1.6"/></svg>
+      </div>
+      <div class="body-ex-info">
+        <div class="body-ex-name">${ex.name}</div>
+        <div class="body-ex-detail">${ex.detail}</div>
+      </div>
+      <div class="body-ex-check${done ? ' checked' : ''}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    `;
+    row.querySelector('.body-ex-info').onclick = () => handleBodyExerciseTap(masterIdx);
+    row.querySelector('.body-ex-check').onclick = () => toggleBodyExercise(masterIdx);
+    list.appendChild(row);
+  });
+
+  updateBodyProgress();
+  bodyDragCleanup = attachBodyDragHandlers();
+}
+
+function handleBodyExerciseTap(masterIdx) {
+  const ex = ROUTINES.body.exercises[masterIdx];
+  if (ex.isBendLink) { openRoutine('bend'); return; }
+  currentExIndex = masterIdx;
+  showExercise();
+}
+
+function toggleBodyExercise(masterIdx) {
+  if (bodyCompleted.has(masterIdx)) bodyCompleted.delete(masterIdx);
+  else bodyCompleted.add(masterIdx);
+  renderBodyChecklist();
+}
+
+function updateBodyProgress() {
+  const total = ROUTINES.body.exercises.length;
+  const done = bodyCompleted.size;
+  const pct = total ? (done / total) * 100 : 0;
+  const fill = document.getElementById('listProgressFill');
+  if (fill) {
+    fill.className = 'list-progress-fill fill-body';
+    fill.style.width = pct + '%';
+  }
+  const sub = document.getElementById('listSubtitle');
+  if (sub) sub.textContent = `${done} / ${total} checked off — drag ☰ to reorder for your gym`;
+}
+
+function finishBodyWorkout() {
+  const total = ROUTINES.body.exercises.length;
+  const done = bodyCompleted.size;
+  if (done < total) {
+    const proceed = confirm(`You've checked off ${done} of ${total} exercises. Finish the workout anyway?`);
+    if (!proceed) return;
+  }
+  showDone();
+}
+
+/* Touch/pointer drag-to-reorder for the body checklist.
+   Uses elementFromPoint so the row snaps into place among the others —
+   simple and reliable on iOS Safari without native HTML5 drag/drop. */
+function attachBodyDragHandlers() {
+  const list = document.getElementById('exercisesList');
+  const handles = Array.from(list.querySelectorAll('.body-ex-drag'));
+
+  function onPointerDown(e) {
+    const handle = e.currentTarget;
+    const row = handle.closest('.body-ex-row');
+    if (!row) return;
+    e.preventDefault();
+    row.classList.add('dragging-row');
+    try { handle.setPointerCapture(e.pointerId); } catch(err) {}
+
+    function onMove(ev) {
+      const target = document.elementFromPoint(ev.clientX, ev.clientY);
+      const targetRow = target && target.closest && target.closest('.body-ex-row');
+      if (targetRow && targetRow !== row && list.contains(targetRow)) {
+        const rect = targetRow.getBoundingClientRect();
+        const before = (ev.clientY - rect.top) < rect.height / 2;
+        list.insertBefore(row, before ? targetRow : targetRow.nextSibling);
+      }
+    }
+
+    function onUp(ev) {
+      try { handle.releasePointerCapture(e.pointerId); } catch(err) {}
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      row.classList.remove('dragging-row');
+      bodyExerciseOrder = Array.from(list.querySelectorAll('.body-ex-row')).map(r => parseInt(r.dataset.masterIdx));
+      saveBodyOrder();
+    }
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+  }
+
+  handles.forEach(h => h.addEventListener('pointerdown', onPointerDown));
+
+  return function cleanup() {
+    handles.forEach(h => h.removeEventListener('pointerdown', onPointerDown));
+  };
 }
 
 function renderExerciseList() {
@@ -2413,7 +2610,11 @@ function prevExercise() {
 function goToList() {
   clearInterval(timerInterval);
   timerRunning = false;
-  renderExerciseList();
+  if (currentRoutine === 'body') {
+    renderBodyChecklist();
+  } else {
+    renderExerciseList();
+  }
   showScreen('list');
 }
 
@@ -2980,7 +3181,11 @@ function showDone() {
   document.getElementById('doneSub').textContent = `${r.name} complete — session #${total} done.`;
   document.getElementById('doneMainBtn').style.background = color;
 
-  renderExerciseList();
+  if (currentRoutine === 'body') {
+    renderBodyChecklist();
+  } else {
+    renderExerciseList();
+  }
   showScreen('done');
 }
 
@@ -3359,6 +3564,12 @@ function renderStravaError() {
 })();
 
 function restartRoutine() {
+  if (currentRoutine === 'body') {
+    bodyCompleted = new Set();
+    showScreen('list');
+    renderBodyChecklist();
+    return;
+  }
   completedExercises = new Set();
   currentExIndex = 0;
   showExercise();
