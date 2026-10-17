@@ -29,6 +29,8 @@
     --bend-light: #a8b1ee;
     --glutes-primary: #d6417e;
     --glutes-light: #f29ac2;
+    --fuel-primary: #84cc16;
+    --fuel-light: #bef264;
     --radius-sm: 10px;
   }
 
@@ -537,6 +539,14 @@
     color: var(--glutes-light);
   }
   .streak-pill.s-glutes .streak-pill-count { color: var(--glutes-primary); }
+
+  .streak-pill.s-fuel {
+    background: rgba(132,204,22,0.08);
+    border: 1px solid rgba(132,204,22,0.22);
+    color: var(--fuel-light);
+  }
+  .streak-pill.s-fuel .streak-pill-count { color: var(--fuel-primary); }
+  .streak-pill.s-fuel:not(.zero) { border-color: var(--fuel-primary); }
 
   .routine-cards { display: flex; flex-direction: column; gap: 6px; flex: 1; }
 
@@ -1309,6 +1319,105 @@
   }
   .habits-summary-score.all-done { color: #4ade80; }
 
+  /* ── FUEL CARD (home) ── */
+  .routine-card.fuel {
+    background: linear-gradient(135deg, #121a08 0%, #18230a 100%);
+    border: 1px solid rgba(132,204,22,0.25);
+    box-shadow: 0 4px 30px rgba(132,204,22,0.1);
+  }
+  .fuel .card-accent { background: var(--fuel-primary); }
+  .fuel .card-arrow { background: rgba(132,204,22,0.2); color: var(--fuel-primary); }
+  .fuel .card-stat-num.hit { color: #4ade80; }
+  .fuel .card-stat-num.miss { color: var(--text-muted); opacity: 0.6; }
+  .fuel .card-stats { gap: 7px; }
+
+  /* ── FUEL SCREEN ── */
+  #fuel { background: var(--bg); flex-direction: column; }
+  .fuel-date-nav {
+    display: flex; align-items: center; gap: 10px; margin-top: 2px;
+  }
+  .fuel-date-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); font-size: 16px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-user-select: none;
+  }
+  .fuel-date-btn:disabled { opacity: 0.25; cursor: default; }
+  .fuel-date-label { font-size: 12px; color: var(--text-muted); font-weight: 300; flex: 1; }
+
+  .fuel-water {
+    background: rgba(56,189,248,0.07);
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 14px; padding: 14px 16px;
+  }
+  .fuel-water-row { display: flex; align-items: center; gap: 12px; }
+  .fuel-water-label { font-size: 14px; font-weight: 600; color: var(--white); flex: 1; }
+  .fuel-water-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: none; background: rgba(56,189,248,0.15); color: var(--water-light);
+    font-size: 24px; font-weight: 300; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; -webkit-user-select: none;
+  }
+  .fuel-water-btn:active { background: rgba(56,189,248,0.3); transform: scale(0.94); }
+  .fuel-water-val {
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1;
+    color: var(--white); min-width: 34px; text-align: center;
+  }
+  .fuel-water-bar {
+    height: 5px; border-radius: 3px; margin-top: 12px;
+    background: rgba(255,255,255,0.08); overflow: hidden;
+  }
+  .fuel-water-fill { height: 100%; background: var(--water-primary); transition: width 0.2s; }
+  .fuel-water-fill.goal-met { background: #4ade80; }
+  .fuel-water-goal { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .fuel-water-goal.goal-met { color: #4ade80; }
+
+  .fuel-meal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px 14px;
+  }
+  .fuel-meal.logged { border-color: rgba(74,222,128,0.35); }
+  .fuel-meal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .fuel-meal-name { font-size: 14px; font-weight: 600; color: var(--white); }
+  .fuel-meal.logged .fuel-meal-name { color: #4ade80; }
+  .fuel-meal-status { font-size: 11px; color: var(--text-muted); }
+  .fuel-entry {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 0; border-top: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px; color: var(--text);
+  }
+  .fuel-entry-text { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .fuel-entry-time { font-size: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .fuel-entry-del {
+    width: 28px; height: 28px; border: none; background: none;
+    color: var(--text-muted); font-size: 18px; line-height: 1; cursor: pointer; flex-shrink: 0;
+  }
+  .fuel-add-row { display: flex; gap: 6px; margin-top: 8px; }
+  .fuel-add-row input {
+    flex: 1; min-width: 0;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 16px; /* 16px stops iOS zooming on focus */
+    padding: 8px 10px;
+  }
+  .fuel-add-row input:focus { outline: none; border-color: var(--fuel-primary); }
+  .fuel-add-btn {
+    border: none; border-radius: 10px; padding: 0 14px;
+    background: rgba(132,204,22,0.2); color: var(--fuel-light);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .fuel-add-btn:active { background: rgba(132,204,22,0.35); }
+  .fuel-recents { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .fuel-recent {
+    border: 1px solid rgba(132,204,22,0.25); background: rgba(132,204,22,0.07);
+    color: var(--fuel-light); border-radius: 14px; padding: 5px 10px;
+    font-size: 12px; cursor: pointer; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .fuel-recent:active { background: rgba(132,204,22,0.2); }
+
   /* ── BODY WORKOUT CHECKLIST ── */
   .body-ex-row {
     display: flex; align-items: center; gap: 10px;
@@ -1413,49 +1522,6 @@
       <div id="goals-list"></div>
     </div>
 
-    <!-- ── WATER DAILY CARD ── -->
-    <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Featured</span><div class="section-divider-line"></div></div>
-    <div class="water-daily-card" id="waterDailyCard">
-      <div class="water-daily-left">
-        <span class="water-daily-icon">💧</span>
-        <div class="water-daily-title">Water</div>
-      </div>
-      <div class="water-daily-controls">
-        <button class="water-adj-btn" onclick="adjustFood('water',-1)">−</button>
-        <div class="water-daily-val" id="waterVal">0</div>
-        <button class="water-adj-btn" onclick="adjustFood('water',1)">+</button>
-      </div>
-      <div class="water-daily-bar-row">
-        <div class="water-daily-bar">
-          <div class="water-daily-fill" id="waterFill" style="width:0%;"></div>
-        </div>
-        <div class="tile-counts">
-          <div class="water-daily-count" id="waterGoalText">0 / 10</div>
-          <div class="tile-week-count" id="waterWeeklyDays">0 / 7 wk</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── HABITS DAILY TILE ── -->
-    <div class="water-daily-card" id="habitsDailyCard" style="border-color:rgba(167,139,250,0.25); background:rgba(167,139,250,0.07);">
-      <div class="water-daily-left">
-        <span class="water-daily-icon">🌟</span>
-        <div class="water-daily-title">Habits</div>
-      </div>
-      <div class="water-daily-bar-row">
-        <div class="water-daily-bar">
-          <div class="habits-daily-fill" id="habitsDailyFill" style="width:0%;"></div>
-        </div>
-        <div class="tile-counts">
-          <div class="water-daily-count" id="habitsDailyCount">0 / 3</div>
-          <div class="tile-week-count" id="habitsWeeklyDays">0 / 7 wk</div>
-        </div>
-      </div>
-      <button class="habits-tile-arrow" onclick="openHabits()" aria-label="Open habits">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
-    </div>
-
     <!-- ── STREAK GRID ── -->
     <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Streaks</span><div class="section-divider-line"></div></div>
     <div class="streak-grid">
@@ -1503,10 +1569,52 @@
           <div class="streak-pill-count" id="spill-glutes-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
         </div>
       </div>
+      <div class="streak-pill s-fuel" id="spill-fuel">
+        <div class="streak-pill-icon">🥗</div>
+        <div class="streak-pill-body">
+          <div class="streak-pill-label">Fuel</div>
+          <div class="streak-pill-count" id="spill-fuel-count">0<span style="font-size:11px;opacity:0.45;"> /0</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="section-divider"><div class="section-divider-line"></div><span class="section-divider-text">Routines</span><div class="section-divider-line"></div></div>
     <div class="routine-cards">
+
+      <!-- ── FUEL CARD (food + water log) ── -->
+      <div class="routine-card fuel" onclick="openFuel()">
+        <div class="card-accent"></div>
+        <div class="card-header-row">
+          <div class="card-title-group">
+            <div class="card-title">Fuel</div>
+            <div class="card-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <div class="card-stats">
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="fuelCardBreakfast">–</div>
+              <div class="card-stat-label">Bkfst</div>
+            </div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="fuelCardLunch">–</div>
+              <div class="card-stat-label">Lunch</div>
+            </div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="fuelCardDinner">–</div>
+              <div class="card-stat-label">Dinner</div>
+            </div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="fuelCardSnacks">0</div>
+              <div class="card-stat-label">Snacks</div>
+            </div>
+            <div class="card-stat-item">
+              <div class="card-stat-num" id="fuelCardWater">0/10</div>
+              <div class="card-stat-label">Water</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- ── BEND CARD ── -->
       <div class="routine-card bend" onclick="openRoutine('bend')">
@@ -1699,7 +1807,7 @@
   <div class="list-header">
     <button class="back-btn" id="listBackBtn" onclick="goHome()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-      <span>Routines</span>
+      <span>Home</span>
     </button>
     <div id="listTag" class="list-tag"></div>
     <div id="listTitle" class="list-title"></div>
@@ -1818,6 +1926,43 @@
     <div class="habits-summary">
       <div class="habits-summary-label">Today's score</div>
       <div class="habits-summary-score" id="habitsSummaryScore">0 / 5</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FUEL (food + water log) ── -->
+<div id="fuel" class="screen">
+  <div class="habits-header">
+    <button class="back-btn" onclick="goHome()" style="margin-bottom:14px; color:var(--fuel-primary);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Home</span>
+    </button>
+    <div class="habits-title">FUEL</div>
+    <div class="fuel-date-nav">
+      <button class="fuel-date-btn" onclick="shiftFuelDay(-1)" aria-label="Previous day">‹</button>
+      <div class="fuel-date-label" id="fuelDate">—</div>
+      <button class="fuel-date-btn" id="fuelNextDay" onclick="shiftFuelDay(1)" aria-label="Next day">›</button>
+    </div>
+  </div>
+  <div class="habits-body">
+
+    <div class="fuel-water">
+      <div class="fuel-water-row">
+        <div class="fuel-water-label">💧 Water</div>
+        <button class="fuel-water-btn" onclick="adjustFuelWater(-1)" aria-label="Remove a glass">−</button>
+        <div class="fuel-water-val" id="fuelWaterVal">0</div>
+        <button class="fuel-water-btn" onclick="adjustFuelWater(1)" aria-label="Add a glass">+</button>
+      </div>
+      <div class="fuel-water-bar"><div class="fuel-water-fill" id="fuelWaterFill" style="width:0%;"></div></div>
+      <div class="fuel-water-goal" id="fuelWaterGoal">0 / 10 glasses</div>
+    </div>
+
+    <div id="fuelMeals" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+    <div class="habits-summary">
+      <div class="habits-summary-label">Fuel streak (3 meals + water goal)</div>
+      <div class="habits-summary-score" id="fuelStreakScore">0</div>
     </div>
 
   </div>
@@ -2228,7 +2373,7 @@ function goHome() {
   showScreen('home');
   renderHabitsDots();
   renderHabitsTile();
-  renderFoodInputs(getFoodToday());
+  renderFuelCard();
   renderGoals();
   renderGoalsStreak();
 }
@@ -2893,90 +3038,251 @@ function saveGoals() {
 }
 
 
+/* ── FUEL (food + water log) ──
+   Stored per day in food_YYYYMMDD (same key the old water counter used, so
+   water history carries over):
+   { water: 6, meals: { breakfast: [{ text, at }], lunch: [], dinner: [], snacks: [] } }
+   A streak day = breakfast, lunch and dinner each logged AND water >= WATER_GOAL. */
 const WATER_GOAL = 10;
+const FUEL_MEALS = [
+  { id: 'breakfast', label: 'Breakfast', cardId: 'fuelCardBreakfast' },
+  { id: 'lunch',     label: 'Lunch',     cardId: 'fuelCardLunch' },
+  { id: 'dinner',    label: 'Dinner',    cardId: 'fuelCardDinner' },
+  { id: 'snacks',    label: 'Snacks',    cardId: 'fuelCardSnacks' },
+];
+const FUEL_REQUIRED_MEALS = ['breakfast', 'lunch', 'dinner'];
+const FUEL_RECENTS_MAX = 6;
+const FUEL_LOOKBACK_DAYS = 400;
+
+let fuelDaysAgo = 0; // 0 = today; the screen's ‹ › buttons move this
 
 function getTodayDateKey() {
   const d = new Date();
   return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function getFoodToday() {
+function normalizeFuelDay(data) {
+  const day = (data && typeof data === 'object') ? data : {};
+  day.water = parseInt(day.water) || 0;
+  if (!day.meals || typeof day.meals !== 'object') day.meals = {};
+  FUEL_MEALS.forEach(m => { if (!Array.isArray(day.meals[m.id])) day.meals[m.id] = []; });
+  return day;
+}
+
+function getFuelDay(daysAgo) {
   try {
-    const raw = localStorage.getItem(`food_${getTodayDateKey()}`);
-    return raw ? JSON.parse(raw) : { water: 0 };
-  } catch(e) { return { water: 0 }; }
+    const raw = localStorage.getItem(`food_${getDayKey(daysAgo)}`);
+    return normalizeFuelDay(raw ? JSON.parse(raw) : null);
+  } catch(e) { return normalizeFuelDay(null); }
 }
 
-function saveFoodToday(data) {
-  try { localStorage.setItem(`food_${getTodayDateKey()}`, JSON.stringify(data)); } catch(e) {}
+function saveFuelDay(daysAgo, data) {
+  try { localStorage.setItem(`food_${getDayKey(daysAgo)}`, JSON.stringify(data)); } catch(e) {}
 }
 
-function syncWaterStat() {
-  const el = document.getElementById('waterStatToday');
-  if (el) el.textContent = getFoodToday().water;
+function isFuelDayComplete(day) {
+  return day.water >= WATER_GOAL && FUEL_REQUIRED_MEALS.every(id => day.meals[id].length > 0);
 }
 
-function adjustFood(type, delta) {
-  const today = getFoodToday();
-  if (type === 'water') today.water = Math.max(0, Math.min(20, today.water + delta));
-  saveFoodToday(today);
-  renderFoodInputs(today);
+// Computed from stored days rather than incremented, so back-filling or
+// deleting an entry on an earlier day always gives the right streak.
+function getFuelStreak() {
+  // Today still in progress doesn't break the streak; count from yesterday.
+  let start = isFuelDayComplete(getFuelDay(0)) ? 0 : 1;
+  let current = 0;
+  for (let i = start; i <= FUEL_LOOKBACK_DAYS; i++) {
+    if (!isFuelDayComplete(getFuelDay(i))) break;
+    current++;
+  }
+  let best = 0, run = 0;
+  for (let i = FUEL_LOOKBACK_DAYS; i >= 0; i--) {
+    if (isFuelDayComplete(getFuelDay(i))) { run++; if (run > best) best = run; }
+    else run = 0;
+  }
+  return { current, best };
 }
 
-function renderFoodInputs(data) {
+// Unique past entries for a meal, most recent first.
+function getFuelRecents(mealId, excludeTexts) {
+  const seen = new Set(excludeTexts.map(t => t.toLowerCase()));
+  const out = [];
+  for (let i = 0; i <= 60 && out.length < FUEL_RECENTS_MAX; i++) {
+    const entries = getFuelDay(i).meals[mealId].slice().reverse();
+    for (const e of entries) {
+      const k = (e.text || '').toLowerCase();
+      if (!k || seen.has(k)) continue;
+      seen.add(k);
+      out.push(e.text);
+      if (out.length >= FUEL_RECENTS_MAX) break;
+    }
+  }
+  return out;
+}
+
+function openFuel() {
+  fuelDaysAgo = 0;
+  renderFuelScreen();
+  showScreen('fuel');
+}
+
+function shiftFuelDay(delta) {
+  fuelDaysAgo = Math.max(0, fuelDaysAgo - delta);
+  renderFuelScreen();
+}
+
+function adjustFuelWater(delta) {
+  const day = getFuelDay(fuelDaysAgo);
+  day.water = Math.max(0, Math.min(20, day.water + delta));
+  saveFuelDay(fuelDaysAgo, day);
+  renderFuelScreen();
+}
+
+function addFuelEntry(mealId, text) {
+  text = (text || '').trim();
+  if (!text) return;
+  const day = getFuelDay(fuelDaysAgo);
+  day.meals[mealId].push({ text, at: Date.now() });
+  saveFuelDay(fuelDaysAgo, day);
+  renderFuelScreen();
+}
+
+function removeFuelEntry(mealId, index) {
+  const day = getFuelDay(fuelDaysAgo);
+  day.meals[mealId].splice(index, 1);
+  saveFuelDay(fuelDaysAgo, day);
+  renderFuelScreen();
+}
+
+function renderFuelScreen() {
   try {
-    const waterPct = Math.min(100, (data.water / WATER_GOAL) * 100);
-    const waterMet = data.water >= WATER_GOAL;
+    const day = getFuelDay(fuelDaysAgo);
 
-    const wVal = document.getElementById('waterVal');
-    if (wVal) wVal.textContent = data.water;
+    const d = new Date();
+    d.setDate(d.getDate() - fuelDaysAgo);
+    const label = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    document.getElementById('fuelDate').textContent =
+      fuelDaysAgo === 0 ? `Today · ${label}` : fuelDaysAgo === 1 ? `Yesterday · ${label}` : label;
+    document.getElementById('fuelNextDay').disabled = fuelDaysAgo === 0;
 
-    const wFill = document.getElementById('waterFill');
-    if (wFill) {
-      wFill.style.width = waterPct + '%';
-      wFill.className = 'water-daily-fill' + (waterMet ? ' goal-met' : '');
-    }
+    const waterMet = day.water >= WATER_GOAL;
+    document.getElementById('fuelWaterVal').textContent = day.water;
+    const fill = document.getElementById('fuelWaterFill');
+    fill.style.width = Math.min(100, (day.water / WATER_GOAL) * 100) + '%';
+    fill.className = 'fuel-water-fill' + (waterMet ? ' goal-met' : '');
+    const goal = document.getElementById('fuelWaterGoal');
+    goal.textContent = `${day.water} / ${WATER_GOAL} glasses` + (waterMet ? ' ✓' : '');
+    goal.className = 'fuel-water-goal' + (waterMet ? ' goal-met' : '');
 
-    const wText = document.getElementById('waterGoalText');
-    if (wText) {
-      wText.textContent = `${data.water} / ${WATER_GOAL}`;
-      wText.className = 'water-daily-count' + (waterMet ? ' goal-met' : '');
-    }
+    // Meal sections are built with DOM APIs so typed text is never parsed as HTML
+    const wrap = document.getElementById('fuelMeals');
+    wrap.innerHTML = '';
+    FUEL_MEALS.forEach(meal => {
+      const entries = day.meals[meal.id];
+      const sec = document.createElement('div');
+      sec.className = 'fuel-meal' + (entries.length ? ' logged' : '');
 
-    // Weekly days-hit tally
-    const wSub = document.getElementById('waterWeeklyDays');
-    if (wSub) {
-      const daysHit = getWaterDaysHitThisWeek();
-      wSub.textContent = `${daysHit}/7 wk`;
-    }
+      const head = document.createElement('div');
+      head.className = 'fuel-meal-head';
+      const name = document.createElement('div');
+      name.className = 'fuel-meal-name';
+      name.textContent = meal.label + (entries.length ? ' ✓' : '');
+      const status = document.createElement('div');
+      status.className = 'fuel-meal-status';
+      status.textContent = entries.length ? `${entries.length} item${entries.length > 1 ? 's' : ''}`
+        : (FUEL_REQUIRED_MEALS.includes(meal.id) ? 'Not logged' : 'Optional');
+      head.append(name, status);
+      sec.appendChild(head);
 
-    // Update water streak when goal first reached today
-    if (waterMet) updateCategoryStreak('streak_water');
+      entries.forEach((e, i) => {
+        const row = document.createElement('div');
+        row.className = 'fuel-entry';
+        const t = document.createElement('div');
+        t.className = 'fuel-entry-text';
+        t.textContent = e.text;
+        const time = document.createElement('div');
+        time.className = 'fuel-entry-time';
+        time.textContent = e.at ? new Date(e.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+        const del = document.createElement('button');
+        del.className = 'fuel-entry-del';
+        del.setAttribute('aria-label', `Remove ${e.text}`);
+        del.textContent = '×';
+        del.onclick = () => removeFuelEntry(meal.id, i);
+        row.append(t, time, del);
+        sec.appendChild(row);
+      });
+
+      const addRow = document.createElement('div');
+      addRow.className = 'fuel-add-row';
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = `Add ${meal.label.toLowerCase()}…`;
+      input.enterKeyHint = 'done';
+      input.onkeydown = ev => { if (ev.key === 'Enter') addFuelEntry(meal.id, input.value); };
+      const btn = document.createElement('button');
+      btn.className = 'fuel-add-btn';
+      btn.textContent = 'Add';
+      btn.onclick = () => addFuelEntry(meal.id, input.value);
+      addRow.append(input, btn);
+      sec.appendChild(addRow);
+
+      const recents = getFuelRecents(meal.id, entries.map(e => e.text));
+      if (recents.length) {
+        const chips = document.createElement('div');
+        chips.className = 'fuel-recents';
+        recents.forEach(text => {
+          const chip = document.createElement('button');
+          chip.className = 'fuel-recent';
+          chip.textContent = '+ ' + text;
+          chip.onclick = () => addFuelEntry(meal.id, text);
+          chips.appendChild(chip);
+        });
+        sec.appendChild(chips);
+      }
+
+      wrap.appendChild(sec);
+    });
+
+    const { current, best } = getFuelStreak();
+    const score = document.getElementById('fuelStreakScore');
+    score.innerHTML = `${current}<span style="font-size:13px;opacity:0.45;"> / best ${best}</span>`;
+    score.className = 'habits-summary-score' + (isFuelDayComplete(getFuelDay(0)) ? ' all-done' : '');
+
+    renderFuelCard();
   } catch(e) {}
 }
 
-function getWaterDaysHitThisWeek() {
+// Home-screen card + streak pill: today's status only
+function renderFuelCard() {
   try {
-    // Sun–Sat week (matching getWeekKey)
-    const now = new Date();
-    const dow = now.getDay(); // 0=Sun
-    let count = 0;
-    for (let i = 0; i <= dow; i++) {
-      const d = new Date(now);
-      d.setDate(now.getDate() - (dow - i));
-      const key = `food_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-      try {
-        const raw = localStorage.getItem(key);
-        const entry = raw ? JSON.parse(raw) : { water: 0 };
-        if ((entry.water || 0) >= WATER_GOAL) count++;
-      } catch(e) {}
+    const day = getFuelDay(0);
+    FUEL_MEALS.forEach(meal => {
+      const el = document.getElementById(meal.cardId);
+      if (!el) return;
+      const n = day.meals[meal.id].length;
+      if (meal.id === 'snacks') {
+        el.textContent = n;
+        el.className = 'card-stat-num' + (n ? '' : ' miss');
+      } else {
+        el.textContent = n ? '✓' : '–';
+        el.className = 'card-stat-num ' + (n ? 'hit' : 'miss');
+      }
+    });
+    const w = document.getElementById('fuelCardWater');
+    if (w) {
+      w.textContent = `${day.water}/${WATER_GOAL}`;
+      w.className = 'card-stat-num' + (day.water >= WATER_GOAL ? ' hit' : '');
     }
-    return count;
-  } catch(e) { return 0; }
+
+    const { current, best } = getFuelStreak();
+    const pill = document.getElementById('spill-fuel');
+    const cEl  = document.getElementById('spill-fuel-count');
+    if (cEl) cEl.innerHTML = `${current}<span style="font-size:11px;opacity:0.45;"> /${best}</span>`;
+    if (pill) pill.classList.toggle('zero', current === 0);
+  } catch(e) {}
 }
 
-// Initialize water on load
-(function initFood() { renderFoodInputs(getFoodToday()); })();
+// Initialize on load
+renderFuelCard();
 
 /* ── HABITS TRACKING ── */
 const HABITS = ['exercise', 'mindful', 'espanol'];
@@ -3721,7 +4027,7 @@ function restartRoutine() {
         renderGoalsStreak();
         renderHabitsDots();
         renderHabitsTile();
-        renderFoodInputs(getFoodToday());
+        renderFuelCard();
       } catch(e) {}
     }
 
