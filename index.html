@@ -2583,7 +2583,8 @@ function showExercise(autoStart = false) {
   const r = ROUTINES[currentRoutine];
   const ex = r.exercises[currentExIndex];
   const c = r.color;
-  const color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
+  const colorMap = { hip: 'var(--hip-primary)', golf: 'var(--golf-primary)', body: 'var(--body-primary)', bend: 'var(--bend-primary)', glutes: 'var(--glutes-primary)' };
+  const color = colorMap[c] || colorMap.hip;
   const softBgMap = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)', bend: 'rgba(109,122,224,0.12)', glutes: 'rgba(234,179,8,0.12)' };
   const softBg = softBgMap[c] || softBgMap.hip;
 
@@ -2615,6 +2616,7 @@ function showExercise(autoStart = false) {
 
   const toggleBtn = document.getElementById('timerToggleBtn');
   toggleBtn.style.background = color;
+  toggleBtn.style.color = c === 'glutes' ? '#1a1400' : '';
 
   document.getElementById('timerLabel').textContent = 'TIMER';
 
