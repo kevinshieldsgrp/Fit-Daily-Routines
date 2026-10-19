@@ -12,7 +12,9 @@ Work from the checked-out repo, never from a pasted or cached copy. Two regressi
 
 ## Deploy
 
-Commit and push to `main`. GitHub Pages serves it. No build. Test on the live URL on the phone, because localStorage, Google Fonts, audio and touch behavior do not work properly in a desktop preview. iOS Chrome caches the home-screen shortcut separately; if the UI looks stale, append `?v=N` to the shortcut URL.
+Commit and push to `main`. GitHub Pages serves it. No build. Test on the live URL on the phone, because localStorage, Google Fonts, audio and touch behavior do not work properly in a desktop preview. Do not ask the user to change the shortcut URL (no `?v=N`).
+
+**Bump `APP_VERSION` on every change to `index.html`** (format `YYYY-MM-DD.N`, near the end of the script). The auto-update block (`checkForUpdate`) fetches the live `index.html` on open and whenever the app returns to the foreground; if the live `APP_VERSION` differs, it refreshes the cache and reloads. It only reloads on the home screen with no timer running. If the version isn't bumped, the phone may keep showing the old copy for a while.
 
 ## How the user wants me to work
 

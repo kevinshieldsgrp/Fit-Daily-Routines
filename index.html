@@ -4043,6 +4043,36 @@ function restartRoutine() {
     }, 300);
   }, { passive: true });
 })();
+
+// ── AUTO-UPDATE ──
+// Bump APP_VERSION on every deploy. On open and whenever the app returns to the
+// foreground, fetch the live index.html; if its APP_VERSION differs, refresh the
+// browser cache and reload, so the same home-screen shortcut always gets updates.
+// Only reloads on the home screen with no timer running, so a workout is never cut off.
+const APP_VERSION = '2026-10-19.1';
+
+async function checkForUpdate() {
+  if (timerRunning || !document.getElementById('home').classList.contains('active')) return;
+  try {
+    const res = await fetchWithTimeout(location.pathname, { cache: 'no-store' }, 8000);
+    if (!res.ok) return;
+    const m = (await res.text()).match(/APP_VERSION = '(\d[^']*)'/);
+    if (!m || m[1] === APP_VERSION) return;
+    // Guard against a reload loop if the CDN briefly serves mixed versions
+    let last = 0;
+    try { last = parseInt(sessionStorage.getItem('app_update_reload') || '0'); } catch(e) {}
+    if (Date.now() - last < 60000) return;
+    try { sessionStorage.setItem('app_update_reload', String(Date.now())); } catch(e) {}
+    await fetch(location.pathname, { cache: 'reload' }).catch(() => {});
+    location.reload();
+  } catch(e) {}
+}
+
+checkForUpdate();
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') checkForUpdate();
+});
+window.addEventListener('pageshow', e => { if (e.persisted) checkForUpdate(); });
 </script>
 </body>
 </html>
