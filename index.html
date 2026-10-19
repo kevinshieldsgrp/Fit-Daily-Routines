@@ -27,8 +27,8 @@
     --body-light: #ef8a98;
     --bend-primary: #6d7ae0;
     --bend-light: #a8b1ee;
-    --glutes-primary: #d6417e;
-    --glutes-light: #f29ac2;
+    --glutes-primary: #eab308;
+    --glutes-light: #fde047;
     --fuel-primary: #84cc16;
     --fuel-light: #bef264;
     --radius-sm: 10px;
@@ -534,8 +534,8 @@
   .streak-pill.s-bend .streak-pill-count { color: var(--bend-primary); }
 
   .streak-pill.s-glutes {
-    background: rgba(214,65,126,0.08);
-    border: 1px solid rgba(214,65,126,0.22);
+    background: rgba(234,179,8,0.08);
+    border: 1px solid rgba(234,179,8,0.22);
     color: var(--glutes-light);
   }
   .streak-pill.s-glutes .streak-pill-count { color: var(--glutes-primary); }
@@ -583,9 +583,9 @@
     box-shadow: 0 4px 30px rgba(109,122,224,0.1);
   }
   .routine-card.glutes {
-    background: linear-gradient(135deg, #1f0f1a 0%, #2a1021 100%);
-    border: 1px solid rgba(214,65,126,0.25);
-    box-shadow: 0 4px 30px rgba(214,65,126,0.1);
+    background: linear-gradient(135deg, #1f1a0a 0%, #2a2210 100%);
+    border: 1px solid rgba(234,179,8,0.25);
+    box-shadow: 0 4px 30px rgba(234,179,8,0.1);
   }
 
   .card-accent {
@@ -615,7 +615,7 @@
   .golf .card-tag { color: var(--golf-primary); background: rgba(74,158,122,0.12); }
   .body .card-tag { color: var(--body-primary); background: rgba(214,69,90,0.12); }
   .bend .card-tag { color: var(--bend-primary); background: rgba(109,122,224,0.12); }
-  .glutes .card-tag { color: var(--glutes-primary); background: rgba(214,65,126,0.12); }
+  .glutes .card-tag { color: var(--glutes-primary); background: rgba(234,179,8,0.12); }
 
   .card-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -664,7 +664,7 @@
   .golf .card-arrow { background: rgba(74,158,122,0.2); color: var(--golf-primary); }
   .body .card-arrow { background: rgba(214,69,90,0.2); color: var(--body-primary); }
   .bend .card-arrow { background: rgba(109,122,224,0.2); color: var(--bend-primary); }
-  .glutes .card-arrow { background: rgba(214,65,126,0.2); color: var(--glutes-primary); }
+  .glutes .card-arrow { background: rgba(234,179,8,0.2); color: var(--glutes-primary); }
 
   .home-footer {
     text-align: center;
@@ -795,6 +795,7 @@
     -webkit-user-select: none;
   }
   .start-btn:active { transform: scale(0.97); opacity: 0.9; }
+  .start-btn.bg-glutes { color: #1a1400; }
 
   /* ── EXERCISE VIEW ── */
   #exercise {
@@ -1006,7 +1007,7 @@
   .bg-golf-soft { background: rgba(74,158,122,0.15); }
   .bg-body-soft { background: rgba(214,69,90,0.15); }
   .bg-bend-soft { background: rgba(109,122,224,0.15); }
-  .bg-glutes-soft { background: rgba(214,65,126,0.15); }
+  .bg-glutes-soft { background: rgba(234,179,8,0.15); }
   .border-hip { border-color: rgba(232,115,74,0.4) !important; }
   .border-golf { border-color: rgba(74,158,122,0.4) !important; }
   .fill-hip { background: var(--hip-primary) !important; }
@@ -2583,7 +2584,7 @@ function showExercise(autoStart = false) {
   const ex = r.exercises[currentExIndex];
   const c = r.color;
   const color = c === 'hip' ? 'var(--hip-primary)' : 'var(--golf-primary)';
-  const softBgMap = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)', bend: 'rgba(109,122,224,0.12)', glutes: 'rgba(214,65,126,0.12)' };
+  const softBgMap = { hip: 'rgba(232,115,74,0.12)', golf: 'rgba(74,158,122,0.12)', body: 'rgba(214,69,90,0.12)', bend: 'rgba(109,122,224,0.12)', glutes: 'rgba(234,179,8,0.12)' };
   const softBg = softBgMap[c] || softBgMap.hip;
 
   clearInterval(timerInterval);
@@ -3556,7 +3557,7 @@ function showDone() {
   const r = ROUTINES[currentRoutine];
   const c = r.color;
   const colorVars = { hip: 'var(--hip-primary)', golf: 'var(--golf-primary)', body: 'var(--body-primary)', bend: 'var(--bend-primary)', glutes: 'var(--glutes-primary)' };
-  const bgColors  = { hip: 'rgba(232,115,74,0.15)', golf: 'rgba(74,158,122,0.15)', body: 'rgba(214,69,90,0.15)', bend: 'rgba(109,122,224,0.15)', glutes: 'rgba(214,65,126,0.15)' };
+  const bgColors  = { hip: 'rgba(232,115,74,0.15)', golf: 'rgba(74,158,122,0.15)', body: 'rgba(214,69,90,0.15)', bend: 'rgba(109,122,224,0.15)', glutes: 'rgba(234,179,8,0.15)' };
   const icons     = { hip: '💪', golf: '⛳', body: '🏋️', bend: '🧘', glutes: '🍑' };
   const color = colorVars[c] || colorVars.hip;
 
@@ -3571,6 +3572,7 @@ function showDone() {
   const total = parseInt(localStorage.getItem(`completions_${currentRoutine}`) || '0');
   document.getElementById('doneSub').textContent = `${r.name} complete — session #${total} done.`;
   document.getElementById('doneMainBtn').style.background = color;
+  document.getElementById('doneMainBtn').style.color = c === 'glutes' ? '#1a1400' : '';
 
   if (currentRoutine === 'body') {
     renderBodyChecklist();
