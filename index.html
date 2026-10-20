@@ -1412,12 +1412,20 @@
   .fuel-add-btn:active { background: rgba(132,204,22,0.35); }
   .fuel-recents { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .fuel-recent {
+    display: inline-flex; align-items: center; max-width: 100%;
     border: 1px solid rgba(132,204,22,0.25); background: rgba(132,204,22,0.07);
-    color: var(--fuel-light); border-radius: 14px; padding: 5px 10px;
-    font-size: 12px; cursor: pointer; max-width: 100%;
+    border-radius: 14px; overflow: hidden;
+  }
+  .fuel-recent-add {
+    border: none; background: none; color: var(--fuel-light);
+    padding: 5px 4px 5px 10px; font-size: 12px; cursor: pointer; min-width: 0;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
-  .fuel-recent:active { background: rgba(132,204,22,0.2); }
+  .fuel-recent-x {
+    border: none; background: none; color: var(--text-muted);
+    padding: 5px 9px 5px 5px; font-size: 14px; line-height: 1; cursor: pointer; flex-shrink: 0;
+  }
+  .fuel-recent-add:active, .fuel-recent-x:active { background: rgba(132,204,22,0.2); }
 
   /* ── BODY WORKOUT CHECKLIST ── */
   .body-ex-row {
@@ -3105,9 +3113,29 @@ function getFuelStreak() {
   return { current, best };
 }
 
+// Recent chips the user dismissed with ×, per meal, stored lowercase.
+// Only hides the chip; logged history is untouched.
+function getFuelHiddenRecents() {
+  try { return JSON.parse(localStorage.getItem('fuel_recents_hidden') || '{}') || {}; } catch(e) { return {}; }
+}
+
+function setFuelRecentHidden(mealId, text, hidden) {
+  const all = getFuelHiddenRecents();
+  const k = text.toLowerCase();
+  const list = (all[mealId] || []).filter(t => t !== k);
+  if (hidden) list.push(k);
+  all[mealId] = list;
+  try { localStorage.setItem('fuel_recents_hidden', JSON.stringify(all)); } catch(e) {}
+}
+
+function hideFuelRecent(mealId, text) {
+  setFuelRecentHidden(mealId, text, true);
+  renderFuelScreen();
+}
+
 // Unique past entries for a meal, most recent first.
 function getFuelRecents(mealId, excludeTexts) {
-  const seen = new Set(excludeTexts.map(t => t.toLowerCase()));
+  const seen = new Set(excludeTexts.map(t => t.toLowerCase()).concat(getFuelHiddenRecents()[mealId] || []));
   const out = [];
   for (let i = 0; i <= 60 && out.length < FUEL_RECENTS_MAX; i++) {
     const entries = getFuelDay(i).meals[mealId].slice().reverse();
@@ -3143,6 +3171,7 @@ function adjustFuelWater(delta) {
 function addFuelEntry(mealId, text) {
   text = (text || '').trim();
   if (!text) return;
+  setFuelRecentHidden(mealId, text, false);
   const day = getFuelDay(fuelDaysAgo);
   day.meals[mealId].push({ text, at: Date.now() });
   saveFuelDay(fuelDaysAgo, day);
@@ -3233,10 +3262,18 @@ function renderFuelScreen() {
         const chips = document.createElement('div');
         chips.className = 'fuel-recents';
         recents.forEach(text => {
-          const chip = document.createElement('button');
+          const chip = document.createElement('div');
           chip.className = 'fuel-recent';
-          chip.textContent = '+ ' + text;
-          chip.onclick = () => addFuelEntry(meal.id, text);
+          const add = document.createElement('button');
+          add.className = 'fuel-recent-add';
+          add.textContent = '+ ' + text;
+          add.onclick = () => addFuelEntry(meal.id, text);
+          const x = document.createElement('button');
+          x.className = 'fuel-recent-x';
+          x.textContent = '×';
+          x.setAttribute('aria-label', `Remove ${text} from recents`);
+          x.onclick = () => hideFuelRecent(meal.id, text);
+          chip.append(add, x);
           chips.appendChild(chip);
         });
         sec.appendChild(chips);
@@ -4049,7 +4086,7 @@ function restartRoutine() {
 // foreground, fetch the live index.html; if its APP_VERSION differs, refresh the
 // browser cache and reload, so the same home-screen shortcut always gets updates.
 // Only reloads on the home screen with no timer running, so a workout is never cut off.
-const APP_VERSION = '2026-10-19.1';
+const APP_VERSION = '2026-10-20.1';
 
 async function checkForUpdate() {
   if (timerRunning || !document.getElementById('home').classList.contains('active')) return;

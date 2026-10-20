@@ -78,7 +78,7 @@ The Water and Habits home tiles (and the "Featured" section) were removed on 202
 
 ## Fuel (food + water log)
 
-Not a routine: the Fuel card calls `openFuel()`, not `openRoutine`. Code lives in the `FUEL` JS block (`FUEL_MEALS`, `getFuelDay`, `saveFuelDay`, `renderFuelScreen`, `renderFuelCard`, `getFuelStreak`). Stored in `food_YYYYMMDD` as `{ water, meals: { breakfast, lunch, dinner, snacks: [{ text, at }] } }`; old water-only records still load via `normalizeFuelDay`. A streak day = breakfast, lunch and dinner logged AND water >= `WATER_GOAL` (10). The streak is computed from stored days (not `updateCategoryStreak`), so back-filling earlier days via the ‹ › date buttons works. Recent items (`getFuelRecents`) are one-tap chips per meal. Entry text is rendered with `textContent`, never `innerHTML`.
+Not a routine: the Fuel card calls `openFuel()`, not `openRoutine`. Code lives in the `FUEL` JS block (`FUEL_MEALS`, `getFuelDay`, `saveFuelDay`, `renderFuelScreen`, `renderFuelCard`, `getFuelStreak`). Stored in `food_YYYYMMDD` as `{ water, meals: { breakfast, lunch, dinner, snacks: [{ text, at }] } }`; old water-only records still load via `normalizeFuelDay`. A streak day = breakfast, lunch and dinner logged AND water >= `WATER_GOAL` (10). The streak is computed from stored days (not `updateCategoryStreak`), so back-filling earlier days via the ‹ › date buttons works. Recent items (`getFuelRecents`) are one-tap chips per meal. Each chip has a small × that hides it (stored lowercase per meal in `fuel_recents_hidden`; logged history is untouched). Typing a hidden food again un-hides it. Entry text is rendered with `textContent`, never `innerHTML`.
 
 ## Habits
 
