@@ -2379,6 +2379,7 @@ function goHome() {
   clearInterval(timerInterval);
   timerRunning = false;
   stopWakeLock();
+  releaseScreenWakeLock();
   showScreen('home');
   renderHabitsDots();
   renderHabitsTile();
@@ -2579,6 +2580,7 @@ function updateListProgress() {
 function startRoutine() {
   getAudioContext();
   startWakeLock();
+  requestScreenWakeLock();
   try {
     const primer = new SpeechSynthesisUtterance('');
     window.speechSynthesis.speak(primer);
@@ -2709,6 +2711,29 @@ function startWakeLock() {
       } catch(e) {}
     }, 8000);
   } catch(e) {}
+}
+
+// Screen Wake Lock — the browser's real "keep the screen on" switch
+// (iOS 16.4+ in Safari, 18.4+ from the home-screen icon). The OS drops it
+// when the app is hidden, so the visibilitychange handler re-requests it.
+let screenWakeLock = null;
+let screenWakeWanted = false;
+
+async function requestScreenWakeLock() {
+  screenWakeWanted = true;
+  try {
+    if (!('wakeLock' in navigator) || screenWakeLock) return;
+    screenWakeLock = await navigator.wakeLock.request('screen');
+    screenWakeLock.addEventListener('release', () => { screenWakeLock = null; });
+  } catch(e) {}
+}
+
+function releaseScreenWakeLock() {
+  screenWakeWanted = false;
+  try {
+    if (screenWakeLock) screenWakeLock.release();
+  } catch(e) {}
+  screenWakeLock = null;
 }
 
 function stopWakeLock() {
@@ -3604,6 +3629,7 @@ function showDone() {
   updateCategoryStreak('streak_' + currentRoutine);
   autoCheckExercise();
   stopWakeLock();
+  releaseScreenWakeLock();
 
   document.getElementById('doneIcon').style.background = bgColors[c] || bgColors.hip;
   document.getElementById('doneIcon').textContent = icons[c] || '🎯';
@@ -4006,6 +4032,8 @@ function restartRoutine() {
   }
   completedExercises = new Set();
   currentExIndex = 0;
+  startWakeLock();
+  requestScreenWakeLock();
   showExercise();
 }
 
@@ -4107,7 +4135,10 @@ async function checkForUpdate() {
 
 checkForUpdate();
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') checkForUpdate();
+  if (document.visibilityState === 'visible') {
+    checkForUpdate();
+    if (screenWakeWanted) requestScreenWakeLock();
+  }
 });
 window.addEventListener('pageshow', e => { if (e.persisted) checkForUpdate(); });
 </script>
