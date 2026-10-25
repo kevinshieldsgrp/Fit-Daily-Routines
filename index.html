@@ -992,6 +992,21 @@
     -webkit-user-select: none;
   }
 
+  /* Export my data */
+  .export-row { margin: 22px 0 8px; text-align: center; }
+  .export-btn {
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+    -webkit-user-select: none;
+  }
+  .export-status { margin-top: 8px; font-size: 12px; color: var(--text-muted); min-height: 16px; }
+
   /* Color helpers */
   .c-hip { color: var(--hip-primary); }
   .c-golf { color: var(--golf-primary); }
@@ -1804,6 +1819,11 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="export-row">
+      <button class="export-btn" onclick="exportMyData()">Export my data</button>
+      <div class="export-status" id="exportStatus"></div>
     </div>
   </div>
 </div>
@@ -4109,12 +4129,65 @@ function restartRoutine() {
   }, { passive: true });
 })();
 
+// ── EXPORT MY DATA ──
+// Saves everything this app keeps on the phone (localStorage) to a JSON backup file,
+// so the history survives moving to the new app. Values are kept as the exact stored
+// strings so an import can put them back unchanged. Strava sign-in tokens are left out:
+// they are secrets, and the new app signs in to Strava again anyway.
+const EXPORT_SKIP_KEYS = ['strava_access_token', 'strava_refresh_token', 'strava_expires_at'];
+
+async function exportMyData() {
+  const status = document.getElementById('exportStatus');
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && !EXPORT_SKIP_KEYS.includes(key)) data[key] = localStorage.getItem(key);
+  }
+  const keys = Object.keys(data).sort();
+  const backup = {
+    app: 'fit-daily-routines',
+    format: 1,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    source: location.origin + location.pathname,
+    itemCount: keys.length,
+    data: Object.fromEntries(keys.map(k => [k, data[k]])),
+  };
+  const day = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD, local time
+  const name = `fit-backup-${day}.json`;
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const done = `Saved ${keys.length} items to ${name}`;
+
+  // On the phone, the share sheet is the reliable way to save a file ("Save to Files").
+  try {
+    const file = new File([blob], name, { type: 'application/json' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'Fit backup' });
+      status.textContent = done;
+      return;
+    }
+  } catch (e) {
+    if (e && e.name === 'AbortError') { status.textContent = 'Export cancelled'; return; }
+  }
+
+  // Desktop and anything without file sharing: a normal download.
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  status.textContent = done;
+}
+
 // ── AUTO-UPDATE ──
 // Bump APP_VERSION on every deploy. On open and whenever the app returns to the
 // foreground, fetch the live index.html; if its APP_VERSION differs, refresh the
 // browser cache and reload, so the same home-screen shortcut always gets updates.
 // Only reloads on the home screen with no timer running, so a workout is never cut off.
-const APP_VERSION = '2026-10-20.1';
+const APP_VERSION = '2026-10-24.1';
 
 async function checkForUpdate() {
   if (timerRunning || !document.getElementById('home').classList.contains('active')) return;

@@ -33,7 +33,8 @@ Commit and push to `main`. GitHub Pages serves it. No build. Test on the live UR
 - iOS gotchas:
   - AudioContext and SpeechSynthesis must be created/resumed inside a direct user gesture (e.g. `toggleTimer()`, `startRoutine()`).
   - The iPhone silent switch blocks WebAudio regardless of volume.
-  - Screen wake lock is faked with a 40Hz, gain 0.003 oscillator plus an 8s heartbeat to revive a suspended AudioContext.
+  - Keeping the screen on during a routine uses the Screen Wake Lock API (`requestScreenWakeLock`, re-requested on `visibilitychange`). The older 40Hz, gain 0.003 oscillator (`startWakeLock`) still runs for audio but does not stop auto-lock by itself.
+  - "Export my data" (bottom of home, `exportMyData`) saves all localStorage except Strava tokens to `fit-backup-YYYY-MM-DD.json`, via the share sheet on the phone. The new app's import will read this file (format 1).
   - HTML5 drag-and-drop does not work on iOS; use pointer events + `elementFromPoint` (see `attachBodyDragHandlers`).
   - Clearing Chrome cache wipes Strava tokens and forces re-auth.
 
